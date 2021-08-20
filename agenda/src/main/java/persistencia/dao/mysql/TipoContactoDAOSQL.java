@@ -13,15 +13,16 @@ import persistencia.conexion.Conexion;
 import persistencia.dao.interfaz.TipoContactoDAO;
 import dto.PersonaDTO;
 import dto.TipoContactoDTO;
+import presentacion.vista.VentanaTipoContacto;
 
 public class TipoContactoDAOSQL implements TipoContactoDAO
 {
-
 	private static final String insert = "INSERT INTO tiposdecontactos(idTipoContacto, nombreTipoContacto) VALUES(?, ?)";
 	private static final String delete = "DELETE FROM tiposdecontactos WHERE idTipoContacto = ?";
 	private static final String edit = "UPDATE tiposdecontactos set nombreTipoContacto=? where idTipoContacto=?";
-	
 	private static final String readall = "SELECT * FROM tiposdecontactos";
+	
+	private VentanaTipoContacto ventanaTipoContacto;
 	
 	@Override
 	public boolean insert(TipoContactoDTO tipoContacto) {
@@ -81,10 +82,13 @@ public class TipoContactoDAOSQL implements TipoContactoDAO
 		boolean isEditExitoso = false;
 		try
 		{
+			int filaSeleccionado =ventanaTipoContacto.getTablaTipoContacto().getSelectedRow();
+			String DAO = (String) ventanaTipoContacto.getTablaTipoContacto().getValueAt(filaSeleccionado, 0);
 			statement = conexion.prepareStatement(edit);
+			
 			statement.setInt(1, tipoContacto_a_editar.getIdTipoContacto());
 			statement.setString(2, tipoContacto_a_editar.getNombreTipoContacto());
-			
+			statement.setString(3, DAO);
 			if(statement.executeUpdate() > 0)
 			{
 				conexion.commit();
@@ -102,17 +106,7 @@ public class TipoContactoDAOSQL implements TipoContactoDAO
 		}
 		
 		return isEditExitoso;
-		
-		
-		
-		/*
 
-			int filaSeleccionado = tablaAlumnos.getSelectedRow();
-			String dao = (String) tablaAlumnos.getValueAt(filaSeleccionado, 0);
-			java.sql.PreparedStatement pst = con.prepareStatement(SQL);
-
-			// Ejecutar consulta y mandarla a la bd
-		*/
 	}
 
 	@Override
