@@ -27,8 +27,12 @@ import javax.swing.JTable;
 
 public class VentanaTipoContacto extends JFrame 
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JFrame frame;
-	private JTable tablaPersonas;
+	private JTable tablaTipoContacto;
 	private JButton btnAgregar;
 	private JButton btnBorrar;
 	private JButton btnAtras;
@@ -60,14 +64,14 @@ public class VentanaTipoContacto extends JFrame
 		panel.add(spTipoContacto);
 		
 		modelTipoContacto = new DefaultTableModel(null,nombreColumnas);
-		tablaPersonas = new JTable(modelTipoContacto);
+		tablaTipoContacto = new JTable(modelTipoContacto);
 		
-		tablaPersonas.getColumnModel().getColumn(0).setPreferredWidth(103);
-		tablaPersonas.getColumnModel().getColumn(0).setResizable(false);
-		tablaPersonas.getColumnModel().getColumn(1).setPreferredWidth(100);
-		tablaPersonas.getColumnModel().getColumn(1).setResizable(false);
+		tablaTipoContacto.getColumnModel().getColumn(0).setPreferredWidth(103);
+		tablaTipoContacto.getColumnModel().getColumn(0).setResizable(false);
+		tablaTipoContacto.getColumnModel().getColumn(1).setPreferredWidth(100);
+		tablaTipoContacto.getColumnModel().getColumn(1).setResizable(false);
 		
-		spTipoContacto.setViewportView(tablaPersonas);
+		spTipoContacto.setViewportView(tablaTipoContacto);
 		
 		btnAgregar = new JButton("Agregar");
 		btnAgregar.setBounds(10, 204, 89, 23);
@@ -131,9 +135,9 @@ public class VentanaTipoContacto extends JFrame
 		return modelTipoContacto;
 	}
 	
-	public JTable getTablaPersonas()
+	public JTable getTablaTipoContacto()
 	{
-		return tablaPersonas;
+		return tablaTipoContacto;
 	}
 
 	public String[] getNombreColumnas() 
