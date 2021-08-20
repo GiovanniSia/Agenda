@@ -4,6 +4,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
+import com.itextpdf.text.log.SysoCounter;
+
 import modelo.Agenda;
 import presentacion.reportes.ReporteAgenda;
 import presentacion.vista.VentanaPersona;
@@ -17,13 +21,20 @@ public class Controlador implements ActionListener
 		private VentanaPersona ventanaPersona; 
 		private Agenda agenda;
 		
+		int filaSeleccionada;
 		public Controlador(Vista vista, Agenda agenda)
 		{
 			this.vista = vista;
 			this.vista.getBtnAgregar().addActionListener(a->ventanaAgregarPersona(a));
 			this.vista.getBtnBorrar().addActionListener(s->borrarPersona(s));
 			this.vista.getBtnReporte().addActionListener(r->mostrarReporte(r));
+	
+			//editar
 			this.ventanaPersona = VentanaPersona.getInstance();
+			this.vista.getBtnEditar().addActionListener(e ->mostrarVentanaEditar(e));
+			this.ventanaPersona.getBtnAceptar().addActionListener(a -> editarPersona(a));
+			this.ventanaPersona.getBtnCancelar().addActionListener(c -> cerrarVentanaEditar(c));
+			
 			this.ventanaPersona.getBtnAgregarPersona().addActionListener(p->guardarPersona(p));
 			this.agenda = agenda;
 		}
@@ -55,6 +66,31 @@ public class Controlador implements ActionListener
 			}
 			
 			this.refrescarTabla();
+		}
+		
+		public void mostrarVentanaEditar(ActionEvent e) {
+			filaSeleccionada = this.vista.getTablaPersonas().getSelectedRow();
+			if(filaSeleccionada == -1) {
+				JOptionPane.showMessageDialog(null, "No ha seleccionado ninguna persona para editar");
+				return;
+			}	
+			this.ventanaPersona.mostrarVentanaConValores(this.personasEnTabla.get(filaSeleccionada));
+		}
+		
+		public void editarPersona(ActionEvent e) {
+			int idModificar = this.personasEnTabla.get(filaSeleccionada).getIdPersona();
+			
+			//aca poner todos los nuevos campos con los nuevos datos
+			String nombreNuevo = ventanaPersona.getTxtNombre().getText();
+			String telefonoNuevo = ventanaPersona.getTxtTelefono().getText();
+			PersonaDTO datosNuevos = new PersonaDTO(0,nombreNuevo,telefonoNuevo);
+			agenda.editarPersona(idModificar,datosNuevos);
+			ventanaPersona.cerrar();
+			refrescarTabla();
+		}
+		
+		public void cerrarVentanaEditar(ActionEvent e) {
+			this.ventanaPersona.cerrar();
 		}
 		
 		public void inicializar()

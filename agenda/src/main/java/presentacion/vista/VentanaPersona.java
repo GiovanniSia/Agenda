@@ -7,6 +7,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import dto.PersonaDTO;
+
 public class VentanaPersona extends JFrame 
 {
 	private static final long serialVersionUID = 1L;
@@ -15,6 +17,9 @@ public class VentanaPersona extends JFrame
 	private JTextField txtTelefono;
 	private JButton btnAgregarPersona;
 	private static VentanaPersona INSTANCE;
+	JPanel panel;
+	JButton btnCancelar;
+	private JButton btnAceptar;
 	
 	public static VentanaPersona getInstance()
 	{
@@ -38,7 +43,7 @@ public class VentanaPersona extends JFrame
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JPanel panel = new JPanel();
+		panel = new JPanel();
 		panel.setBounds(10, 11, 307, 123);
 		contentPane.add(panel);
 		panel.setLayout(null);
@@ -62,14 +67,26 @@ public class VentanaPersona extends JFrame
 		txtTelefono.setColumns(10);
 		
 		btnAgregarPersona = new JButton("Agregar");
-		btnAgregarPersona.setBounds(208, 92, 89, 23);
+		btnAgregarPersona.setBounds(210, 101, 89, 23);
 		panel.add(btnAgregarPersona);
+		
+		btnCancelar = new JButton("Cancelar");
+		panel.add(btnCancelar);
+		btnCancelar.setBounds(20, 102, 85, 21);
+		btnCancelar.setVisible(false);
+		
+		btnAceptar = new JButton("Aceptar");
+		btnAceptar.setBounds(212, 102, 85, 21);
+		panel.add(btnAceptar);
+		btnCancelar.setVisible(false);
 		
 		this.setVisible(false);
 	}
 	
 	public void mostrarVentana()
 	{
+		this.btnAceptar.setVisible(false);
+		this.btnAgregarPersona.setVisible(true);
 		this.setVisible(true);
 	}
 	
@@ -88,6 +105,15 @@ public class VentanaPersona extends JFrame
 		return btnAgregarPersona;
 	}
 
+	public JButton getBtnCancelar()
+	{
+		return btnCancelar;
+	}
+	
+	public JButton getBtnAceptar() {
+		return btnAceptar;
+	}
+	
 	public void cerrar()
 	{
 		this.txtNombre.setText(null);
@@ -95,5 +121,17 @@ public class VentanaPersona extends JFrame
 		this.dispose();
 	}
 	
+	//NOSE SI LA VISTA PUEDE TENER CONTACTO CON EL CÓDIGO
+	public void mostrarVentanaConValores(PersonaDTO persona) {
+		this.txtNombre.setText(persona.getNombre());
+		this.txtTelefono.setText(persona.getTelefono());
+		
+		//Cambiamos los botones
+		this.btnAgregarPersona.setVisible(false);
+		this.btnCancelar.setVisible(true);
+		this.btnAceptar.setVisible(true);
+		
+		this.setVisible(true);
+	}
 }
 
