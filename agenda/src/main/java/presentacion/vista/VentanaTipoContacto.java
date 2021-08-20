@@ -35,10 +35,11 @@ public class VentanaTipoContacto extends JFrame
 	private JTable tablaTipoContacto;
 	private JButton btnAgregar;
 	private JButton btnBorrar;
-	private JButton btnAtras;
+	private JButton btnSalir;
 	private DefaultTableModel modelTipoContacto;
 	private  String[] nombreColumnas = {"Id","Nombre"};
 	private JLabel lblNewLabel;
+	private JTextField txtTipoContacto;
 
 	public VentanaTipoContacto() 
 	{
@@ -50,17 +51,17 @@ public class VentanaTipoContacto extends JFrame
 	private void initialize() 
 	{
 		frame = new JFrame();
-		frame.setBounds(100, 100, 423, 271);
+		frame.setBounds(100, 100, 532, 271);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(0, 0, 409, 232);
+		panel.setBounds(252, 0, 271, 232);
 		frame.getContentPane().add(panel);
 		panel.setLayout(null);
 		
 		JScrollPane spTipoContacto = new JScrollPane();
-		spTipoContacto.setBounds(10, 36, 386, 157);
+		spTipoContacto.setBounds(10, 11, 250, 182);
 		panel.add(spTipoContacto);
 		
 		modelTipoContacto = new DefaultTableModel(null,nombreColumnas);
@@ -73,26 +74,36 @@ public class VentanaTipoContacto extends JFrame
 		
 		spTipoContacto.setViewportView(tablaTipoContacto);
 		
+		btnSalir = new JButton("Salir");
+		btnSalir.setBounds(89, 198, 89, 23);
+		panel.add(btnSalir);
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setBounds(0, 0, 254, 232);
+		frame.getContentPane().add(panel_1);
+		panel_1.setLayout(null);
+		
 		btnAgregar = new JButton("Agregar");
-		btnAgregar.setBounds(10, 204, 89, 23);
-		panel.add(btnAgregar);
+		btnAgregar.setBounds(10, 198, 71, 23);
+		panel_1.add(btnAgregar);
 		
 		JButton btnEditar = new JButton("Editar");
-		btnEditar.setBounds(109, 204, 89, 23);
-		panel.add(btnEditar);
+		btnEditar.setBounds(91, 198, 71, 23);
+		panel_1.add(btnEditar);
 		
 		btnBorrar = new JButton("Borrar");
-		btnBorrar.setBounds(208, 204, 89, 23);
-		panel.add(btnBorrar);
+		btnBorrar.setBounds(172, 198, 71, 23);
+		panel_1.add(btnBorrar);
 		
-		btnAtras = new JButton("Atras");
-		btnAtras.setBounds(307, 204, 89, 23);
-		panel.add(btnAtras);
-		
-		lblNewLabel = new JLabel("Tipo de contacto");
+		lblNewLabel = new JLabel("Modificar tipo de contacto");
+		lblNewLabel.setBounds(34, 11, 187, 14);
+		panel_1.add(lblNewLabel);
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblNewLabel.setBounds(154, 11, 118, 14);
-		panel.add(lblNewLabel);
+		
+		txtTipoContacto = new JTextField();
+		txtTipoContacto.setBounds(66, 50, 118, 20);
+		panel_1.add(txtTipoContacto);
+		txtTipoContacto.setColumns(10);
 	}
 	
 	public void show()
@@ -125,9 +136,9 @@ public class VentanaTipoContacto extends JFrame
 		return btnBorrar;
 	}
 	
-	public JButton getBtnAtras() 
+	public JButton getBtnSalir() 
 	{
-		return btnAtras;
+		return btnSalir;
 	}
 	
 	public DefaultTableModel getModelTipoContacto() 
