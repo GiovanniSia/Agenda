@@ -10,10 +10,10 @@ CREATE TABLE IF NOT EXISTS `personas`
   PRIMARY KEY (`idPersona`)
 );
 
-CREATE TABLE IF NOT EXISTS `tiposDeContactos`
+CREATE TABLE IF NOT EXISTS `tiposdecontactos`
 (
     `idTipoContacto` int(11) NOT NULL AUTO_INCREMENT,
-    `tipoContacto` varchar(45) DEFAULT NULL,
+    `nombreTipoContacto` varchar(45) DEFAULT NULL,
 	PRIMARY KEY (`idTipoContacto`)
 );
 
