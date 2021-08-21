@@ -30,4 +30,8 @@ public class Agenda
 		return this.persona.readAll();		
 	}
 	
+	public void editarPersona(int idPersona,PersonaDTO nuevosDatos) {
+		this.persona.updatePersona(idPersona,nuevosDatos);
+	}
+	
 }
