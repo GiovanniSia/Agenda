@@ -2,12 +2,14 @@ package presentacion.controlador;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Date;
 import java.util.List;
 
 import modelo.Agenda;
 import presentacion.reportes.ReporteAgenda;
 import presentacion.vista.VentanaPersona;
 import presentacion.vista.Vista;
+import dto.Domicilio;
 import dto.PersonaDTO;
 
 public class Controlador implements ActionListener
@@ -33,9 +35,9 @@ public class Controlador implements ActionListener
 		}
 
 		private void guardarPersona(ActionEvent p) {
-			String nombre = this.ventanaPersona.getTxtNombre().getText();
-			String tel = ventanaPersona.getTxtTelefono().getText();
-			PersonaDTO nuevaPersona = new PersonaDTO(0, nombre, tel);
+//			String nombre = this.ventanaPersona.getTxtNombre().getText();
+//			String tel = ventanaPersona.getTxtTelefono().getText();
+			PersonaDTO nuevaPersona = obtenerPersonaDeVista();
 			this.agenda.agregarPersona(nuevaPersona);
 			this.refrescarTabla();
 			this.ventanaPersona.cerrar();
@@ -72,4 +74,25 @@ public class Controlador implements ActionListener
 		@Override
 		public void actionPerformed(ActionEvent e) { }
 		
+		
+		
+		public PersonaDTO obtenerPersonaDeVista() {
+			String nombre = this.ventanaPersona.getTxtNombre().getText();
+			String tel = ventanaPersona.getTxtTelefono().getText();
+			
+			//DATOS HARDCODEADOS PORQUE NO SE LOS PUEDE ELEGIR DE LA VISTA TODAVIA
+			//Domicilio falta la localidad
+//			String calle = ventanaPersona.getDomicilio().getText();
+//			String altura = ventanaPersona.getAltura().getText();
+//			String piso = ventanaPersona.getPiso().getText();
+//			String departamento = ventanaPersona.getDepartamento().getText();
+//			
+			Domicilio domicilio = new Domicilio("Videla","1600","","Nose que es el departamento");
+//			String email = ventanaPersona.getEmail().getText();
+//			Date fechaCumpleanios = (Date) ventanaPersona.getFechaCumpleanios().getDate();
+			Date d = new Date(2100,8,21);
+			
+			return new PersonaDTO(0,nombre,tel,domicilio,"nose@gmail.com",d);
+			
+		}
 }

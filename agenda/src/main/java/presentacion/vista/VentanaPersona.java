@@ -5,7 +5,10 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
+
+import com.toedter.calendar.JDateChooser;
 
 public class VentanaPersona extends JFrame 
 {
@@ -15,6 +18,22 @@ public class VentanaPersona extends JFrame
 	private JTextField txtTelefono;
 	private JButton btnAgregarPersona;
 	private static VentanaPersona INSTANCE;
+	
+	
+	//Datos nuevos persona, aun no puestos en la vista
+	private JTextField calle;
+	
+	private JTextField altura;
+	private JTextField piso;
+	private JTextField departamento;
+	private JTextField domicilio;
+	private JTextField email;
+	
+	//Fecha cumpleanios
+	private JDateChooser fechaCumpleanios;
+	
+	
+	
 	
 	public static VentanaPersona getInstance()
 	{
@@ -30,6 +49,12 @@ public class VentanaPersona extends JFrame
 	private VentanaPersona() 
 	{
 		super();
+		
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		}catch (Exception e){
+			e.printStackTrace();
+		}
 		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 343, 183);
@@ -94,6 +119,39 @@ public class VentanaPersona extends JFrame
 		this.txtTelefono.setText(null);
 		this.dispose();
 	}
+	
+	
+	
+	
+	
+	public JTextField getCalle() {
+		return calle;
+	}
+
+	public JTextField getAltura() {
+		return altura;
+	}
+
+	public JTextField getPiso() {
+		return piso;
+	}
+
+	public JTextField getDepartamento() {
+		return departamento;
+	}
+
+	public JTextField getDomicilio() {
+		return domicilio;
+	}
+
+	public JTextField getEmail() {
+		return email;
+	}
+
+	public JDateChooser getFechaCumpleanios() {
+		return fechaCumpleanios;
+	}
+
 	
 }
 
