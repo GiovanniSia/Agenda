@@ -3,11 +3,7 @@ package presentacion.controlador;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
-
 import javax.swing.JOptionPane;
-
-import com.itextpdf.text.log.SysoCounter;
-
 import modelo.Agenda;
 import presentacion.reportes.ReporteAgenda;
 import presentacion.vista.VentanaPersona;
@@ -47,9 +43,12 @@ public class Controlador implements ActionListener
 			String nombre = this.ventanaPersona.getTxtNombre().getText();
 			String tel = ventanaPersona.getTxtTelefono().getText();
 			PersonaDTO nuevaPersona = new PersonaDTO(0, nombre, tel);
-			this.agenda.agregarPersona(nuevaPersona);
-			this.refrescarTabla();
-			this.ventanaPersona.cerrar();
+			if(todosLosCamposSonValidos(nuevaPersona)) {
+				this.agenda.agregarPersona(nuevaPersona);
+				this.refrescarTabla();
+				this.ventanaPersona.cerrar();				
+			}
+			
 		}
 
 		private void mostrarReporte(ActionEvent r) {
@@ -84,9 +83,12 @@ public class Controlador implements ActionListener
 			String nombreNuevo = ventanaPersona.getTxtNombre().getText();
 			String telefonoNuevo = ventanaPersona.getTxtTelefono().getText();
 			PersonaDTO datosNuevos = new PersonaDTO(0,nombreNuevo,telefonoNuevo);
-			agenda.editarPersona(idModificar,datosNuevos);
-			ventanaPersona.cerrar();
-			refrescarTabla();
+			if(todosLosCamposSonValidos(datosNuevos)) {
+				agenda.editarPersona(idModificar,datosNuevos);
+				refrescarTabla();
+				ventanaPersona.cerrar();
+			}
+			
 		}
 		
 		public void cerrarVentanaEditar(ActionEvent e) {
@@ -108,4 +110,20 @@ public class Controlador implements ActionListener
 		@Override
 		public void actionPerformed(ActionEvent e) { }
 		
+		public boolean todosLosCamposSonValidos(PersonaDTO datosNuevos) {
+			String nombre = datosNuevos.getNombre();
+			boolean expresionNombre = nombre.matches("[\\w&&[^\\d]]{1,45}");//de 1 a 45 caracteres que no sean digitos
+			if(!expresionNombre) {
+				JOptionPane.showMessageDialog(null,"Por favor complete los caracteres de nombre correctamente");
+				return false;
+			}
+			String telefono = datosNuevos.getTelefono();
+			boolean expresionTelefono = telefono.matches("[\\d&&[^a-zA-Z]]{10,20}");
+			if(!expresionTelefono) {
+				JOptionPane.showMessageDialog(null,"Por favor ingrese un teléfono válido");
+				return false;
+			}
+			
+			return true;
+		}
 }
