@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS `tiposdecontactos`
 	PRIMARY KEY (`idTipoContacto`)
 );
 
-//Ingreso valores predeterminados a la tabla tiposDeContactos
+/*Ingreso valores predeterminados a la tabla tiposDeContactos*/
 
 insert into tiposdecontactos values(1,"Trabajo");
 insert into tiposdecontactos values(2,"Familia");

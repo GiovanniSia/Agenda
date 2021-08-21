@@ -26,8 +26,7 @@ public class Controlador implements ActionListener
 			this.vista.getBtnAgregar().addActionListener(a->ventanaAgregarPersona(a));
 			this.vista.getBtnBorrar().addActionListener(s->borrarPersona(s));
 			this.vista.getBtnReporte().addActionListener(r->mostrarReporte(r));
-	
-			//editar
+			
 			this.ventanaPersona = VentanaPersona.getInstance();
 			this.vista.getBtnEditar().addActionListener(e ->mostrarVentanaEditar(e));
 			this.ventanaPersona.getBtnAceptar().addActionListener(a -> editarPersona(a));
@@ -42,8 +41,6 @@ public class Controlador implements ActionListener
 		}
 
 		private void guardarPersona(ActionEvent p) {
-//			String nombre = this.ventanaPersona.getTxtNombre().getText();
-//			String tel = ventanaPersona.getTxtTelefono().getText();
 			PersonaDTO nuevaPersona = obtenerPersonaDeVista();
 			if(todosLosCamposSonValidos(nuevaPersona)) {
 				this.agenda.agregarPersona(nuevaPersona);
@@ -86,8 +83,8 @@ public class Controlador implements ActionListener
 			String telefonoNuevo = ventanaPersona.getTxtTelefono().getText();
 			
 			//Se hardcodean los datos que no estan en la vista
-			Domicilio domicilio = new Domicilio("Videla","1600","","Nose que es el departamento");
-			Date d = new Date(2100,8,21);
+			Domicilio domicilio = new Domicilio("Videla","1600","","");
+			Date d = new Date(99,8,14);
 			
 			PersonaDTO datosNuevos = new PersonaDTO(0,nombreNuevo,telefonoNuevo,domicilio,"nose@gmail.com",d);
 			if(todosLosCamposSonValidos(datosNuevos)) {
@@ -130,17 +127,17 @@ public class Controlador implements ActionListener
 //			String piso = ventanaPersona.getPiso().getText();
 //			String departamento = ventanaPersona.getDepartamento().getText();
 //			
-			Domicilio domicilio = new Domicilio("Videla","1600","","Nose que es el departamento");
+			Domicilio domicilio = new Domicilio("Videla","1600","222","7");
 //			String email = ventanaPersona.getEmail().getText();
 //			Date fechaCumpleanios = (Date) ventanaPersona.getFechaCumpleanios().getDate();
-			Date d = new Date(2100,8,21);
+			Date d = new Date(99,8,14);
 			
 			return new PersonaDTO(0,nombre,tel,domicilio,"nose@gmail.com",d);
 		}
 			
-		public boolean todosLosCamposSonValidos(PersonaDTO datosNuevos) {
+		public boolean todosLosCamposSonValidos(PersonaDTO datosNuevos) {	
 			String nombre = datosNuevos.getNombre();
-			boolean expresionNombre = nombre.matches("[\\w&&[^\\d]]{1,45}");//de 1 a 45 caracteres que no sean digitos
+			boolean expresionNombre = nombre.matches("[\\w\\s&&[^\\d]]{1,45}");
 			if(!expresionNombre) {
 				JOptionPane.showMessageDialog(null,"Por favor complete los caracteres de nombre correctamente");
 				return false;
@@ -149,6 +146,43 @@ public class Controlador implements ActionListener
 			boolean expresionTelefono = telefono.matches("[\\d&&[^a-zA-Z]]{10,20}");
 			if(!expresionTelefono) {
 				JOptionPane.showMessageDialog(null,"Por favor ingrese un teléfono válido");
+				return false;
+			}
+			String calle = datosNuevos.getDomicilio().getCalle();
+			boolean expresionCalle = calle.matches("[\\w\\s&&[^\\d]]{1,45}");
+			if(!expresionCalle) {
+				JOptionPane.showMessageDialog(null,"Por favor ingrese una calle válida");
+				return false;
+			}
+			String altura = datosNuevos.getDomicilio().getAltura();
+			boolean expresionAltura = altura.matches("[\\d&&[^a-zA-Z]]+");
+			if(!expresionAltura) {
+				JOptionPane.showMessageDialog(null,"Por favor ingrese una altura válida");
+				return false;
+			}
+			String piso = datosNuevos.getDomicilio().getPiso();
+			boolean expresionPiso = piso.matches("[\\d&&[^a-zA-Z]]*");
+			if(!expresionPiso) {
+				JOptionPane.showMessageDialog(null,"Por favor ingrese un piso válido");
+				return false;
+			}
+			
+			String departamento = datosNuevos.getDomicilio().getDepartamento();
+			boolean expresionDepartamento = departamento.matches("[\\d&&[^a-zA-Z]]*");
+			if(!expresionDepartamento) {
+				JOptionPane.showMessageDialog(null,"Por favor ingrese un departamento válido");
+				return false;
+			}
+			
+			String mail = datosNuevos.getEmail();
+			boolean expresionMail = mail.matches("^[A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");//NOSE
+			if(!expresionMail) {
+				JOptionPane.showMessageDialog(null,"Por favor ingrese una dirección de mail válida");
+				return false;
+			}
+			Date fechaCumpleanios= datosNuevos.getFechaDeCumpleanios();
+			if(fechaCumpleanios == null) {
+				JOptionPane.showMessageDialog(null,"Por favor seleccione una fecha de cumpleaños");
 				return false;
 			}
 			
