@@ -5,15 +5,18 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.sql.Date;
 import java.util.List;
 
 import persistencia.conexion.Conexion;
 import persistencia.dao.interfaz.PersonaDAO;
+import dto.Domicilio;
 import dto.PersonaDTO;
 
 public class PersonaDAOSQL implements PersonaDAO
 {
-	private static final String insert = "INSERT INTO personas(idPersona, nombre, telefono) VALUES(?, ?, ?)";
+//	private static final String insert = "INSERT INTO personas(idPersona, nombre, telefono, calle, altura, piso, departamento, email, fechaCumpleanios) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	private static final String insert = "INSERT INTO personas VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	private static final String delete = "DELETE FROM personas WHERE idPersona = ?";
 	private static final String readall = "SELECT * FROM personas";
 		
@@ -25,9 +28,21 @@ public class PersonaDAOSQL implements PersonaDAO
 		try
 		{
 			statement = conexion.prepareStatement(insert);
-			statement.setInt(1, persona.getIdPersona());
+			
+			//se agregan los datos en orden como estan en la tabla
+			statement.setString(1, "0");
 			statement.setString(2, persona.getNombre());
 			statement.setString(3, persona.getTelefono());
+			
+			//nuevos datos de domicilio falta localidad y la etiqueta
+			statement.setString(4, persona.getDomicilio().getCalle());
+			statement.setString(5, persona.getDomicilio().getAltura());
+			statement.setString(6, persona.getDomicilio().getPiso());
+			statement.setString(7, persona.getDomicilio().getDepartamento());
+			statement.setString(8, persona.getEmail());
+			statement.setDate(9, persona.getFechaDeCumpleanios());
+
+			
 			if(statement.executeUpdate() > 0)
 			{
 				conexion.commit();
@@ -46,6 +61,7 @@ public class PersonaDAOSQL implements PersonaDAO
 		
 		return isInsertExitoso;
 	}
+	
 	
 	public boolean delete(PersonaDTO persona_a_eliminar)
 	{
@@ -96,6 +112,19 @@ public class PersonaDAOSQL implements PersonaDAO
 		int id = resultSet.getInt("idPersona");
 		String nombre = resultSet.getString("Nombre");
 		String tel = resultSet.getString("Telefono");
-		return new PersonaDTO(id, nombre, tel);
+		
+//		Datos nuevos HARDCODEADOS PORQUE EN LA  VISTA NO SE LOS PUEDE ELEGIR AUN
+		//domicilio
+//		String calle = resultSet.getString("calle");
+//		String altura = resultSet.getString("altura");
+//		String piso = resultSet.getString("piso");
+//		String departamento = resultSet.getString("departamento");
+//		
+		Domicilio domicilio = new Domicilio("ComandanteVidela","1600","","Nose que es departamento");
+//		
+//		String email = resultSet.getString("email");
+//		Date fechaCumpleanios = resultSet.getDate("fechaCumpleanios");
+		Date d = new Date(2100,8,21);		
+		return new PersonaDTO(id, nombre, tel, domicilio, "capitanVidela@gmail.com",d);
 	}
 }
