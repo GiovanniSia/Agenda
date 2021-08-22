@@ -1,5 +1,6 @@
 package presentacion.vista;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -112,7 +113,7 @@ public class VentanaPersona extends JFrame {
 		txtEmail.setColumns(10);
 
 		JLabel lblNewLabel_1 = new JLabel("Domicilio");
-		lblNewLabel_1.setBounds(10, 111, 46, 14);
+		lblNewLabel_1.setBounds(10, 120, 46, 14);
 		panel.add(lblNewLabel_1);
 
 		JLabel lblNewLabel_2 = new JLabel("Calle");
@@ -205,8 +206,13 @@ public class VentanaPersona extends JFrame {
 		panel.add(btnAceptar);
 		
 		fechaCumpleanios = new JDateChooser();
-		fechaCumpleanios.setBounds(133, 100, 70, 19);
+		fechaCumpleanios.setBounds(133, 100, 164, 19);
+		fechaCumpleanios.setDate(new Date());
 		panel.add(fechaCumpleanios);
+		
+		JLabel lblNewLabel_11 = new JLabel("Fecha de Nacimiento");
+		lblNewLabel_11.setBounds(10, 97, 113, 13);
+		panel.add(lblNewLabel_11);
 		btnCancelar.setVisible(false);
 
 		
