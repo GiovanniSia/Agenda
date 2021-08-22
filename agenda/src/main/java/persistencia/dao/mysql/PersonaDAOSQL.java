@@ -19,7 +19,7 @@ public class PersonaDAOSQL implements PersonaDAO
 	private static final String insert = "INSERT INTO personas VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
 	private static final String delete = "DELETE FROM personas WHERE idPersona = ?";
 	private static final String readall = "SELECT * FROM personas";
-	private static final String update = "UPDATE personas SET nombre = ?, telefono = ? WHERE idPersona = ?";
+	private static final String update = "UPDATE personas SET nombre = ?, telefono = ? calle = ?, altura = ?, piso = ?, departamento = ?, email = ?, fechaCumpleanios = ?, tipoContacto = ? WHERE idPersona = ?";
 		
 	public boolean insert(PersonaDTO persona)
 	{
@@ -132,11 +132,17 @@ public class PersonaDAOSQL implements PersonaDAO
 		try 
 		{
 			statement = conexion.prepareStatement(update);
-	
-			//aca poner los get de la vista con todos los nuevos campos
+
 			statement.setString(1, nuevosDatos.getNombre());
 			statement.setString(2, nuevosDatos.getTelefono());
-			statement.setInt(3, idPersona);
+			statement.setString(3, nuevosDatos.getDomicilio().getCalle());
+			statement.setString(4, nuevosDatos.getDomicilio().getAltura());
+			statement.setString(5, nuevosDatos.getDomicilio().getPiso());
+			statement.setString(6, nuevosDatos.getDomicilio().getDepartamento());
+			statement.setString(7, nuevosDatos.getEmail());
+			statement.setDate(8, nuevosDatos.getFechaDeCumpleanios());
+			statement.setString(9, nuevosDatos.getTipoDeContacto());
+			statement.setInt(10, idPersona);
 			
 			if(statement.executeUpdate() > 0)
 			{

@@ -312,9 +312,17 @@ public class VentanaPersona extends JFrame {
 	
 	// NOSE SI LA VISTA PUEDE TENER CONTACTO CON EL CÓDIGO
 	public void mostrarVentanaConValores(PersonaDTO persona) {
+		escribirComboBoxTipoDeContacto();
 		this.txtNombre.setText(persona.getNombre());
 		this.txtTelefono.setText(persona.getTelefono());
-
+		this.txtEmail.setText(persona.getEmail());
+		this.fechaCumpleanios.setDate(persona.getFechaDeCumpleanios());
+		this.txtCalle.setText(persona.getDomicilio().getCalle());
+		this.txtAltura.setText(persona.getDomicilio().getAltura());
+		this.txtPiso.setText(persona.getDomicilio().getPiso());
+		this.txtDepartamento.setText(persona.getDomicilio().getDepartamento());
+		this.cbTipoContacto.setSelectedItem(persona.getTipoDeContacto());
+		
 		// Cambiamos los botones
 		this.btnAgregarPersona.setVisible(false);
 		this.btnCancelar.setVisible(true);
