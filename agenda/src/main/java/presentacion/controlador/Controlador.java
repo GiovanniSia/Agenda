@@ -35,7 +35,7 @@ public class Controlador implements ActionListener
 			this.ventanaTipoContacto.getBtnBorrar().addActionListener(b->borrarTipoContacto(b));
 			this.ventanaTipoContacto.getBtnSalir().addActionListener(s->salirTipoContacto(s));
 			this.tipoContacto = new TipoContacto(new DAOSQLFactory());
-			
+			this.refrescarTablaTipoContacto();
 			
 			this.vista = vista;
 			this.vista.getBtnAgregar().addActionListener(a->ventanaAgregarPersona(a));
@@ -68,7 +68,13 @@ public class Controlador implements ActionListener
 		}
 		
 		private void borrarTipoContacto(ActionEvent b) {
+			int[] filasSeleccionadas = this.ventanaTipoContacto.getTablaTipoContacto().getSelectedRows();
+			for (int fila : filasSeleccionadas)
+			{
+				this.tipoContacto.borrarTipoContacto(this.tipoContactoEnTabla.get(fila));
+			}
 			
+			this.refrescarTablaTipoContacto();
 		}
 		
 		private void salirTipoContacto(ActionEvent s) {
@@ -78,7 +84,6 @@ public class Controlador implements ActionListener
 		public void refrescarTablaTipoContacto() {
 			this.tipoContactoEnTabla = tipoContacto.obtenerTipoContacto();
 			this.ventanaTipoContacto.llenarTabla(tipoContactoEnTabla);
-			
 		}
 		
 		
