@@ -37,11 +37,13 @@ public class VentanaTipoContacto extends JFrame {
 	private JButton btnAgregar;
 	private JButton btnBorrar;
 	private JButton btnSalir;
+	private JButton btnEditar;
 	private DefaultTableModel modelTipoContacto;
 	private String[] nombreColumnas = { "Id", "Nombre" };
 	private JLabel lblNewLabel;
 	private JTextField txtTipoContacto;
 
+	
 	public VentanaTipoContacto() {
 		super();
 		initialize();
@@ -75,7 +77,7 @@ public class VentanaTipoContacto extends JFrame {
 		btnSalir = new JButton("Salir");
 		btnSalir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
+				frame.setVisible(false);
 			}
 		});
 		btnSalir.setBounds(89, 198, 89, 23);
@@ -90,7 +92,7 @@ public class VentanaTipoContacto extends JFrame {
 		btnAgregar.setBounds(10, 198, 71, 23);
 		panel_1.add(btnAgregar);
 
-		JButton btnEditar = new JButton("Editar");
+		btnEditar = new JButton("Editar");
 		btnEditar.setBounds(91, 198, 71, 23);
 		panel_1.add(btnEditar);
 
@@ -114,7 +116,7 @@ public class VentanaTipoContacto extends JFrame {
 		this.frame.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				System.exit(0);
+				frame.setVisible(false);
 			}
 		});
 		this.frame.setVisible(true);
@@ -136,6 +138,9 @@ public class VentanaTipoContacto extends JFrame {
 		return btnSalir;
 	}
 
+	public JButton getBtnEditar() {
+		return btnEditar;
+	}
 	public DefaultTableModel getModelTipoContacto() {
 		return modelTipoContacto;
 	}
@@ -148,6 +153,11 @@ public class VentanaTipoContacto extends JFrame {
 		return nombreColumnas;
 	}
 
+	public JTextField getTxtTipoContacto() {
+		return txtTipoContacto;
+	}
+	
+	
 	public void llenarTabla(List<TipoContactoDTO> tipoContactoEnTabla) {
 		this.getModelTipoContacto().setRowCount(0); // Para vaciar la tabla
 		this.getModelTipoContacto().setColumnCount(0);
