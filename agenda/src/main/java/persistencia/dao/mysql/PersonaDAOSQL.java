@@ -121,7 +121,7 @@ public class PersonaDAOSQL implements PersonaDAO
 //		String piso = resultSet.getString("piso");
 //		String departamento = resultSet.getString("departamento");
 //		
-		Domicilio domicilio = new Domicilio("ComandanteVidela","1600","","Nose que es departamento");
+		Domicilio domicilio = new Domicilio("ComandanteVidela","1600","","");
 //		
 //		String email = resultSet.getString("email");
 //		Date fechaCumpleanios = resultSet.getDate("fechaCumpleanios");
