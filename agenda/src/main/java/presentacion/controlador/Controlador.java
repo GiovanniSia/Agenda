@@ -20,7 +20,7 @@ public class Controlador implements ActionListener
 {
 		private Vista vista;
 		private List<PersonaDTO> personasEnTabla;
-		private List<TipoContactoDTO> tiposDeContactosEnTabla;		
+		private List<TipoContactoDTO> tipoContactoEnTabla;		
 
 		private VentanaPersona ventanaPersona; 
 		private VentanaTipoContacto ventanaTipoContacto;
@@ -55,7 +55,7 @@ public class Controlador implements ActionListener
 		}
 		
 		private void ventanaAgregarPersona(ActionEvent a) {
-			this.ventanaPersona.mostrarVentana(tiposDeContactosEnTabla);
+			this.ventanaPersona.mostrarVentana(tipoContactoEnTabla);
 		}
     
 		private void ventanaEditarTipoContacto(ActionEvent t) {
@@ -103,9 +103,6 @@ public class Controlador implements ActionListener
 			this.ventanaTipoContacto.llenarTabla(tipoContactoEnTabla);
 		}
 	
-		private void ventanaAgregarPersona(ActionEvent a) {
-			this.ventanaPersona.mostrarVentana();
-		}
 		
 		private void guardarPersona(ActionEvent p) {
 			PersonaDTO nuevaPersona = obtenerPersonaDeVista();
@@ -139,7 +136,7 @@ public class Controlador implements ActionListener
 				JOptionPane.showMessageDialog(null, "No ha seleccionado ninguna persona para editar");
 				return;
 			}	
-			this.ventanaPersona.mostrarVentanaConValores(this.personasEnTabla.get(filaSeleccionada),tiposDeContactosEnTabla);
+			this.ventanaPersona.mostrarVentanaConValores(this.personasEnTabla.get(filaSeleccionada),tipoContactoEnTabla);
 		}
 		
 		public void editarPersona(ActionEvent e) {
@@ -166,8 +163,8 @@ public class Controlador implements ActionListener
 		private void refrescarTabla()
 		{
 			this.personasEnTabla = agenda.obtenerPersonas();//lo obtiene de la bd
-			this.tiposDeContactosEnTabla = agenda.obtenerTiposDeContactos();
-			this.vista.llenarTabla(this.personasEnTabla,this.tiposDeContactosEnTabla);
+			this.tipoContactoEnTabla = agenda.obtenerTiposDeContactos();
+			this.vista.llenarTabla(this.personasEnTabla,this.tipoContactoEnTabla);
 		}
 
 		@Override
