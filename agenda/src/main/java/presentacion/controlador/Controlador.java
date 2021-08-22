@@ -34,6 +34,7 @@ public class Controlador implements ActionListener
 			this.ventanaTipoContacto.getBtnEditar().addActionListener(e->editarTipoContacto(e));
 			this.ventanaTipoContacto.getBtnBorrar().addActionListener(b->borrarTipoContacto(b));
 			this.ventanaTipoContacto.getBtnSalir().addActionListener(s->salirTipoContacto(s));
+			
 			this.tipoContacto = new TipoContacto(new DAOSQLFactory());
 			this.refrescarTablaTipoContacto();
 			
@@ -61,10 +62,31 @@ public class Controlador implements ActionListener
 			TipoContactoDTO nuevoTipoContacto = new TipoContactoDTO(0, nombreTipoContacto);
 			this.tipoContacto.agregarTipoContacto(nuevoTipoContacto);
 			this.refrescarTablaTipoContacto();
+			this.ventanaTipoContacto.limpiarTxtTipoContacto();
 		}
 		
 		private void editarTipoContacto(ActionEvent e) {
+
 			
+			int filaSeleccionado = this.ventanaTipoContacto.tablaTipoContactoSeleccionada();
+			int idModificar = this.tipoContactoEnTabla.get(filaSeleccionado).getIdTipoContacto();
+			//System.out.println(idModificar);
+			String nombreNuevo = ventanaTipoContacto.getTxtTipoContacto().getText();
+			
+			TipoContactoDTO datosNuevos = new TipoContactoDTO(0,nombreNuevo);
+			tipoContacto.editarTipoContacto(idModificar,datosNuevos);
+			this.refrescarTablaTipoContacto();	
+			
+			
+			
+			/*
+			int[] filasSeleccionadas = this.ventanaTipoContacto.getTablaTipoContacto().getSelectedRows();
+			for (int fila : filasSeleccionadas)
+			{
+				this.tipoContacto.editarTipoContacto(this.tipoContactoEnTabla.get(fila));
+			}
+			this.refrescarTablaTipoContacto();
+			 */
 		}
 		
 		private void borrarTipoContacto(ActionEvent b) {
@@ -73,12 +95,13 @@ public class Controlador implements ActionListener
 			{
 				this.tipoContacto.borrarTipoContacto(this.tipoContactoEnTabla.get(fila));
 			}
-			
 			this.refrescarTablaTipoContacto();
+			this.ventanaTipoContacto.limpiarTxtTipoContacto();
 		}
 		
 		private void salirTipoContacto(ActionEvent s) {
 			this.ventanaTipoContacto.cerrar();
+			this.ventanaTipoContacto.limpiarTxtTipoContacto();
 		}
 		
 		public void refrescarTablaTipoContacto() {
