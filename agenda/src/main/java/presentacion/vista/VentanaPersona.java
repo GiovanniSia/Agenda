@@ -1,5 +1,8 @@
 package presentacion.vista;
 
+import java.util.Date;
+import java.util.List;
+
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -11,6 +14,7 @@ import javax.swing.border.EmptyBorder;
 
 import com.toedter.calendar.JDateChooser;
 import dto.PersonaDTO;
+import dto.TipoContactoDTO;
 
 public class VentanaPersona extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -24,13 +28,13 @@ public class VentanaPersona extends JFrame {
 	private JButton btnAceptar;
 
 	// Datos nuevos persona, aun no puestos en la vista
-	private JTextField calle;
-
-	private JTextField altura;
-	private JTextField piso;
-	private JTextField departamento;
-	private JTextField domicilio;
-	private JTextField email;
+//	private JTextField calle;
+//
+//	private JTextField altura;
+//	private JTextField piso;
+//	private JTextField departamento;
+//	private JTextField domicilio;
+//	private JTextField email;
 
 	// Fecha cumpleanios
 	private JDateChooser fechaCumpleanios;
@@ -109,7 +113,7 @@ public class VentanaPersona extends JFrame {
 		txtEmail.setColumns(10);
 
 		JLabel lblNewLabel_1 = new JLabel("Domicilio");
-		lblNewLabel_1.setBounds(10, 111, 46, 14);
+		lblNewLabel_1.setBounds(10, 120, 46, 14);
 		panel.add(lblNewLabel_1);
 
 		JLabel lblNewLabel_2 = new JLabel("Calle");
@@ -200,15 +204,29 @@ public class VentanaPersona extends JFrame {
 		btnAceptar = new JButton("Aceptar");
 		btnAceptar.setBounds(113, 426, 85, 21);
 		panel.add(btnAceptar);
+		
+		fechaCumpleanios = new JDateChooser();
+		fechaCumpleanios.setBounds(133, 100, 164, 19);
+		fechaCumpleanios.setDate(new Date());
+		panel.add(fechaCumpleanios);
+		
+		JLabel lblNewLabel_11 = new JLabel("Fecha de Nacimiento");
+		lblNewLabel_11.setBounds(10, 97, 113, 13);
+		panel.add(lblNewLabel_11);
 		btnCancelar.setVisible(false);
 
+		
+		
+		
 		this.setVisible(false);
 	}
 
-	public void mostrarVentana() {
+	public void mostrarVentana(List<TipoContactoDTO> tiposDeContactosEnTabla) {
 		this.btnAceptar.setVisible(false);
 		this.btnAgregarPersona.setVisible(true);
+		escribirComboBoxTipoDeContacto(tiposDeContactosEnTabla);
 		this.setVisible(true);
+		
 	}
 
 	public JTextField getTxtNombre() {
@@ -262,43 +280,68 @@ public class VentanaPersona extends JFrame {
 	}
 
 	public JTextField getCalle() {
-		return calle;
+		return this.txtCalle;
 	}
 
 	public JTextField getAltura() {
-		return altura;
+		return this.txtAltura;
 	}
 
 	public JTextField getPiso() {
-		return piso;
+		return this.txtPiso;
 	}
 
 	public JTextField getDepartamento() {
-		return departamento;
+		return this.txtDepartamento;
 	}
 
-	public JTextField getDomicilio() {
-		return domicilio;
-	}
+//	public JTextField getDomicilio() {
+//		return this.domicilio;
+//	}
 
 	public JTextField getEmail() {
-		return email;
+		return this.txtEmail;
 	}
 
 	public JDateChooser getFechaCumpleanios() {
-		return fechaCumpleanios;
+		return this.fechaCumpleanios;
 	}
-
+	
+	
 	// NOSE SI LA VISTA PUEDE TENER CONTACTO CON EL CÓDIGO
-	public void mostrarVentanaConValores(PersonaDTO persona) {
+	public void mostrarVentanaConValores(PersonaDTO persona,List<TipoContactoDTO> tiposDeContactosEnTabla) {
+		escribirComboBoxTipoDeContacto(tiposDeContactosEnTabla);
+		
 		this.txtNombre.setText(persona.getNombre());
 		this.txtTelefono.setText(persona.getTelefono());
-
+		this.txtEmail.setText(persona.getEmail());
+		this.fechaCumpleanios.setDate(persona.getFechaDeCumpleanios());
+		this.txtCalle.setText(persona.getDomicilio().getCalle());
+		this.txtAltura.setText(persona.getDomicilio().getAltura());
+		this.txtPiso.setText(persona.getDomicilio().getPiso());
+		this.txtDepartamento.setText(persona.getDomicilio().getDepartamento());
+//		this.cbTipoContacto.setSelectedItem(persona.getTipoDeContacto());
+		
 		// Cambiamos los botones
 		this.btnAgregarPersona.setVisible(false);
 		this.btnCancelar.setVisible(true);
 		this.btnAceptar.setVisible(true);
 
 		this.setVisible(true);
+	}
+	
+	
+	
+	
+
+	public String getTipoDeContactoSeleccionado() {
+		return (String)this.cbTipoContacto.getSelectedItem();
+	}
+	
+	public void escribirComboBoxTipoDeContacto(List<TipoContactoDTO> tiposDeContactosEnTabla) {
+		this.cbTipoContacto.removeAllItems();
+		for(TipoContactoDTO tipo: tiposDeContactosEnTabla) {
+			this.cbTipoContacto.addItem(tipo.getNombreTipoContacto());
+		}
 	}
 }
