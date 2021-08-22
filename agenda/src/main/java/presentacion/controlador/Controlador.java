@@ -85,7 +85,7 @@ public class Controlador implements ActionListener
 				JOptionPane.showMessageDialog(null, "No ha seleccionado ninguna persona para editar");
 				return;
 			}	
-			this.ventanaPersona.mostrarVentanaConValores(this.personasEnTabla.get(filaSeleccionada));
+			this.ventanaPersona.mostrarVentanaConValores(this.personasEnTabla.get(filaSeleccionada),tiposDeContactosEnTabla);
 		}
 		
 		public void editarPersona(ActionEvent e) {

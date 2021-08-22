@@ -224,9 +224,7 @@ public class VentanaPersona extends JFrame {
 	public void mostrarVentana(List<TipoContactoDTO> tiposDeContactosEnTabla) {
 		this.btnAceptar.setVisible(false);
 		this.btnAgregarPersona.setVisible(true);
-		for(TipoContactoDTO tipo: tiposDeContactosEnTabla) {
-			this.cbTipoContacto.addItem(tipo.getNombreTipoContacto());
-		}
+		escribirComboBoxTipoDeContacto(tiposDeContactosEnTabla);
 		this.setVisible(true);
 		
 	}
@@ -311,8 +309,9 @@ public class VentanaPersona extends JFrame {
 	
 	
 	// NOSE SI LA VISTA PUEDE TENER CONTACTO CON EL CÓDIGO
-	public void mostrarVentanaConValores(PersonaDTO persona) {
-		escribirComboBoxTipoDeContacto();
+	public void mostrarVentanaConValores(PersonaDTO persona,List<TipoContactoDTO> tiposDeContactosEnTabla) {
+		escribirComboBoxTipoDeContacto(tiposDeContactosEnTabla);
+		
 		this.txtNombre.setText(persona.getNombre());
 		this.txtTelefono.setText(persona.getTelefono());
 		this.txtEmail.setText(persona.getEmail());
@@ -321,7 +320,7 @@ public class VentanaPersona extends JFrame {
 		this.txtAltura.setText(persona.getDomicilio().getAltura());
 		this.txtPiso.setText(persona.getDomicilio().getPiso());
 		this.txtDepartamento.setText(persona.getDomicilio().getDepartamento());
-		this.cbTipoContacto.setSelectedItem(persona.getTipoDeContacto());
+//		this.cbTipoContacto.setSelectedItem(persona.getTipoDeContacto());
 		
 		// Cambiamos los botones
 		this.btnAgregarPersona.setVisible(false);
@@ -339,7 +338,10 @@ public class VentanaPersona extends JFrame {
 		return (String)this.cbTipoContacto.getSelectedItem();
 	}
 	
-	public void escribirComboBoxTipoDeContacto() {
-		
+	public void escribirComboBoxTipoDeContacto(List<TipoContactoDTO> tiposDeContactosEnTabla) {
+		this.cbTipoContacto.removeAllItems();
+		for(TipoContactoDTO tipo: tiposDeContactosEnTabla) {
+			this.cbTipoContacto.addItem(tipo.getNombreTipoContacto());
+		}
 	}
 }
