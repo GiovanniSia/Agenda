@@ -1,36 +1,23 @@
 package presentacion.vista;
 
-import java.awt.Color;
-import java.awt.EventQueue;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
-
-import dto.PersonaDTO;
 import dto.TipoContactoDTO;
-import persistencia.conexion.Conexion;
-
 import java.awt.Font;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.List;
-
-import javax.swing.JComboBox;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class VentanaTipoContacto extends JFrame {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	private JFrame frame;
 	private JTable tablaTipoContacto;
@@ -43,7 +30,6 @@ public class VentanaTipoContacto extends JFrame {
 	private JLabel lblNewLabel;
 	private JTextField txtTipoContacto;
 
-	
 	public VentanaTipoContacto() {
 		super();
 		initialize();
@@ -66,6 +52,13 @@ public class VentanaTipoContacto extends JFrame {
 
 		modelTipoContacto = new DefaultTableModel(null, nombreColumnas);
 		tablaTipoContacto = new JTable(modelTipoContacto);
+		tablaTipoContacto.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int filaSeleccionada = tablaTipoContacto.rowAtPoint(e.getPoint());
+				txtTipoContacto.setText(tablaTipoContacto.getValueAt(filaSeleccionada, 1).toString());
+			}
+		});
 
 		tablaTipoContacto.getColumnModel().getColumn(0).setPreferredWidth(103);
 		tablaTipoContacto.getColumnModel().getColumn(0).setResizable(false);
@@ -121,10 +114,11 @@ public class VentanaTipoContacto extends JFrame {
 		this.txtTipoContacto.setText(null);
 		frame.setVisible(false);
 	}
+
 	public void mostrarVentana() {
 		this.setVisible(true);
 	}
-	
+
 	public JButton getBtnAgregar() {
 		return btnAgregar;
 	}
@@ -140,6 +134,7 @@ public class VentanaTipoContacto extends JFrame {
 	public JButton getBtnEditar() {
 		return btnEditar;
 	}
+
 	public DefaultTableModel getModelTipoContacto() {
 		return modelTipoContacto;
 	}
@@ -155,10 +150,17 @@ public class VentanaTipoContacto extends JFrame {
 	public JTextField getTxtTipoContacto() {
 		return txtTipoContacto;
 	}
-	
-	
+
+	public void limpiarTxtTipoContacto() {
+		getTxtTipoContacto().setText("");
+	}
+
+	public int tablaTipoContactoSeleccionada() {
+		return tablaTipoContacto.getSelectedRow();
+	}
+
 	public void llenarTabla(List<TipoContactoDTO> tipoContactoEnTabla) {
-		this.getModelTipoContacto().setRowCount(0); // Para vaciar la tabla
+		this.getModelTipoContacto().setRowCount(0);
 		this.getModelTipoContacto().setColumnCount(0);
 		this.getModelTipoContacto().setColumnIdentifiers(this.getNombreColumnas());
 
@@ -168,6 +170,5 @@ public class VentanaTipoContacto extends JFrame {
 			Object[] fila = { id, nombre };
 			this.getModelTipoContacto().addRow(fila);
 		}
-
 	}
 }
