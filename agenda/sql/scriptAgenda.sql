@@ -14,6 +14,7 @@ CREATE TABLE `personas`	(
 	`departamento` varchar(45) NOT NULL,
 	`email` varchar(45) NOT NULL,
 	`fechaCumpleanios` date,
+	`tipoContacto` varchar(45) NOT NULL,	
 	PRIMARY KEY (`idPersona`)	
 	);
 

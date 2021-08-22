@@ -157,10 +157,10 @@ public class Vista
 			String departamento = p.getDomicilio().getDepartamento();
 			String email = p.getEmail();
 			Date fechaDeCumpleanios = (Date) p.getFechaDeCumpleanios();
+			String tipoContacto = p.getTipoDeContacto();
 			
 			
-			
-			Object[] fila = {nombre, tel,calle,altura,piso,departamento,email,fechaDeCumpleanios};
+			Object[] fila = {nombre, tel,calle,altura,piso,departamento,email,fechaDeCumpleanios,tipoContacto};
 			this.getModelPersonas().addRow(fila);
 		}
 		
