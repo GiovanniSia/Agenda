@@ -1,5 +1,6 @@
 package presentacion.vista;
 
+import java.awt.Dimension;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.Date;
@@ -47,14 +48,16 @@ public class Vista
 		panel.setBounds(0, 0, 434, 262);
 		frame.getContentPane().add(panel);
 		panel.setLayout(null);
-				
-		JScrollPane spPersonas = new JScrollPane();
+
+		JScrollPane spPersonas = new JScrollPane(tablaPersonas, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		spPersonas.setBounds(8, 30, 416, 182);
 		panel.add(spPersonas);
-				
+
 		modelPersonas = new DefaultTableModel(null,nombreColumnas);
 		tablaPersonas = new JTable(modelPersonas);
-		tablaPersonas.setDefaultEditor(Object.class, null);
+		
+		tablaPersonas.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		
 		
 		tablaPersonas.getColumnModel().getColumn(0).setPreferredWidth(103);//no funca
 		tablaPersonas.getColumnModel().getColumn(0).setResizable(false);
@@ -139,8 +142,8 @@ public class Vista
 	public void llenarTabla(List<PersonaDTO> personasEnTabla) {
 		this.getModelPersonas().setRowCount(0); //Para vaciar la tabla
 		this.getModelPersonas().setColumnCount(0);
-		this.getModelPersonas().setColumnIdentifiers(this.getNombreColumnas());
-
+		this.getModelPersonas().setColumnIdentifiers(this.getNombreColumnas());		
+		
 		for (PersonaDTO p : personasEnTabla)
 		{
 			String nombre = p.getNombre();
@@ -155,6 +158,7 @@ public class Vista
 			Object[] fila = {nombre, tel,calle,altura,piso,departamento,email,fechaDeCumpleanios};
 			this.getModelPersonas().addRow(fila);
 		}
+		
 		
 	}
 }
