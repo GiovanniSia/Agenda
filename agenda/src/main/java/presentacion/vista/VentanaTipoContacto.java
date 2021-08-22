@@ -1,42 +1,30 @@
 package presentacion.vista;
 
-import java.awt.Color;
-import java.awt.EventQueue;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
-
-import dto.PersonaDTO;
 import dto.TipoContactoDTO;
-import persistencia.conexion.Conexion;
-
 import java.awt.Font;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.List;
-
-import javax.swing.JComboBox;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class VentanaTipoContacto extends JFrame {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	private JFrame frame;
 	private JTable tablaTipoContacto;
 	private JButton btnAgregar;
 	private JButton btnBorrar;
 	private JButton btnSalir;
+	private JButton btnEditar;
 	private DefaultTableModel modelTipoContacto;
 	private String[] nombreColumnas = { "Id", "Nombre" };
 	private JLabel lblNewLabel;
@@ -64,6 +52,13 @@ public class VentanaTipoContacto extends JFrame {
 
 		modelTipoContacto = new DefaultTableModel(null, nombreColumnas);
 		tablaTipoContacto = new JTable(modelTipoContacto);
+		tablaTipoContacto.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int filaSeleccionada = tablaTipoContacto.rowAtPoint(e.getPoint());
+				txtTipoContacto.setText(tablaTipoContacto.getValueAt(filaSeleccionada, 1).toString());
+			}
+		});
 
 		tablaTipoContacto.getColumnModel().getColumn(0).setPreferredWidth(103);
 		tablaTipoContacto.getColumnModel().getColumn(0).setResizable(false);
@@ -73,11 +68,6 @@ public class VentanaTipoContacto extends JFrame {
 		spTipoContacto.setViewportView(tablaTipoContacto);
 
 		btnSalir = new JButton("Salir");
-		btnSalir.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
-			}
-		});
 		btnSalir.setBounds(89, 198, 89, 23);
 		panel.add(btnSalir);
 
@@ -90,7 +80,7 @@ public class VentanaTipoContacto extends JFrame {
 		btnAgregar.setBounds(10, 198, 71, 23);
 		panel_1.add(btnAgregar);
 
-		JButton btnEditar = new JButton("Editar");
+		btnEditar = new JButton("Editar");
 		btnEditar.setBounds(91, 198, 71, 23);
 		panel_1.add(btnEditar);
 
@@ -114,16 +104,21 @@ public class VentanaTipoContacto extends JFrame {
 		this.frame.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				System.exit(0);
+				frame.setVisible(false);
 			}
 		});
 		this.frame.setVisible(true);
 	}
 
+	public void cerrar() {
+		this.txtTipoContacto.setText(null);
+		frame.setVisible(false);
+	}
+
 	public void mostrarVentana() {
 		this.setVisible(true);
 	}
-	
+
 	public JButton getBtnAgregar() {
 		return btnAgregar;
 	}
@@ -134,6 +129,10 @@ public class VentanaTipoContacto extends JFrame {
 
 	public JButton getBtnSalir() {
 		return btnSalir;
+	}
+
+	public JButton getBtnEditar() {
+		return btnEditar;
 	}
 
 	public DefaultTableModel getModelTipoContacto() {
@@ -148,8 +147,20 @@ public class VentanaTipoContacto extends JFrame {
 		return nombreColumnas;
 	}
 
+	public JTextField getTxtTipoContacto() {
+		return txtTipoContacto;
+	}
+
+	public void limpiarTxtTipoContacto() {
+		getTxtTipoContacto().setText("");
+	}
+
+	public int tablaTipoContactoSeleccionada() {
+		return tablaTipoContacto.getSelectedRow();
+	}
+
 	public void llenarTabla(List<TipoContactoDTO> tipoContactoEnTabla) {
-		this.getModelTipoContacto().setRowCount(0); // Para vaciar la tabla
+		this.getModelTipoContacto().setRowCount(0);
 		this.getModelTipoContacto().setColumnCount(0);
 		this.getModelTipoContacto().setColumnIdentifiers(this.getNombreColumnas());
 
@@ -159,6 +170,5 @@ public class VentanaTipoContacto extends JFrame {
 			Object[] fila = { id, nombre };
 			this.getModelTipoContacto().addRow(fila);
 		}
-
 	}
 }
