@@ -113,20 +113,16 @@ public class PersonaDAOSQL implements PersonaDAO
 		int id = resultSet.getInt("idPersona");
 		String nombre = resultSet.getString("Nombre");
 		String tel = resultSet.getString("Telefono");
+		String calle = resultSet.getString("calle");
+		String altura = resultSet.getString("altura");
+		String piso = resultSet.getString("piso");
+		String departamento = resultSet.getString("departamento");
+		String email = resultSet.getString("email");
+		Date fechaCumpleanios = resultSet.getDate("fechaCumpleanios");
 		
-//		Datos nuevos HARDCODEADOS PORQUE EN LA  VISTA NO SE LOS PUEDE ELEGIR AUN
-		//domicilio
-//		String calle = resultSet.getString("calle");
-//		String altura = resultSet.getString("altura");
-//		String piso = resultSet.getString("piso");
-//		String departamento = resultSet.getString("departamento");
-//		
-		Domicilio domicilio = new Domicilio("ComandanteVidela","1600","","");
-//		
-//		String email = resultSet.getString("email");
-//		Date fechaCumpleanios = resultSet.getDate("fechaCumpleanios");
-		Date d = new Date(2100,8,21);		
-		return new PersonaDTO(id, nombre, tel, domicilio, "capitanVidela@gmail.com",d);
+		Domicilio domicilio = new Domicilio(calle,altura,piso,departamento);		
+		
+		return new PersonaDTO(id, nombre, tel, domicilio, email,fechaCumpleanios,"amigo");
 	}
 	
 	public boolean updatePersona(int idPersona, PersonaDTO nuevosDatos) {

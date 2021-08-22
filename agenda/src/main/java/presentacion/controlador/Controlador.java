@@ -12,11 +12,15 @@ import presentacion.vista.VentanaTipoContacto;
 import presentacion.vista.Vista;
 import dto.Domicilio;
 import dto.PersonaDTO;
+import dto.TipoContactoDTO;
 
 public class Controlador implements ActionListener
 {
 		private Vista vista;
 		private List<PersonaDTO> personasEnTabla;
+		
+		private List<TipoContactoDTO> tiposDeContactosEnTabla;		
+		
 		private VentanaPersona ventanaPersona; 
 		private VentanaTipoContacto ventanaTipoContacto;
 		private Agenda agenda;
@@ -42,7 +46,7 @@ public class Controlador implements ActionListener
 		}
 		
 		private void ventanaAgregarPersona(ActionEvent a) {
-			this.ventanaPersona.mostrarVentana();
+			this.ventanaPersona.mostrarVentana(tiposDeContactosEnTabla);
 		}
 
 		private void ventanaEditarTipoContacto(ActionEvent t) {
@@ -85,17 +89,8 @@ public class Controlador implements ActionListener
 		}
 		
 		public void editarPersona(ActionEvent e) {
-			int idModificar = this.personasEnTabla.get(filaSeleccionada).getIdPersona();
-			
-			//aca poner todos los nuevos campos con los nuevos datos
-			String nombreNuevo = ventanaPersona.getTxtNombre().getText();
-			String telefonoNuevo = ventanaPersona.getTxtTelefono().getText();
-			
-			//Se hardcodean los datos que no estan en la vista
-			Domicilio domicilio = new Domicilio("Videla","1600","","");
-			Date d = new Date(99,8,14);
-			
-			PersonaDTO datosNuevos = new PersonaDTO(0,nombreNuevo,telefonoNuevo,domicilio,"nose@gmail.com",d);
+			int idModificar = this.personasEnTabla.get(filaSeleccionada).getIdPersona();		
+			PersonaDTO datosNuevos = obtenerPersonaDeVista();
 			if(todosLosCamposSonValidos(datosNuevos)) {
 				agenda.editarPersona(idModificar,datosNuevos);
 				refrescarTabla();
@@ -116,8 +111,9 @@ public class Controlador implements ActionListener
 		
 		private void refrescarTabla()
 		{
-			this.personasEnTabla = agenda.obtenerPersonas();
-			this.vista.llenarTabla(this.personasEnTabla);
+			this.personasEnTabla = agenda.obtenerPersonas();//lo obtiene de la bd
+			this.tiposDeContactosEnTabla = agenda.obtenerTiposDeContactos();
+			this.vista.llenarTabla(this.personasEnTabla,this.tiposDeContactosEnTabla);
 		}
 
 		@Override
@@ -126,22 +122,17 @@ public class Controlador implements ActionListener
 		
 		
 		public PersonaDTO obtenerPersonaDeVista() {
-			String nombre = this.ventanaPersona.getTxtNombre().getText();
-			String tel = ventanaPersona.getTxtTelefono().getText();
-			
-			//DATOS HARDCODEADOS PORQUE NO SE LOS PUEDE ELEGIR DE LA VISTA TODAVIA
-			//Domicilio falta la localidad
-//			String calle = ventanaPersona.getDomicilio().getText();
-//			String altura = ventanaPersona.getAltura().getText();
-//			String piso = ventanaPersona.getPiso().getText();
-//			String departamento = ventanaPersona.getDepartamento().getText();
-//			
-			Domicilio domicilio = new Domicilio("Videla","1600","222","7");
-//			String email = ventanaPersona.getEmail().getText();
-//			Date fechaCumpleanios = (Date) ventanaPersona.getFechaCumpleanios().getDate();
-			Date d = new Date(99,8,14);
-			
-			return new PersonaDTO(0,nombre,tel,domicilio,"nose@gmail.com",d);
+			String nombre = ventanaPersona.getTxtNombre().getText();
+			String telefono= ventanaPersona.getTxtTelefono().getText();
+			String calle = ventanaPersona.getCalle().getText();
+			String altura = ventanaPersona.getAltura().getText();
+			String piso = ventanaPersona.getPiso().getText();
+			String departamento = ventanaPersona.getDepartamento().getText();
+			String email = ventanaPersona.getEmail().getText();
+			java.sql.Date fechaDeCumpleanios = new java.sql.Date(ventanaPersona.getFechaCumpleanios().getDate().getTime());
+			Domicilio domicilio = new Domicilio (calle,altura,piso,departamento);
+			String tipoContacto = ventanaPersona.getTipoDeContactoSeleccionado();
+			return new PersonaDTO(0,nombre,telefono,domicilio,email,fechaDeCumpleanios,tipoContacto);
 		}
 			
 		public boolean todosLosCamposSonValidos(PersonaDTO datosNuevos) {	

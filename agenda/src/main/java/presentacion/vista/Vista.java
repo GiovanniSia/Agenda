@@ -14,6 +14,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import dto.PersonaDTO;
+import dto.TipoContactoDTO;
 
 import javax.swing.JButton;
 
@@ -28,7 +29,7 @@ public class Vista
 	private JButton btnBorrar;
 	private JButton btnReporte;
 	private DefaultTableModel modelPersonas;
-	private  String[] nombreColumnas = {"Nombre y apellido","Telefono","Calle","Altura","Piso","Departamento","Email","Fecha de Cumpleanios"};
+	private  String[] nombreColumnas = {"Nombre y apellido","Telefono","Calle","Altura","Piso","Departamento","Email","Fecha de Cumpleanios","Tipo de Contacto"};
 
 	public Vista() 
 	{
@@ -139,10 +140,12 @@ public class Vista
 	}
 
 
-	public void llenarTabla(List<PersonaDTO> personasEnTabla) {
+	public void llenarTabla(List<PersonaDTO> personasEnTabla, List<TipoContactoDTO> contactosEnTabla) {
 		this.getModelPersonas().setRowCount(0); //Para vaciar la tabla
 		this.getModelPersonas().setColumnCount(0);
 		this.getModelPersonas().setColumnIdentifiers(this.getNombreColumnas());		
+		
+		
 		
 		for (PersonaDTO p : personasEnTabla)
 		{
@@ -153,7 +156,9 @@ public class Vista
 			String piso = p.getDomicilio().getPiso();
 			String departamento = p.getDomicilio().getDepartamento();
 			String email = p.getEmail();
-			Date fechaDeCumpleanios = p.getFechaDeCumpleanios();
+			Date fechaDeCumpleanios = (Date) p.getFechaDeCumpleanios();
+			
+			
 			
 			Object[] fila = {nombre, tel,calle,altura,piso,departamento,email,fechaDeCumpleanios};
 			this.getModelPersonas().addRow(fila);

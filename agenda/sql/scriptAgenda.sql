@@ -13,7 +13,7 @@ CREATE TABLE `personas`	(
 	`piso` varchar(45) NOT NULL,
 	`departamento` varchar(45) NOT NULL,
 	`email` varchar(45) NOT NULL,
-	`fechaCumpleanios` Date,
+	`fechaCumpleanios` date,
 	PRIMARY KEY (`idPersona`)	
 	);
 
