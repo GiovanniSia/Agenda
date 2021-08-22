@@ -8,6 +8,7 @@ import javax.swing.JOptionPane;
 import modelo.Agenda;
 import presentacion.reportes.ReporteAgenda;
 import presentacion.vista.VentanaPersona;
+import presentacion.vista.VentanaTipoContacto;
 import presentacion.vista.Vista;
 import dto.Domicilio;
 import dto.PersonaDTO;
@@ -17,12 +18,15 @@ public class Controlador implements ActionListener
 		private Vista vista;
 		private List<PersonaDTO> personasEnTabla;
 		private VentanaPersona ventanaPersona; 
+		private VentanaTipoContacto ventanaTipoContacto;
 		private Agenda agenda;
 		
 		int filaSeleccionada;
 		public Controlador(Vista vista, Agenda agenda)
 		{
 			this.vista = vista;
+			this.ventanaTipoContacto = new VentanaTipoContacto();
+			
 			this.vista.getBtnAgregar().addActionListener(a->ventanaAgregarPersona(a));
 			this.vista.getBtnBorrar().addActionListener(s->borrarPersona(s));
 			this.vista.getBtnReporte().addActionListener(r->mostrarReporte(r));
@@ -33,6 +37,7 @@ public class Controlador implements ActionListener
 			this.ventanaPersona.getBtnCancelar().addActionListener(c -> cerrarVentanaEditar(c));
 			
 			this.ventanaPersona.getBtnAgregarPersona().addActionListener(p->guardarPersona(p));
+			this.ventanaPersona.getBtnEditarTipoContacto().addActionListener(t->ventanaEditarTipoContacto(t));
 			this.agenda = agenda;
 		}
 		
@@ -40,6 +45,10 @@ public class Controlador implements ActionListener
 			this.ventanaPersona.mostrarVentana();
 		}
 
+		private void ventanaEditarTipoContacto(ActionEvent t) {
+			this.ventanaTipoContacto.mostrarVentana();
+		}
+		
 		private void guardarPersona(ActionEvent p) {
 			PersonaDTO nuevaPersona = obtenerPersonaDeVista();
 			if(todosLosCamposSonValidos(nuevaPersona)) {
