@@ -120,6 +120,10 @@ public class VentanaTipoContacto extends JFrame {
 		this.frame.setVisible(true);
 	}
 
+	public void mostrarVentana() {
+		this.setVisible(true);
+	}
+	
 	public JButton getBtnAgregar() {
 		return btnAgregar;
 	}
