@@ -78,7 +78,7 @@ public class Controlador implements ActionListener
 		}
 		
 		private void salirTipoContacto(ActionEvent s) {
-			
+			this.ventanaTipoContacto.cerrar();
 		}
 		
 		public void refrescarTablaTipoContacto() {

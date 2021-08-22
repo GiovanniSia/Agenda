@@ -75,11 +75,6 @@ public class VentanaTipoContacto extends JFrame {
 		spTipoContacto.setViewportView(tablaTipoContacto);
 
 		btnSalir = new JButton("Salir");
-		btnSalir.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				frame.setVisible(false);
-			}
-		});
 		btnSalir.setBounds(89, 198, 89, 23);
 		panel.add(btnSalir);
 
@@ -122,6 +117,10 @@ public class VentanaTipoContacto extends JFrame {
 		this.frame.setVisible(true);
 	}
 
+	public void cerrar() {
+		this.txtTipoContacto.setText(null);
+		frame.setVisible(false);
+	}
 	public void mostrarVentana() {
 		this.setVisible(true);
 	}
