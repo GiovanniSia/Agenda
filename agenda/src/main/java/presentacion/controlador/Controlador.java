@@ -6,27 +6,38 @@ import java.sql.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
 import modelo.Agenda;
+import modelo.TipoContacto;
+import persistencia.dao.mysql.DAOSQLFactory;
 import presentacion.reportes.ReporteAgenda;
 import presentacion.vista.VentanaPersona;
 import presentacion.vista.VentanaTipoContacto;
 import presentacion.vista.Vista;
 import dto.Domicilio;
 import dto.PersonaDTO;
+import dto.TipoContactoDTO;
 
 public class Controlador implements ActionListener
 {
 		private Vista vista;
 		private List<PersonaDTO> personasEnTabla;
+		private List<TipoContactoDTO> tipoContactoEnTabla;
 		private VentanaPersona ventanaPersona; 
 		private VentanaTipoContacto ventanaTipoContacto;
 		private Agenda agenda;
+		private TipoContacto tipoContacto;
 		
 		int filaSeleccionada;
 		public Controlador(Vista vista, Agenda agenda)
-		{
-			this.vista = vista;
-			this.ventanaTipoContacto = new VentanaTipoContacto();
+		{		
+			this.ventanaTipoContacto =new VentanaTipoContacto();
+			this.ventanaTipoContacto.getBtnAgregar().addActionListener(a->agregarTipoContacto(a));
+			this.ventanaTipoContacto.getBtnEditar().addActionListener(e->editarTipoContacto(e));
+			this.ventanaTipoContacto.getBtnBorrar().addActionListener(b->borrarTipoContacto(b));
+			this.ventanaTipoContacto.getBtnSalir().addActionListener(s->salirTipoContacto(s));
+			this.tipoContacto = new TipoContacto(new DAOSQLFactory());
 			
+			
+			this.vista = vista;
 			this.vista.getBtnAgregar().addActionListener(a->ventanaAgregarPersona(a));
 			this.vista.getBtnBorrar().addActionListener(s->borrarPersona(s));
 			this.vista.getBtnReporte().addActionListener(r->mostrarReporte(r));
@@ -38,15 +49,51 @@ public class Controlador implements ActionListener
 			
 			this.ventanaPersona.getBtnAgregarPersona().addActionListener(p->guardarPersona(p));
 			this.ventanaPersona.getBtnEditarTipoContacto().addActionListener(t->ventanaEditarTipoContacto(t));
-			this.agenda = agenda;
+			this.agenda = agenda;	
 		}
+		
+		private void ventanaEditarTipoContacto(ActionEvent t) {
+			this.ventanaTipoContacto.mostrarVentana();
+		}
+		
+		private void agregarTipoContacto(ActionEvent a) {
+			String nombreTipoContacto = this.ventanaTipoContacto.getTxtTipoContacto().getText();
+			TipoContactoDTO nuevoTipoContacto = new TipoContactoDTO(0, nombreTipoContacto);
+			this.tipoContacto.agregarTipoContacto(nuevoTipoContacto);
+			this.refrescarTablaTipoContacto();
+		}
+		
+		private void editarTipoContacto(ActionEvent e) {
+			
+		}
+		
+		private void borrarTipoContacto(ActionEvent b) {
+			
+		}
+		
+		private void salirTipoContacto(ActionEvent s) {
+			
+		}
+		
+		public void refrescarTablaTipoContacto() {
+			this.tipoContactoEnTabla = tipoContacto.obtenerTipoContacto();
+			this.ventanaTipoContacto.llenarTabla(tipoContactoEnTabla);
+			
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		private void ventanaAgregarPersona(ActionEvent a) {
 			this.ventanaPersona.mostrarVentana();
-		}
-
-		private void ventanaEditarTipoContacto(ActionEvent t) {
-			this.ventanaTipoContacto.mostrarVentana();
 		}
 		
 		private void guardarPersona(ActionEvent p) {
