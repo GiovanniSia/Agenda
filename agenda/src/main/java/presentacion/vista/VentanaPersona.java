@@ -296,7 +296,7 @@ public class VentanaPersona extends JFrame {
 
 	// NOSE SI LA VISTA PUEDE TENER CONTACTO CON EL CÓDIGO
 	public void mostrarVentanaConValores(PersonaDTO persona, List<TipoContactoDTO> tiposDeContactosEnTabla) {
-		escribirComboBoxTipoDeContacto(tiposDeContactosEnTabla);
+		this.escribirComboBoxTipoDeContacto(tiposDeContactosEnTabla);
 
 		this.txtNombre.setText(persona.getNombre());
 		this.txtTelefono.setText(persona.getTelefono());
@@ -319,7 +319,7 @@ public class VentanaPersona extends JFrame {
 	public String getTipoDeContactoSeleccionado() {
 		return (String) this.cbTipoContacto.getSelectedItem();
 	}
-
+	
 	public void escribirComboBoxTipoDeContacto(List<TipoContactoDTO> tiposDeContactosEnTabla) {
 		this.cbTipoContacto.removeAllItems();
 		for (TipoContactoDTO tipo : tiposDeContactosEnTabla) {
