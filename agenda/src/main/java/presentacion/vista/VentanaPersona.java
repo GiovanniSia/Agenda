@@ -31,11 +31,7 @@ public class VentanaPersona extends JFrame {
 	private JTextField txtPiso;
 	private JTextField txtDepartamento;
 	private JButton btnEditarTipoContacto;
-	private JButton btnEditarLocalidad;
-	private JComboBox cbPais;
-	private JComboBox cbProvincia;
 	private JComboBox cbTipoContacto;
-	private JComboBox cbLocalidad;
 
 	public static VentanaPersona getInstance() {
 		if (INSTANCE == null) {
@@ -55,14 +51,14 @@ public class VentanaPersona extends JFrame {
 		}
 
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 343, 508);
+		setBounds(100, 100, 343, 365);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
 		JPanel panel = new JPanel();
-		panel.setBounds(10, 11, 307, 447);
+		panel.setBounds(10, 11, 307, 319);
 		contentPane.add(panel);
 		panel.setLayout(null);
 
@@ -85,7 +81,7 @@ public class VentanaPersona extends JFrame {
 		txtTelefono.setColumns(10);
 
 		btnAgregarPersona = new JButton("Agregar");
-		btnAgregarPersona.setBounds(218, 425, 89, 23);
+		btnAgregarPersona.setBounds(218, 287, 89, 23);
 		panel.add(btnAgregarPersona);
 
 		JLabel lblNewLabel = new JLabel("Email");
@@ -149,45 +145,13 @@ public class VentanaPersona extends JFrame {
 		btnEditarTipoContacto.setBounds(10, 255, 113, 23);
 		panel.add(btnEditarTipoContacto);
 
-		JLabel lblNewLabel_7 = new JLabel("Localidad");
-		lblNewLabel_7.setBounds(10, 289, 100, 14);
-		panel.add(lblNewLabel_7);
-
-		JLabel lblNewLabel_8 = new JLabel("Pais");
-		lblNewLabel_8.setBounds(77, 308, 46, 14);
-		panel.add(lblNewLabel_8);
-
-		JLabel lblNewLabel_9 = new JLabel("Provincia");
-		lblNewLabel_9.setBounds(77, 333, 46, 14);
-		panel.add(lblNewLabel_9);
-
-		JLabel lblNewLabel_10 = new JLabel("Localidad");
-		lblNewLabel_10.setBounds(77, 358, 46, 14);
-		panel.add(lblNewLabel_10);
-
-		cbPais = new JComboBox();
-		cbPais.setBounds(133, 304, 164, 22);
-		panel.add(cbPais);
-
-		cbProvincia = new JComboBox();
-		cbProvincia.setBounds(133, 329, 164, 22);
-		panel.add(cbProvincia);
-
-		cbLocalidad = new JComboBox();
-		cbLocalidad.setBounds(133, 355, 164, 22);
-		panel.add(cbLocalidad);
-
-		btnEditarLocalidad = new JButton("Editar Localidad");
-		btnEditarLocalidad.setBounds(10, 383, 113, 23);
-		panel.add(btnEditarLocalidad);
-
 		btnCancelar = new JButton("Cancelar");
 		panel.add(btnCancelar);
-		btnCancelar.setBounds(0, 426, 85, 21);
+		btnCancelar.setBounds(10, 288, 85, 21);
 		btnCancelar.setVisible(false);
 
 		btnAceptar = new JButton("Aceptar");
-		btnAceptar.setBounds(218, 426, 89, 21);
+		btnAceptar.setBounds(218, 288, 89, 21);
 		panel.add(btnAceptar);
 
 		fechaCumpleanios = new JDateChooser();
@@ -235,25 +199,25 @@ public class VentanaPersona extends JFrame {
 		return btnEditarTipoContacto;
 	}
 
-	public JButton getBtnEditarLocalidad() {
-		return btnEditarLocalidad;
-	}
-
-	public JComboBox getCbPais() {
-		return cbPais;
-	}
-
-	public JComboBox getCbProvincia() {
-		return cbProvincia;
-	}
-
-	public JComboBox getCbTipoContacto() {
-		return cbTipoContacto;
-	}
-
-	public JComboBox getCbLocalidad() {
-		return cbLocalidad;
-	}
+//	public JButton getBtnEditarLocalidad() {
+//		return btnEditarLocalidad;
+//	}
+//
+//	public JComboBox getCbPais() {
+//		return cbPais;
+//	}
+//
+//	public JComboBox getCbProvincia() {
+//		return cbProvincia;
+//	}
+//
+//	public JComboBox getCbTipoContacto() {
+//		return cbTipoContacto;
+//	}
+//
+//	public JComboBox getCbLocalidad() {
+//		return cbLocalidad;
+//	}
 
 	public void cerrar() {
 		this.txtNombre.setText(null);
@@ -294,9 +258,9 @@ public class VentanaPersona extends JFrame {
 		this.txtPiso.setText("");
 		this.txtDepartamento.setText("");
 		this.cbTipoContacto.setSelectedItem(null);
-		this.cbPais.setSelectedItem(null);
-		this.cbProvincia.setSelectedItem(null);
-		this.cbLocalidad.setSelectedItem(null);
+//		this.cbPais.setSelectedItem(null);
+//		this.cbProvincia.setSelectedItem(null);
+//		this.cbLocalidad.setSelectedItem(null);
 	}
 
 	public void mostrarVentanaConValores(PersonaDTO persona, List<TipoContactoDTO> tiposDeContactosEnTabla) {

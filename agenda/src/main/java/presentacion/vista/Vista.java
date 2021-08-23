@@ -32,18 +32,18 @@ public class Vista {
 
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 633, 303);
+		frame.setBounds(100, 100, 705, 303);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
 		JPanel panel = new JPanel();
-		panel.setBounds(0, 0, 607, 262);
+		panel.setBounds(0, 0, 693, 262);
 		frame.getContentPane().add(panel);
 		panel.setLayout(null);
 
 		JScrollPane spPersonas = new JScrollPane(tablaPersonas, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		spPersonas.setBounds(8, 30, 589, 182);
+		spPersonas.setBounds(8, 30, 678, 182);
 		panel.add(spPersonas);
 
 		modelPersonas = new DefaultTableModel(null, nombreColumnas);
