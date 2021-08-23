@@ -252,7 +252,7 @@ public class Controlador implements ActionListener {
 			JOptionPane.showMessageDialog(null, "No ha seleccionado ninguna persona para editar");
 			return;
 		}
-		this.ventanaPersona.mostrarVentanaConValores(this.personasEnTabla.get(filaSeleccionada), tipoContactoEnTabla);
+		this.ventanaPersona.mostrarVentanaConValores(this.personasEnTabla.get(filaSeleccionada), tipoContactoEnTabla,paisEnTabla,provinciaEnTabla,localidadEnTabla);
 	}
 
 	private void editarPersona(ActionEvent e) {
@@ -299,7 +299,11 @@ public class Controlador implements ActionListener {
 		java.sql.Date fechaDeCumpleanios = new java.sql.Date(ventanaPersona.getFechaCumpleanios().getDate().getTime());
 		Domicilio domicilio = new Domicilio(calle, altura, piso, departamento);
 		String tipoContacto = ventanaPersona.getTipoDeContactoSeleccionado();
-		return new PersonaDTO(0, nombre, telefono, domicilio, email, fechaDeCumpleanios, tipoContacto);
+		String pais = ventanaPersona.getPaisSeleccionado();
+		String provincia = ventanaPersona.getProvinciaSeleccionado();
+		String localidad = ventanaPersona.getLocalidadSeleccionado();
+		
+		return new PersonaDTO(0, nombre, telefono, domicilio, email, fechaDeCumpleanios, tipoContacto,pais,provincia,localidad);
 	}
 
 	private boolean seSeleccionoTablaTipoContacto() {

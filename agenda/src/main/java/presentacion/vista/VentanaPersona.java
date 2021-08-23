@@ -11,7 +11,6 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import com.toedter.calendar.JDateChooser;
-
 import dto.LocalidadDTO;
 import dto.PaisDTO;
 import dto.PersonaDTO;
@@ -216,7 +215,6 @@ public class VentanaPersona extends JFrame {
 		this.btnAgregarPersona.setVisible(true);
 		escribirComboBoxTipoDeContacto(tiposDeContactosEnTabla);
 		this.setVisible(true);
-
 	}
 
 	public JTextField getTxtNombre() {
@@ -333,6 +331,20 @@ public class VentanaPersona extends JFrame {
 		return (String) this.cbTipoContacto.getSelectedItem();
 	}
 
+	public String getPaisSeleccionado() {
+		return (String)this.cbPais.getSelectedItem();
+	}
+	
+	public String getProvinciaSeleccionado() {
+		return (String)this.cbProvincia.getSelectedItem();
+	}
+	
+	public String getLocalidadSeleccionado() {
+		return (String)this.cbLocalidad.getSelectedItem();
+	}
+	
+	
+	
 	public void escribirComboBoxTipoDeContacto(List<TipoContactoDTO> tiposDeContactosEnTabla) {
 		this.cbTipoContacto.removeAllItems();
 		for (TipoContactoDTO tipo : tiposDeContactosEnTabla) {

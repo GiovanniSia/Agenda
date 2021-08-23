@@ -17,7 +17,7 @@ public class PersonaDAOSQL implements PersonaDAO {
 	private static final String insert = "INSERT INTO personas VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	private static final String delete = "DELETE FROM personas WHERE idPersona = ?";
 	private static final String readall = "SELECT * FROM personas";
-	private static final String update = "UPDATE personas SET Nombre = ?, Telefono = ?, calle = ?, altura = ?, piso = ?, departamento = ?, email = ?, fechaCumpleanios = ?, tipoContacto = ? , idPais= ? , idProvincia= ? , idLocalidad= ? WHERE idPersona = ?";
+	private static final String update = "UPDATE personas SET Nombre = ?, Telefono = ?, calle = ?, altura = ?, piso = ?, departamento = ?, email = ?, fechaCumpleanios = ?, tipoContacto = ? , pais= ? , provincia= ? , localidad= ? WHERE idPersona = ?";
 
 	public boolean insert(PersonaDTO persona) {
 		PreparedStatement statement;
@@ -26,7 +26,7 @@ public class PersonaDAOSQL implements PersonaDAO {
 		try {
 			statement = conexion.prepareStatement(insert);
 
-			statement.setString(1, "0");
+			statement.setInt(1, persona.getIdPersona());
 			statement.setString(2, persona.getNombre());
 			statement.setString(3, persona.getTelefono());
 			statement.setString(4, persona.getDomicilio().getCalle());
@@ -36,7 +36,10 @@ public class PersonaDAOSQL implements PersonaDAO {
 			statement.setString(8, persona.getEmail());
 			statement.setDate(9, persona.getFechaDeCumpleanios());
 			statement.setString(10, persona.getTipoDeContacto());
-
+			statement.setString(11, persona.getPais());
+			statement.setString(12, persona.getProvincia());
+			statement.setString(13, persona.getLocalidad());
+			
 			if (statement.executeUpdate() > 0) {
 				conexion.commit();
 				isInsertExitoso = true;
@@ -98,11 +101,11 @@ public class PersonaDAOSQL implements PersonaDAO {
 		Date fechaCumpleanios = resultSet.getDate("fechaCumpleanios");
 		Domicilio domicilio = new Domicilio(calle, altura, piso, departamento);
 		String etiqueta = resultSet.getString("tipoContacto");
-		int idPais = resultSet.getInt("idPais");
-		int idProvincia = resultSet.getInt("idProvincia");
-		int idLocalidad = resultSet.getInt("idLocalidad");
+		String Pais = resultSet.getString("pais");
+		String Provincia = resultSet.getString("provincia");
+		String Localidad = resultSet.getString("localidad");
 		
-		return new PersonaDTO(id, nombre, tel, domicilio, email, fechaCumpleanios, etiqueta,idPais,idProvincia,idLocalidad);
+		return new PersonaDTO(id, nombre, tel, domicilio, email, fechaCumpleanios, etiqueta,Pais,Provincia,Localidad);
 	}
 
 	public boolean updatePersona(int idPersona, PersonaDTO nuevosDatos) {
@@ -121,9 +124,9 @@ public class PersonaDAOSQL implements PersonaDAO {
 			statement.setString(7, nuevosDatos.getEmail());
 			statement.setDate(8, nuevosDatos.getFechaDeCumpleanios());
 			statement.setString(9, nuevosDatos.getTipoDeContacto());
-			statement.setInt(10, nuevosDatos.getIdPais());
-			statement.setInt(11, nuevosDatos.getIdProvincia());
-			statement.setInt(12, nuevosDatos.getIdLocalidad());
+			statement.setString(10, nuevosDatos.getPais());
+			statement.setString(11, nuevosDatos.getProvincia());
+			statement.setString(12, nuevosDatos.getLocalidad());
 			statement.setInt(13, idPersona);
 
 			if (statement.executeUpdate() > 0) {
