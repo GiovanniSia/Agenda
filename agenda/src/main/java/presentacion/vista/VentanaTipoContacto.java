@@ -26,7 +26,7 @@ public class VentanaTipoContacto extends JFrame {
 	private JButton btnSalir;
 	private JButton btnEditar;
 	private DefaultTableModel modelTipoContacto;
-	private String[] nombreColumnas = { "Id", "Nombre" };
+	private String[] nombreColumnas = {"Nombre" };
 	private JLabel lblNewLabel;
 	private JTextField txtTipoContacto;
 
@@ -56,14 +56,14 @@ public class VentanaTipoContacto extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				int filaSeleccionada = tablaTipoContacto.rowAtPoint(e.getPoint());
-				txtTipoContacto.setText(tablaTipoContacto.getValueAt(filaSeleccionada, 1).toString());
+				txtTipoContacto.setText(tablaTipoContacto.getValueAt(filaSeleccionada, 0).toString());
 			}
 		});
 
 		tablaTipoContacto.getColumnModel().getColumn(0).setPreferredWidth(103);
 		tablaTipoContacto.getColumnModel().getColumn(0).setResizable(false);
-		tablaTipoContacto.getColumnModel().getColumn(1).setPreferredWidth(100);
-		tablaTipoContacto.getColumnModel().getColumn(1).setResizable(false);
+		//tablaTipoContacto.getColumnModel().getColumn(1).setPreferredWidth(100);
+		//tablaTipoContacto.getColumnModel().getColumn(1).setResizable(false);
 
 		spTipoContacto.setViewportView(tablaTipoContacto);
 
@@ -165,9 +165,9 @@ public class VentanaTipoContacto extends JFrame {
 		this.getModelTipoContacto().setColumnIdentifiers(this.getNombreColumnas());
 
 		for (TipoContactoDTO t : tipoContactoEnTabla) {
-			int id = t.getIdTipoContacto();
+			//int id = t.getIdTipoContacto();
 			String nombre = t.getNombreTipoContacto();
-			Object[] fila = { id, nombre };
+			Object[] fila = {nombre};
 			this.getModelTipoContacto().addRow(fila);
 		}
 	}

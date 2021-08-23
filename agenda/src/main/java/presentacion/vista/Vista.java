@@ -139,7 +139,7 @@ public class Vista
 	}
 
 
-	public void llenarTabla(List<PersonaDTO> personasEnTabla, List<TipoContactoDTO> contactosEnTabla) {
+	public void llenarTabla(List<PersonaDTO> personasEnTabla) {
 		this.getModelPersonas().setRowCount(0); //Para vaciar la tabla
 		this.getModelPersonas().setColumnCount(0);
 		this.getModelPersonas().setColumnIdentifiers(this.getNombreColumnas());		
@@ -162,7 +162,5 @@ public class Vista
 			Object[] fila = {nombre, tel,calle,altura,piso,departamento,email,fechaDeCumpleanios,tipoContacto};
 			this.getModelPersonas().addRow(fila);
 		}
-		
-		
 	}
 }

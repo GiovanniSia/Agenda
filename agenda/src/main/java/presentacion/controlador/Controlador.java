@@ -68,6 +68,7 @@ public class Controlador implements ActionListener {
 		this.tipoContacto.agregarTipoContacto(nuevoTipoContacto);
 		this.refrescarTablaTipoContacto();
 		this.ventanaTipoContacto.limpiarTxtTipoContacto();
+		refrescarCbTipoContacto();
 	}
 
 	private void editarTipoContacto(ActionEvent e) {
@@ -83,6 +84,7 @@ public class Controlador implements ActionListener {
 			this.refrescarTablaTipoContacto();
 		}
 		this.ventanaTipoContacto.limpiarTxtTipoContacto();
+		refrescarCbTipoContacto();
 	}
 
 	private void borrarTipoContacto(ActionEvent b) {
@@ -92,17 +94,13 @@ public class Controlador implements ActionListener {
 		}
 		this.refrescarTablaTipoContacto();
 		this.ventanaTipoContacto.limpiarTxtTipoContacto();
+		refrescarCbTipoContacto();
 	}
 
 	private void salirTipoContacto(ActionEvent s) {
 		this.ventanaTipoContacto.cerrar();
 		this.ventanaTipoContacto.limpiarTxtTipoContacto();
-		
-		
-		
-		
-		
-		
+		refrescarCbTipoContacto();
 	}
 
 	public void refrescarTablaTipoContacto() {
@@ -164,7 +162,7 @@ public class Controlador implements ActionListener {
 	private void refrescarTabla() {
 		this.personasEnTabla = agenda.obtenerPersonas();// lo obtiene de la bd
 		this.tipoContactoEnTabla = agenda.obtenerTiposDeContactos();
-		this.vista.llenarTabla(this.personasEnTabla, this.tipoContactoEnTabla);
+		this.vista.llenarTabla(this.personasEnTabla);
 	}
 	
 	private void refrescarCbTipoContacto() {
