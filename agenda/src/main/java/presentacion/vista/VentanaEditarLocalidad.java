@@ -37,7 +37,7 @@ public class VentanaEditarLocalidad extends JFrame {
 	private JButton btnSalir;
 	private String[] nombreColumnas = { "Id", "Nombre" };
 	private String[] nombreColumnasProvincia = { "Id","Nombre", "Id Pais"};
-	private String[] nombreColumnasLocalidad = { "Id","Nombre","Id Provincia","Id Pais"};
+	private String[] nombreColumnasLocalidad = { "Id","Nombre","Id Provincia"};
 	private JLabel txtGestionar;
 	private JLabel txtIdPais;
 	private JLabel txtIdProvincia;
@@ -76,13 +76,13 @@ public class VentanaEditarLocalidad extends JFrame {
 		spPais.setBounds(10, 11, 250, 182);
 		panel.add(spPais);
 		
-//		JScrollPane spProvincia = new JScrollPane();
-//		spProvincia.setBounds(10, 11, 250, 182);
-//		panel.add(spProvincia);
-//		
-//		JScrollPane spLocalidad = new JScrollPane();
-//		spLocalidad.setBounds(10, 11, 250, 182);
-//		panel.add(spLocalidad);
+		JScrollPane spProvincia = new JScrollPane();
+		spProvincia.setBounds(10, 11, 250, 182);
+		panel.add(spProvincia);
+		
+		JScrollPane spLocalidad = new JScrollPane();
+		spLocalidad.setBounds(10, 11, 250, 182);
+		panel.add(spLocalidad);
 		
 		//TABLA PROVINCIA
 		modelProvincia = new DefaultTableModel(null, nombreColumnasProvincia );
@@ -98,8 +98,8 @@ public class VentanaEditarLocalidad extends JFrame {
 		tablaProvincia.getColumnModel().getColumn(0).setResizable(false);
 		tablaProvincia.getColumnModel().getColumn(1).setPreferredWidth(100);
 		tablaProvincia.getColumnModel().getColumn(1).setResizable(false);
-		
-		//spProvincia.setViewportView(tablaProvincia);
+
+		spProvincia.setViewportView(tablaProvincia);
 		
 		//TABLA LOCALIDAD
 		modelLocalidad = new DefaultTableModel(null, nombreColumnasLocalidad);
@@ -116,7 +116,7 @@ public class VentanaEditarLocalidad extends JFrame {
 		tablaLocalidad.getColumnModel().getColumn(1).setPreferredWidth(100);
 		tablaLocalidad.getColumnModel().getColumn(1).setResizable(false);
 		
-		//spLocalidad.setViewportView(tablaLocalidad);
+		spLocalidad.setViewportView(tablaLocalidad);
 		
 		//TABLA DE PAIS
 		modelPais = new DefaultTableModel(null, nombreColumnas);
@@ -132,7 +132,7 @@ public class VentanaEditarLocalidad extends JFrame {
 		tablaPais.getColumnModel().getColumn(0).setResizable(false);
 		tablaPais.getColumnModel().getColumn(1).setPreferredWidth(100);
 		tablaPais.getColumnModel().getColumn(1).setResizable(false);
-		
+
 		spPais.setViewportView(tablaPais);
 		
 		btnSalir = new JButton("Salir");
@@ -316,9 +316,8 @@ public class VentanaEditarLocalidad extends JFrame {
             	getTxtFieldId().setVisible(false);
             	
             	//Para limpiar el texto de los text field
-            	borrarTablas();
+            	getTablaPais().setModel(getModelTipoPais());
             	limpiarTodosTxt();
-            	tablaPais.setVisible(true);
             	llenarTablaPais(listaDePaises);
                 break;
                 
@@ -328,9 +327,8 @@ public class VentanaEditarLocalidad extends JFrame {
             	getTxtFieldId().setVisible(true);
             	
             	//Para limpiar el texto de los text field
-            	borrarTablas();
+            	getTablaPais().setModel(getModelTipoProvincia());
             	limpiarTodosTxt();
-            	tablaProvincia.setVisible(true);
             	llenarTablaProvincia(listaDeProvincias);
                 break;
                 
@@ -340,9 +338,8 @@ public class VentanaEditarLocalidad extends JFrame {
             	getTxtFieldId().setVisible(true);
             	
             	//Para limpiar el texto de los text field
-            	borrarTablas();
+            	getTablaPais().setModel(getModelTipoLocalidad());
             	limpiarTodosTxt();
-            	tablaLocalidad.setVisible(true);
             	llenarTablaLocalidad(listaDeLocalidades);
                 break;
         }
@@ -350,7 +347,6 @@ public class VentanaEditarLocalidad extends JFrame {
 
 	public void llenarTablaPais(List<PaisDTO> tipoPaisEnTabla) {
 		listaDePaises = tipoPaisEnTabla;
-		tablaPais.setVisible(true);
 		this.getModelTipoPais().setRowCount(0); // Para vaciar la tabla
 		this.getModelTipoPais().setColumnCount(2);
 		this.getModelTipoPais().setColumnIdentifiers(this.getNombreColumnas());
@@ -366,9 +362,8 @@ public class VentanaEditarLocalidad extends JFrame {
 	
 	public void llenarTablaProvincia(List<ProvinciaDTO> tipoProvinciaEnTabla) {
 		listaDeProvincias = tipoProvinciaEnTabla;
-		tablaProvincia.setVisible(true);
 		this.getModelTipoProvincia().setRowCount(0); // Para vaciar la tabla
-		this.getModelTipoProvincia().setColumnCount(3);
+		this.getModelTipoProvincia().setColumnCount(0);
 		this.getModelTipoProvincia().setColumnIdentifiers(this.getNombreColumnasProvincia());
 
 		for (ProvinciaDTO t : tipoProvinciaEnTabla) {
