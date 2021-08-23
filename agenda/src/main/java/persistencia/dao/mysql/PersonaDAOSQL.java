@@ -15,27 +15,21 @@ import dto.PersonaDTO;
 
 public class PersonaDAOSQL implements PersonaDAO
 {
-//	private static final String insert = "INSERT INTO personas(idPersona, nombre, telefono, calle, altura, piso, departamento, email, fechaCumpleanios,tipoContacto) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
-	private static final String insert = "INSERT INTO personas VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
+	private static final String insert = "INSERT INTO personas VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	private static final String delete = "DELETE FROM personas WHERE idPersona = ?";
 	private static final String readall = "SELECT * FROM personas";
-	private static final String update = "UPDATE personas SET Nombre = ?, Telefono = ?, calle = ?, altura = ?, piso = ?, departamento = ?, email = ?, fechaCumpleanios = ?, tipoContacto = ? WHERE idPersona = ?";
-		
-	public boolean insert(PersonaDTO persona)
-	{
+	private static final String update = "UPDATE personas SET Nombre = ?, Telefono = ?, calle = ?, altura = ?, piso = ?, departamento = ?, email = ?, fechaCumpleanios = ?, tipoContacto = ? , pais= ? , provincia= ? , localidad= ? WHERE idPersona = ?";
+
+	public boolean insert(PersonaDTO persona) {
 		PreparedStatement statement;
 		Connection conexion = Conexion.getConexion().getSQLConexion();
 		boolean isInsertExitoso = false;
-		try
-		{
+		try {
 			statement = conexion.prepareStatement(insert);
-			
-			//se agregan los datos en orden como estan en la tabla
-			statement.setString(1, "0");
+
+			statement.setInt(1, persona.getIdPersona());
 			statement.setString(2, persona.getNombre());
 			statement.setString(3, persona.getTelefono());
-			
-			//nuevos datos de domicilio falta localidad y la etiqueta
 			statement.setString(4, persona.getDomicilio().getCalle());
 			statement.setString(5, persona.getDomicilio().getAltura());
 			statement.setString(6, persona.getDomicilio().getPiso());
@@ -43,15 +37,15 @@ public class PersonaDAOSQL implements PersonaDAO
 			statement.setString(8, persona.getEmail());
 			statement.setDate(9, persona.getFechaDeCumpleanios());
 			statement.setString(10, persona.getTipoDeContacto());
+			statement.setString(11, persona.getPais());
+			statement.setString(12, persona.getProvincia());
+			statement.setString(13, persona.getLocalidad());
 			
-			if(statement.executeUpdate() > 0)
-			{
+			if (statement.executeUpdate() > 0) {
 				conexion.commit();
 				isInsertExitoso = true;
 			}
-		} 
-		catch (SQLException e) 
-		{
+		} catch (SQLException e) {
 			e.printStackTrace();
 			try {
 				conexion.rollback();
@@ -59,57 +53,44 @@ public class PersonaDAOSQL implements PersonaDAO
 				e1.printStackTrace();
 			}
 		}
-		
 		return isInsertExitoso;
 	}
-	
-	
-	public boolean delete(PersonaDTO persona_a_eliminar)
-	{
+
+	public boolean delete(PersonaDTO persona_a_eliminar) {
 		PreparedStatement statement;
 		Connection conexion = Conexion.getConexion().getSQLConexion();
 		boolean isdeleteExitoso = false;
-		try 
-		{
+		try {
 			statement = conexion.prepareStatement(delete);
 			statement.setString(1, Integer.toString(persona_a_eliminar.getIdPersona()));
-			if(statement.executeUpdate() > 0)
-			{
+			if (statement.executeUpdate() > 0) {
 				conexion.commit();
 				isdeleteExitoso = true;
 			}
-		} 
-		catch (SQLException e) 
-		{
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return isdeleteExitoso;
 	}
-	
-	public List<PersonaDTO> readAll()
-	{
+
+	public List<PersonaDTO> readAll() {
 		PreparedStatement statement;
-		ResultSet resultSet; //Guarda el resultado de la query
+		ResultSet resultSet;
 		ArrayList<PersonaDTO> personas = new ArrayList<PersonaDTO>();
 		Conexion conexion = Conexion.getConexion();
-		try 
-		{
+		try {
 			statement = conexion.getSQLConexion().prepareStatement(readall);
 			resultSet = statement.executeQuery();
-			while(resultSet.next())
-			{
+			while (resultSet.next()) {
 				personas.add(getPersonaDTO(resultSet));
 			}
-		} 
-		catch (SQLException e) 
-		{
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return personas;
 	}
-	
-	private PersonaDTO getPersonaDTO(ResultSet resultSet) throws SQLException
-	{
+
+	private PersonaDTO getPersonaDTO(ResultSet resultSet) throws SQLException {
 		int id = resultSet.getInt("idPersona");
 		String nombre = resultSet.getString("Nombre");
 		String tel = resultSet.getString("Telefono");
@@ -119,18 +100,21 @@ public class PersonaDAOSQL implements PersonaDAO
 		String departamento = resultSet.getString("departamento");
 		String email = resultSet.getString("email");
 		Date fechaCumpleanios = resultSet.getDate("fechaCumpleanios");
+		Domicilio domicilio = new Domicilio(calle, altura, piso, departamento);
 		String etiqueta = resultSet.getString("tipoContacto");
-		Domicilio domicilio = new Domicilio(calle,altura,piso,departamento);		
+		String Pais = resultSet.getString("pais");
+		String Provincia = resultSet.getString("provincia");
+		String Localidad = resultSet.getString("localidad");
 		
-		return new PersonaDTO(id, nombre, tel, domicilio, email,fechaCumpleanios,etiqueta);
+		return new PersonaDTO(id, nombre, tel, domicilio, email, fechaCumpleanios, etiqueta,Pais,Provincia,Localidad);
 	}
+
 	
 	public boolean updatePersona(int idPersona, PersonaDTO nuevosDatos) {
 		PreparedStatement statement;
 		Connection conexion = Conexion.getConexion().getSQLConexion();
 		boolean isUpdateExitoso = false;
-		try 
-		{
+		try {
 			statement = conexion.prepareStatement(update);
 
 			statement.setString(1, nuevosDatos.getNombre());
@@ -140,22 +124,20 @@ public class PersonaDAOSQL implements PersonaDAO
 			statement.setString(5, nuevosDatos.getDomicilio().getPiso());
 			statement.setString(6, nuevosDatos.getDomicilio().getDepartamento());
 			statement.setString(7, nuevosDatos.getEmail());
-			
 			statement.setDate(8, nuevosDatos.getFechaDeCumpleanios());
 			statement.setString(9, nuevosDatos.getTipoDeContacto());
-			statement.setInt(10, idPersona);
-			
-			if(statement.executeUpdate() > 0)
-			{
+			statement.setString(10, nuevosDatos.getPais());
+			statement.setString(11, nuevosDatos.getProvincia());
+			statement.setString(12, nuevosDatos.getLocalidad());
+			statement.setInt(13, idPersona);
+
+			if (statement.executeUpdate() > 0) {
 				conexion.commit();
 				isUpdateExitoso = true;
 			}
-		} 
-		catch (SQLException e) 
-		{
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return isUpdateExitoso;
 	}
-	
 }

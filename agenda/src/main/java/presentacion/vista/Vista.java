@@ -1,6 +1,5 @@
 package presentacion.vista;
 
-import java.awt.Dimension;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.Date;
@@ -14,7 +13,6 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import dto.PersonaDTO;
-import dto.TipoContactoDTO;
 
 import javax.swing.JButton;
 
@@ -29,7 +27,8 @@ public class Vista
 	private JButton btnBorrar;
 	private JButton btnReporte;
 	private DefaultTableModel modelPersonas;
-	private  String[] nombreColumnas = {"Nombre y apellido","Telefono","Calle","Altura","Piso","Departamento","Email","Fecha de Cumpleanios","Tipo de Contacto"};
+	private String[] nombreColumnas = { "Nombre y apellido", "Telefono", "Calle", "Altura", "Piso", "Departamento",
+			"Email", "Fecha de Cumpleanios", "Tipo de Contacto", "Pais" , "Provincia", "Localidad" };
 
 	public Vista() 
 	{
@@ -41,30 +40,28 @@ public class Vista
 	private void initialize() 
 	{
 		frame = new JFrame();
-		frame.setBounds(100, 100, 449, 303);
+		frame.setBounds(100, 100, 705, 303);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
-
+		
 		JPanel panel = new JPanel();
-		panel.setBounds(0, 0, 434, 262);
+		panel.setBounds(0, 0, 693, 262);
 		frame.getContentPane().add(panel);
 		panel.setLayout(null);
 
-		JScrollPane spPersonas = new JScrollPane(tablaPersonas, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		spPersonas.setBounds(8, 30, 416, 182);
+		JScrollPane spPersonas = new JScrollPane(tablaPersonas, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		spPersonas.setBounds(8, 30, 678, 182);
 		panel.add(spPersonas);
-
+		
 		modelPersonas = new DefaultTableModel(null,nombreColumnas);
 		tablaPersonas = new JTable(modelPersonas);
 		
-		tablaPersonas.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-		
-		
-		tablaPersonas.getColumnModel().getColumn(0).setPreferredWidth(103);//no funca
+		tablaPersonas.getColumnModel().getColumn(0).setPreferredWidth(103);
 		tablaPersonas.getColumnModel().getColumn(0).setResizable(false);
 		tablaPersonas.getColumnModel().getColumn(1).setPreferredWidth(100);
 		tablaPersonas.getColumnModel().getColumn(1).setResizable(false);
-
+		
 		spPersonas.setViewportView(tablaPersonas);
 		
 		btnAgregar = new JButton("Agregar");
@@ -140,15 +137,11 @@ public class Vista
 	}
 
 
-	public void llenarTabla(List<PersonaDTO> personasEnTabla, List<TipoContactoDTO> contactosEnTabla) {
-		this.getModelPersonas().setRowCount(0); //Para vaciar la tabla
+	public void llenarTabla(List<PersonaDTO> personasEnTabla) {
+		this.getModelPersonas().setRowCount(0);
 		this.getModelPersonas().setColumnCount(0);
-		this.getModelPersonas().setColumnIdentifiers(this.getNombreColumnas());		
-		
-		
-		
-		for (PersonaDTO p : personasEnTabla)
-		{
+		this.getModelPersonas().setColumnIdentifiers(this.getNombreColumnas());
+		for (PersonaDTO p : personasEnTabla) {
 			String nombre = p.getNombre();
 			String tel = p.getTelefono();
 			String calle = p.getDomicilio().getCalle();
@@ -158,12 +151,11 @@ public class Vista
 			String email = p.getEmail();
 			Date fechaDeCumpleanios = (Date) p.getFechaDeCumpleanios();
 			String tipoContacto = p.getTipoDeContacto();
-			
-			
-			Object[] fila = {nombre, tel,calle,altura,piso,departamento,email,fechaDeCumpleanios,tipoContacto};
+			String pais = p.getPais();
+			String provincia = p.getProvincia();
+			String localidad = p.getLocalidad();
+			Object[] fila = { nombre, tel, calle, altura, piso, departamento, email, fechaDeCumpleanios, tipoContacto,pais,provincia,localidad };
 			this.getModelPersonas().addRow(fila);
 		}
-		
-		
 	}
 }
