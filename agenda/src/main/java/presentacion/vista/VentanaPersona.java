@@ -90,7 +90,7 @@ public class VentanaPersona extends JFrame {
 		txtTelefono.setColumns(10);
 
 		btnAgregarPersona = new JButton("Agregar");
-		btnAgregarPersona.setBounds(208, 425, 89, 23);
+		btnAgregarPersona.setBounds(218, 425, 89, 23);
 		panel.add(btnAgregarPersona);
 
 		JLabel lblNewLabel = new JLabel("Email");
@@ -192,7 +192,7 @@ public class VentanaPersona extends JFrame {
 		btnCancelar.setVisible(false);
 
 		btnAceptar = new JButton("Aceptar");
-		btnAceptar.setBounds(113, 426, 85, 21);
+		btnAceptar.setBounds(218, 426, 89, 21);
 		panel.add(btnAceptar);
 
 		fechaCumpleanios = new JDateChooser();
@@ -281,11 +281,7 @@ public class VentanaPersona extends JFrame {
 	public JTextField getDepartamento() {
 		return this.txtDepartamento;
 	}
-
-//	public JTextField getDomicilio() {
-//		return this.domicilio;
-//	}
-
+	
 	public JTextField getEmail() {
 		return this.txtEmail;
 	}
@@ -294,10 +290,22 @@ public class VentanaPersona extends JFrame {
 		return this.fechaCumpleanios;
 	}
 
-	// NOSE SI LA VISTA PUEDE TENER CONTACTO CON EL CÓDIGO
+	public void limpiarValores() {
+		this.txtNombre.setText("");
+		this.txtTelefono.setText("");
+		this.txtEmail.setText("");
+		this.fechaCumpleanios.setDate(null);
+		this.txtCalle.setText("");
+		this.txtAltura.setText("");
+		this.txtPiso.setText("");
+		this.txtDepartamento.setText("");
+		this.cbTipoContacto.setSelectedItem(null);
+		this.cbPais.setSelectedItem(null);
+		this.cbProvincia.setSelectedItem(null);
+		this.cbLocalidad.setSelectedItem(null);
+	}
+	
 	public void mostrarVentanaConValores(PersonaDTO persona, List<TipoContactoDTO> tiposDeContactosEnTabla) {
-		this.escribirComboBoxTipoDeContacto(tiposDeContactosEnTabla);
-
 		this.txtNombre.setText(persona.getNombre());
 		this.txtTelefono.setText(persona.getTelefono());
 		this.txtEmail.setText(persona.getEmail());
@@ -306,7 +314,7 @@ public class VentanaPersona extends JFrame {
 		this.txtAltura.setText(persona.getDomicilio().getAltura());
 		this.txtPiso.setText(persona.getDomicilio().getPiso());
 		this.txtDepartamento.setText(persona.getDomicilio().getDepartamento());
-//		this.cbTipoContacto.setSelectedItem(persona.getTipoDeContacto());
+		this.escribirComboBoxTipoDeContacto(tiposDeContactosEnTabla);
 
 		// Cambiamos los botones
 		this.btnAgregarPersona.setVisible(false);

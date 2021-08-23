@@ -54,6 +54,7 @@ public class Controlador implements ActionListener {
 	}
 
 	private void ventanaAgregarPersona(ActionEvent a) {
+		this.ventanaPersona.limpiarValores();
 		this.ventanaPersona.mostrarVentana(tipoContactoEnTabla);
 	}
 
@@ -67,7 +68,6 @@ public class Controlador implements ActionListener {
 		this.tipoContacto.agregarTipoContacto(nuevoTipoContacto);
 		this.refrescarTablaTipoContacto();
 		this.ventanaTipoContacto.limpiarTxtTipoContacto();
-		refrescarCbTipoContacto();
 	}
 
 	private void editarTipoContacto(ActionEvent e) {
@@ -83,7 +83,6 @@ public class Controlador implements ActionListener {
 			this.refrescarTablaTipoContacto();
 		}
 		this.ventanaTipoContacto.limpiarTxtTipoContacto();
-		refrescarCbTipoContacto();
 	}
 
 	private void borrarTipoContacto(ActionEvent b) {
@@ -93,13 +92,17 @@ public class Controlador implements ActionListener {
 		}
 		this.refrescarTablaTipoContacto();
 		this.ventanaTipoContacto.limpiarTxtTipoContacto();
-		refrescarCbTipoContacto();
 	}
 
 	private void salirTipoContacto(ActionEvent s) {
 		this.ventanaTipoContacto.cerrar();
 		this.ventanaTipoContacto.limpiarTxtTipoContacto();
-		refrescarCbTipoContacto();	
+		
+		
+		
+		
+		
+		
 	}
 
 	public void refrescarTablaTipoContacto() {
@@ -114,6 +117,7 @@ public class Controlador implements ActionListener {
 			this.refrescarTabla();
 			this.ventanaPersona.cerrar();
 		}
+
 	}
 
 	private void mostrarReporte(ActionEvent r) {
