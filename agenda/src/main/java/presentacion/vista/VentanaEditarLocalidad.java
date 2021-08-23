@@ -72,9 +72,17 @@ public class VentanaEditarLocalidad extends JFrame {
 		frame.getContentPane().add(panel);
 		panel.setLayout(null);
 
-		JScrollPane spLocalidad = new JScrollPane();
-		spLocalidad.setBounds(10, 11, 250, 182);
-		panel.add(spLocalidad);
+		JScrollPane spPais = new JScrollPane();
+		spPais.setBounds(10, 11, 250, 182);
+		panel.add(spPais);
+		
+//		JScrollPane spProvincia = new JScrollPane();
+//		spProvincia.setBounds(10, 11, 250, 182);
+//		panel.add(spProvincia);
+//		
+//		JScrollPane spLocalidad = new JScrollPane();
+//		spLocalidad.setBounds(10, 11, 250, 182);
+//		panel.add(spLocalidad);
 		
 		//TABLA PROVINCIA
 		modelProvincia = new DefaultTableModel(null, nombreColumnasProvincia );
@@ -91,7 +99,7 @@ public class VentanaEditarLocalidad extends JFrame {
 		tablaProvincia.getColumnModel().getColumn(1).setPreferredWidth(100);
 		tablaProvincia.getColumnModel().getColumn(1).setResizable(false);
 		
-		spLocalidad.setViewportView(tablaProvincia);
+		//spProvincia.setViewportView(tablaProvincia);
 		
 		//TABLA LOCALIDAD
 		modelLocalidad = new DefaultTableModel(null, nombreColumnasLocalidad);
@@ -125,7 +133,7 @@ public class VentanaEditarLocalidad extends JFrame {
 		tablaPais.getColumnModel().getColumn(1).setPreferredWidth(100);
 		tablaPais.getColumnModel().getColumn(1).setResizable(false);
 		
-		//spLocalidad.setViewportView(tablaPais);
+		spPais.setViewportView(tablaPais);
 		
 		btnSalir = new JButton("Salir");
 		btnSalir.addActionListener(new ActionListener() {
@@ -344,7 +352,7 @@ public class VentanaEditarLocalidad extends JFrame {
 		listaDePaises = tipoPaisEnTabla;
 		tablaPais.setVisible(true);
 		this.getModelTipoPais().setRowCount(0); // Para vaciar la tabla
-		this.getModelTipoPais().setColumnCount(0);
+		this.getModelTipoPais().setColumnCount(2);
 		this.getModelTipoPais().setColumnIdentifiers(this.getNombreColumnas());
 
 		for (PaisDTO t : tipoPaisEnTabla) {
@@ -360,7 +368,7 @@ public class VentanaEditarLocalidad extends JFrame {
 		listaDeProvincias = tipoProvinciaEnTabla;
 		tablaProvincia.setVisible(true);
 		this.getModelTipoProvincia().setRowCount(0); // Para vaciar la tabla
-		this.getModelTipoProvincia().setColumnCount(0);
+		this.getModelTipoProvincia().setColumnCount(3);
 		this.getModelTipoProvincia().setColumnIdentifiers(this.getNombreColumnasProvincia());
 
 		for (ProvinciaDTO t : tipoProvinciaEnTabla) {
@@ -377,7 +385,7 @@ public class VentanaEditarLocalidad extends JFrame {
 		listaDeLocalidades = tipoLocalidadEnTabla;
 		tablaLocalidad.setVisible(true);
 		this.getModelTipoLocalidad().setRowCount(0); // Para vaciar la tabla
-		this.getModelTipoLocalidad().setColumnCount(0);
+		this.getModelTipoLocalidad().setColumnCount(3);
 		this.getModelTipoLocalidad().setColumnIdentifiers(this.getNombreColumnasLocalidad());
 
 		for (LocalidadDTO t : tipoLocalidadEnTabla) {

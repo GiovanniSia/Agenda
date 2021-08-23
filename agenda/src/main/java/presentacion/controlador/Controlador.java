@@ -161,12 +161,14 @@ public class Controlador implements ActionListener
 			String comboBox = (String) this.ventanaLocalidad.getComboBox().getSelectedItem();
 			
 			if(comboBox == "Pais") {
+				System.out.println("Agrego Pais");
 				PaisDTO nuevaLocalidad = new PaisDTO(0, nombreLocalidad);
 				this.pais.agregarPais(nuevaLocalidad);
 				this.refrescarTablaPais();
 				this.ventanaLocalidad.limpiarTodosTxt();
 			}
 			else if(comboBox == "Provincia") {
+				System.out.println("Agrego Provincia");
 				int idPais = Integer.parseInt((String)this.ventanaLocalidad.getTxtFieldId().getText());
 				ProvinciaDTO nuevaLocalidad = new ProvinciaDTO(0, nombreLocalidad, idPais);
 				this.provincia.agregarProvincia(nuevaLocalidad);
@@ -174,6 +176,7 @@ public class Controlador implements ActionListener
 				this.ventanaLocalidad.limpiarTodosTxt();
 			}
 			else if(comboBox == "Localidad") {
+				System.out.println("Agrego localidad");
 				int idPais = Integer.parseInt((String)this.ventanaLocalidad.getTxtFieldId().getText());
 				LocalidadDTO nuevaLocalidad = new LocalidadDTO(0, nombreLocalidad,idPais);
 				this.localidad.agregarLocalidad(nuevaLocalidad);
@@ -207,8 +210,8 @@ public class Controlador implements ActionListener
 		}
 		
 		private void salirLocalidad(ActionEvent s) {
-			this.ventanaLocalidad.cerrar();
 			this.ventanaLocalidad.limpiarTodosTxt();
+			this.ventanaLocalidad.cerrar();
 		}
 		
 		public void refrescarTablaPais() {
@@ -224,52 +227,26 @@ public class Controlador implements ActionListener
 			this.ventanaLocalidad.llenarTablaLocalidad(localidadEnTabla);
 		}
 		
+		//EL RESTO DEL CODIGO
+		
 		private void ventanaAgregarPersona(ActionEvent a) {
 			this.ventanaPersona.mostrarVentana();
 		}
-
-		this.ventanaPersona.mostrarVentanaConValores(this.personasEnTabla.get(filaSeleccionada), tipoContactoEnTabla,paisEnTabla,provinciaEnTabla,localidadEnTabla);
-	}
-
-	private void editarPersona(ActionEvent e) {
-		int idModificar = this.personasEnTabla.get(filaSeleccionada).getIdPersona();
-		PersonaDTO datosNuevos = obtenerPersonaDeVista();
-		if (todosLosCamposSonValidos(datosNuevos)) {
-			agenda.editarPersona(idModificar, datosNuevos);
-			refrescarTabla();
-			ventanaPersona.cerrar();
+		
+		private void guardarPersona(ActionEvent p) {
+			PersonaDTO nuevaPersona = obtenerPersonaDeVista();
+			if(todosLosCamposSonValidos(nuevaPersona)) {
+				this.agenda.agregarPersona(nuevaPersona);
+				this.refrescarTabla();
+				this.ventanaPersona.cerrar();				
+			}
 		}
 
+		private void mostrarReporte(ActionEvent r) {
+			ReporteAgenda reporte = new ReporteAgenda(agenda.obtenerPersonas());
+			reporte.mostrar();	
+		}
 
-	private void mostrarReporte(ActionEvent r) {
-		ReporteAgenda reporte = new ReporteAgenda(agenda.obtenerPersonas());
-		reporte.mostrar();
-	}
-
-	private PersonaDTO obtenerPersonaDeVista() {
-		String nombre = ventanaPersona.getTxtNombre().getText();
-		String telefono = ventanaPersona.getTxtTelefono().getText();
-		String calle = ventanaPersona.getCalle().getText();
-		String altura = ventanaPersona.getAltura().getText();
-		String piso = ventanaPersona.getPiso().getText();
-		String departamento = ventanaPersona.getDepartamento().getText();
-		String email = ventanaPersona.getEmail().getText();
-		java.sql.Date fechaDeCumpleanios = new java.sql.Date(ventanaPersona.getFechaCumpleanios().getDate().getTime());
-		Domicilio domicilio = new Domicilio(calle, altura, piso, departamento);
-		String tipoContacto = ventanaPersona.getTipoDeContactoSeleccionado();
-		String pais = ventanaPersona.getPaisSeleccionado();
-		String provincia = ventanaPersona.getProvinciaSeleccionado();
-		String localidad = ventanaPersona.getLocalidadSeleccionado();
-		
-		return new PersonaDTO(0, nombre, telefono, domicilio, email, fechaDeCumpleanios, tipoContacto,pais,provincia,localidad);
-	}
-
-	private boolean seSeleccionoTablaTipoContacto() {
-		if (this.ventanaTipoContacto.getTablaTipoContacto().getSelectedRow() != -1) {
-			return true;
-    }
-    return false;
-	}
 		public void borrarPersona(ActionEvent s)
 		{
 			int[] filasSeleccionadas = this.vista.getTablaPersonas().getSelectedRows();
