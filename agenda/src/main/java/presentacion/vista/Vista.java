@@ -1,6 +1,5 @@
 package presentacion.vista;
 
-import java.awt.Dimension;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.Date;
@@ -41,17 +40,17 @@ public class Vista
 	private void initialize() 
 	{
 		frame = new JFrame();
-		frame.setBounds(100, 100, 449, 303);
+		frame.setBounds(100, 100, 633, 303);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
 		JPanel panel = new JPanel();
-		panel.setBounds(0, 0, 434, 262);
+		panel.setBounds(0, 0, 607, 262);
 		frame.getContentPane().add(panel);
 		panel.setLayout(null);
 
 		JScrollPane spPersonas = new JScrollPane(tablaPersonas, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		spPersonas.setBounds(8, 30, 416, 182);
+		spPersonas.setBounds(8, 30, 589, 182);
 		panel.add(spPersonas);
 
 		modelPersonas = new DefaultTableModel(null,nombreColumnas);
@@ -72,15 +71,15 @@ public class Vista
 		panel.add(btnAgregar);
 		
 		btnEditar = new JButton("Editar");
-		btnEditar.setBounds(109, 228, 89, 23);
+		btnEditar.setBounds(174, 228, 89, 23);
 		panel.add(btnEditar);
 		
 		btnBorrar = new JButton("Borrar");
-		btnBorrar.setBounds(208, 228, 89, 23);
+		btnBorrar.setBounds(340, 228, 89, 23);
 		panel.add(btnBorrar);
 		
 		btnReporte = new JButton("Reporte");
-		btnReporte.setBounds(307, 228, 89, 23);
+		btnReporte.setBounds(508, 228, 89, 23);
 		panel.add(btnReporte);
 	}
 	
