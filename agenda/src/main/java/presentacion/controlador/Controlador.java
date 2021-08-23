@@ -242,6 +242,12 @@ public class Controlador implements ActionListener {
 			JOptionPane.showMessageDialog(null, "Por favor seleccione una fecha de cumpleaños");
 			return false;
 		}
+		
+		if(datosNuevos.getTipoDeContacto()==null) {
+			JOptionPane.showMessageDialog(null, "Debe seleccionar un tipo de contacto");
+			return false;
+		}
+		
 		return true;
 	}
 }
