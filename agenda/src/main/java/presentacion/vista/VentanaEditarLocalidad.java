@@ -1,30 +1,22 @@
 package presentacion.vista;
 
-import java.awt.Color;
-import java.awt.EventQueue;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import dto.LocalidadDTO;
 import dto.PaisDTO;
-import dto.PersonaDTO;
 import dto.ProvinciaDTO;
-import dto.TipoContactoDTO;
-import persistencia.conexion.Conexion;
 
 import java.awt.Font;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.List;
-import java.util.Vector;
 
 import javax.swing.JComboBox;
 import javax.swing.JScrollPane;
@@ -98,6 +90,7 @@ public class VentanaEditarLocalidad extends JFrame {
 		tablaProvincia.getColumnModel().getColumn(0).setResizable(false);
 		tablaProvincia.getColumnModel().getColumn(1).setPreferredWidth(100);
 		tablaProvincia.getColumnModel().getColumn(1).setResizable(false);
+		
 		spLocalidad.setViewportView(tablaProvincia);
 		
 		//TABLA LOCALIDAD
@@ -114,14 +107,8 @@ public class VentanaEditarLocalidad extends JFrame {
 		tablaLocalidad.getColumnModel().getColumn(0).setResizable(false);
 		tablaLocalidad.getColumnModel().getColumn(1).setPreferredWidth(100);
 		tablaLocalidad.getColumnModel().getColumn(1).setResizable(false);
-
-		btnSalir = new JButton("Salir");
-		btnSalir.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				frame.setVisible(false);
-			}
-		});
-		spLocalidad.setViewportView(tablaLocalidad);
+		
+		//spLocalidad.setViewportView(tablaLocalidad);
 		
 		//TABLA DE PAIS
 		modelPais = new DefaultTableModel(null, nombreColumnas);
@@ -137,7 +124,15 @@ public class VentanaEditarLocalidad extends JFrame {
 		tablaPais.getColumnModel().getColumn(0).setResizable(false);
 		tablaPais.getColumnModel().getColumn(1).setPreferredWidth(100);
 		tablaPais.getColumnModel().getColumn(1).setResizable(false);
-		spLocalidad.setViewportView(tablaPais);
+		
+		//spLocalidad.setViewportView(tablaPais);
+		
+		btnSalir = new JButton("Salir");
+		btnSalir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.setVisible(false);
+			}
+		});
 		
 		btnSalir.setBounds(150, 198, 89, 23);
 		panel.add(btnSalir);
@@ -231,16 +226,40 @@ public class VentanaEditarLocalidad extends JFrame {
 		return btnSalir;
 	}
 
-	public DefaultTableModel getModelTipoLocalidad() {
+	public DefaultTableModel getModelTipoPais() {
 		return modelPais;
 	}
 
-	public JTable getTablaTipoLocalidad() {
+	public JTable getTablaTipoPais() {
 		return tablaPais;
+	}
+	
+	public DefaultTableModel getModelTipoProvincia() {
+		return modelProvincia;
+	}
+
+	public JTable getTablaTipoProvincia() {
+		return tablaProvincia;
+	}
+	
+	public DefaultTableModel getModelTipoLocalidad() {
+		return modelLocalidad;
+	}
+
+	public JTable getTablaTipoLocalidad() {
+		return tablaLocalidad;
 	}
 
 	public String[] getNombreColumnas() {
 		return nombreColumnas;
+	}
+	
+	public String[] getNombreColumnasProvincia() {
+		return nombreColumnasProvincia;
+	}
+	
+	public String[] getNombreColumnasLocalidad() {
+		return nombreColumnasLocalidad;
 	}
 	
 	public JLabel getTxtIdPais() {
@@ -289,8 +308,9 @@ public class VentanaEditarLocalidad extends JFrame {
             	getTxtFieldId().setVisible(false);
             	
             	//Para limpiar el texto de los text field
+            	borrarTablas();
             	limpiarTodosTxt();
-            	borrarTabla();
+            	tablaPais.setVisible(true);
             	llenarTablaPais(listaDePaises);
                 break;
                 
@@ -300,8 +320,8 @@ public class VentanaEditarLocalidad extends JFrame {
             	getTxtFieldId().setVisible(true);
             	
             	//Para limpiar el texto de los text field
+            	borrarTablas();
             	limpiarTodosTxt();
-            	borrarTabla();
             	tablaProvincia.setVisible(true);
             	llenarTablaProvincia(listaDeProvincias);
                 break;
@@ -312,7 +332,7 @@ public class VentanaEditarLocalidad extends JFrame {
             	getTxtFieldId().setVisible(true);
             	
             	//Para limpiar el texto de los text field
-            	borrarTabla();
+            	borrarTablas();
             	limpiarTodosTxt();
             	tablaLocalidad.setVisible(true);
             	llenarTablaLocalidad(listaDeLocalidades);
@@ -323,15 +343,15 @@ public class VentanaEditarLocalidad extends JFrame {
 	public void llenarTablaPais(List<PaisDTO> tipoPaisEnTabla) {
 		listaDePaises = tipoPaisEnTabla;
 		tablaPais.setVisible(true);
-		this.getModelTipoLocalidad().setRowCount(0); // Para vaciar la tabla
-		this.getModelTipoLocalidad().setColumnCount(0);
-		this.getModelTipoLocalidad().setColumnIdentifiers(this.getNombreColumnas());
+		this.getModelTipoPais().setRowCount(0); // Para vaciar la tabla
+		this.getModelTipoPais().setColumnCount(0);
+		this.getModelTipoPais().setColumnIdentifiers(this.getNombreColumnas());
 
 		for (PaisDTO t : tipoPaisEnTabla) {
 			int id = t.getIdPais();
 			String nombre = t.getNombrePais();
 			Object[] fila = { id, nombre };
-			this.getModelTipoLocalidad().addRow(fila);
+			this.getModelTipoPais().addRow(fila);
 		}
 		return;
 	}
@@ -339,16 +359,16 @@ public class VentanaEditarLocalidad extends JFrame {
 	public void llenarTablaProvincia(List<ProvinciaDTO> tipoProvinciaEnTabla) {
 		listaDeProvincias = tipoProvinciaEnTabla;
 		tablaProvincia.setVisible(true);
-		this.getModelTipoLocalidad().setRowCount(0); // Para vaciar la tabla
-		this.getModelTipoLocalidad().setColumnCount(0);
-		this.getModelTipoLocalidad().setColumnIdentifiers(this.getNombreColumnas());
+		this.getModelTipoProvincia().setRowCount(0); // Para vaciar la tabla
+		this.getModelTipoProvincia().setColumnCount(0);
+		this.getModelTipoProvincia().setColumnIdentifiers(this.getNombreColumnasProvincia());
 
 		for (ProvinciaDTO t : tipoProvinciaEnTabla) {
 			int id = t.getIdProvincia();
 			String nombre = t.getNombreProvincia();
-			int idPais = t.getIdForeignPais();
+			int idPais = t.getForeignPais();
 			Object[] fila = { id, nombre , idPais};
-			this.getModelTipoLocalidad().addRow(fila);
+			this.getModelTipoProvincia().addRow(fila);
 		}
 		return;
 	}
@@ -358,20 +378,19 @@ public class VentanaEditarLocalidad extends JFrame {
 		tablaLocalidad.setVisible(true);
 		this.getModelTipoLocalidad().setRowCount(0); // Para vaciar la tabla
 		this.getModelTipoLocalidad().setColumnCount(0);
-		this.getModelTipoLocalidad().setColumnIdentifiers(this.getNombreColumnas());
+		this.getModelTipoLocalidad().setColumnIdentifiers(this.getNombreColumnasLocalidad());
 
 		for (LocalidadDTO t : tipoLocalidadEnTabla) {
 			int id = t.getIdLocalidad();
 			String nombre = t.getNombreLocalidad();
-			int idPais = t.getIdForeignPais();
 			int idProvincia = t.getIdForeignProvincia();
-			Object[] fila = { id, nombre, idPais,idProvincia};
+			Object[] fila = { id, nombre, idProvincia};
 			this.getModelTipoLocalidad().addRow(fila);
 		}
 		return;
 	}
 	
-	public void borrarTabla() {
+	public void borrarTablas() {
 		tablaPais.setVisible(false);
 		tablaProvincia.setVisible(false);
 		tablaLocalidad.setVisible(false);
