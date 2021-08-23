@@ -10,6 +10,8 @@ import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
 import com.toedter.calendar.JDateChooser;
+import dto.LocalidadDTO;
+import dto.PaisDTO;
 import dto.PersonaDTO;
 
 public class VentanaPersona extends JFrame {
@@ -200,7 +202,15 @@ public class VentanaPersona extends JFrame {
 		btnAceptar = new JButton("Aceptar");
 		btnAceptar.setBounds(113, 426, 85, 21);
 		panel.add(btnAceptar);
-		btnCancelar.setVisible(false);
+
+		fechaCumpleanios = new JDateChooser();
+		fechaCumpleanios.setBounds(133, 100, 164, 19);
+		fechaCumpleanios.setDate(new Date());
+		panel.add(fechaCumpleanios);
+
+		JLabel lblNewLabel_11 = new JLabel("Fecha de Nacimiento");
+		lblNewLabel_11.setBounds(10, 97, 113, 13);
+		panel.add(lblNewLabel_11);
 
 		this.setVisible(false);
 	}
@@ -285,8 +295,18 @@ public class VentanaPersona extends JFrame {
 		return email;
 	}
 
-	public JDateChooser getFechaCumpleanios() {
-		return fechaCumpleanios;
+	public void limpiarValores() {
+		this.txtNombre.setText("");
+		this.txtTelefono.setText("");
+		this.txtEmail.setText("");
+		this.txtCalle.setText("");
+		this.txtAltura.setText("");
+		this.txtPiso.setText("");
+		this.txtDepartamento.setText("");
+		this.cbTipoContacto.setSelectedItem(null);
+		this.cbPais.setSelectedItem(null);
+		this.cbProvincia.setSelectedItem(null);
+		this.cbLocalidad.setSelectedItem(null);
 	}
 
 	// NOSE SI LA VISTA PUEDE TENER CONTACTO CON EL CÓDIGO
@@ -300,5 +320,51 @@ public class VentanaPersona extends JFrame {
 		this.btnAceptar.setVisible(true);
 
 		this.setVisible(true);
+	}
+
+	public String getTipoDeContactoSeleccionado() {
+		return (String) this.cbTipoContacto.getSelectedItem();
+	}
+
+	public String getPaisSeleccionado() {
+		return (String)this.cbPais.getSelectedItem();
+	}
+	
+	public String getProvinciaSeleccionado() {
+		return (String)this.cbProvincia.getSelectedItem();
+	}
+	
+	public String getLocalidadSeleccionado() {
+		return (String)this.cbLocalidad.getSelectedItem();
+	}
+	
+	
+	
+	public void escribirComboBoxTipoDeContacto(List<TipoContactoDTO> tiposDeContactosEnTabla) {
+		this.cbTipoContacto.removeAllItems();
+		for (TipoContactoDTO tipo : tiposDeContactosEnTabla) {
+			this.cbTipoContacto.addItem(tipo.getNombreTipoContacto());
+		}
+	}
+	
+	public void escribirComboBoxPais(List<PaisDTO> paisEnTabla) {
+		this.cbPais.removeAllItems();
+		for (PaisDTO p : paisEnTabla) {
+			this.cbTipoContacto.addItem(p.getNombrePais());
+		}
+	}
+	
+	public void escribirComboBoxProvincia(List<ProvinciaDTO> provinciaEnTabla) {
+		this.cbProvincia.removeAllItems();
+		for (ProvinciaDTO p : provinciaEnTabla) {
+			this.cbTipoContacto.addItem(p.getNombreProvincia());
+		}
+	}
+	
+	public void escribirComboBoxLocalidad(List<LocalidadDTO> localidadEnTabla) {
+		this.cbTipoContacto.removeAllItems();
+		for (LocalidadDTO l : localidadEnTabla) {
+			this.cbTipoContacto.addItem(l.getNombreLocalidad());
+		}
 	}
 }

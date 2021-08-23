@@ -12,16 +12,23 @@ public class PersonaDTO
 	private Domicilio domicilio;
 	private String email;
 	private Date fechaDeCumpleanios;
-	
-	public PersonaDTO(int idPersona, String nombre, String telefono, Domicilio dom, String email, Date fechaCumpleanios)
-	{
+	private String tipoContacto;
+	private String Pais;
+	private String Provincia;
+	private String Localidad;
+
+	public PersonaDTO(int idPersona, String nombre, String telefono, Domicilio dom, String email, Date fechaCumpleanios,
+			String tipoContacto, String Pais, String Provincia, String Localidad) {
 		this.idPersona = idPersona;
 		this.nombre = nombre;
 		this.telefono = telefono;
-		
 		this.domicilio = dom;
 		this.email=email;
 		this.fechaDeCumpleanios = fechaCumpleanios;
+		this.tipoContacto = tipoContacto;
+		this.Pais = Pais;
+		this.Provincia = Provincia;
+		this.Localidad = Localidad;
 	}
 	
 	public int getIdPersona() 
@@ -65,5 +72,21 @@ public class PersonaDTO
 
 	public Date getFechaDeCumpleanios() {
 		return fechaDeCumpleanios;
+	}
+    
+	public String getTipoDeContacto() {
+		return tipoContacto;
+	}
+	
+	public String getPais() {
+		return Pais;
+	}
+	
+	public String getProvincia() {
+		return Provincia;
+	}
+	
+	public String getLocalidad() {
+		return Localidad;
 	}
 }

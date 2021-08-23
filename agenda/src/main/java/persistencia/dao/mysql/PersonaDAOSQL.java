@@ -19,17 +19,16 @@ public class PersonaDAOSQL implements PersonaDAO
 	private static final String insert = "INSERT INTO personas VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	private static final String delete = "DELETE FROM personas WHERE idPersona = ?";
 	private static final String readall = "SELECT * FROM personas";
-	private static final String update = "UPDATE personas SET nombre = ?, telefono = ? WHERE idPersona = ?";
-		
-	public boolean insert(PersonaDTO persona)
-	{
+	private static final String update = "UPDATE personas SET Nombre = ?, Telefono = ?, calle = ?, altura = ?, piso = ?, departamento = ?, email = ?, fechaCumpleanios = ?, tipoContacto = ? , pais= ? , provincia= ? , localidad= ? WHERE idPersona = ?";
+
+	public boolean insert(PersonaDTO persona) {
 		PreparedStatement statement;
 		Connection conexion = Conexion.getConexion().getSQLConexion();
 		boolean isInsertExitoso = false;
 		try
 		{
 			statement = conexion.prepareStatement(insert);
-			
+      
 			//se agregan los datos en orden como estan en la tabla
 			statement.setString(1, "0");
 			statement.setString(2, persona.getNombre());
@@ -43,9 +42,12 @@ public class PersonaDAOSQL implements PersonaDAO
 			statement.setString(8, persona.getEmail());
 			statement.setDate(9, persona.getFechaDeCumpleanios());
 
+			statement.setString(10, persona.getTipoDeContacto());
+			statement.setString(11, persona.getPais());
+			statement.setString(12, persona.getProvincia());
+			statement.setString(13, persona.getLocalidad());
 			
-			if(statement.executeUpdate() > 0)
-			{
+			if (statement.executeUpdate() > 0) {
 				conexion.commit();
 				isInsertExitoso = true;
 			}
@@ -113,20 +115,19 @@ public class PersonaDAOSQL implements PersonaDAO
 		int id = resultSet.getInt("idPersona");
 		String nombre = resultSet.getString("Nombre");
 		String tel = resultSet.getString("Telefono");
+		String calle = resultSet.getString("calle");
+		String altura = resultSet.getString("altura");
+		String piso = resultSet.getString("piso");
+		String departamento = resultSet.getString("departamento");
+		String email = resultSet.getString("email");
+		Date fechaCumpleanios = resultSet.getDate("fechaCumpleanios");
+		Domicilio domicilio = new Domicilio(calle, altura, piso, departamento);
+		String etiqueta = resultSet.getString("tipoContacto");
+		String Pais = resultSet.getString("pais");
+		String Provincia = resultSet.getString("provincia");
+		String Localidad = resultSet.getString("localidad");
 		
-//		Datos nuevos HARDCODEADOS PORQUE EN LA  VISTA NO SE LOS PUEDE ELEGIR AUN
-		//domicilio
-//		String calle = resultSet.getString("calle");
-//		String altura = resultSet.getString("altura");
-//		String piso = resultSet.getString("piso");
-//		String departamento = resultSet.getString("departamento");
-//		
-		Domicilio domicilio = new Domicilio("ComandanteVidela","1600","","Nose que es departamento");
-//		
-//		String email = resultSet.getString("email");
-//		Date fechaCumpleanios = resultSet.getDate("fechaCumpleanios");
-		Date d = new Date(2100,8,21);		
-		return new PersonaDTO(id, nombre, tel, domicilio, "capitanVidela@gmail.com",d);
+		return new PersonaDTO(id, nombre, tel, domicilio, email, fechaCumpleanios, etiqueta,Pais,Provincia,Localidad);
 	}
 	
 	public boolean updatePersona(int idPersona, PersonaDTO nuevosDatos) {
@@ -140,10 +141,19 @@ public class PersonaDAOSQL implements PersonaDAO
 			//aca poner los get de la vista con todos los nuevos campos
 			statement.setString(1, nuevosDatos.getNombre());
 			statement.setString(2, nuevosDatos.getTelefono());
-			statement.setInt(3, idPersona);
-			
-			if(statement.executeUpdate() > 0)
-			{
+			statement.setString(3, nuevosDatos.getDomicilio().getCalle());
+			statement.setString(4, nuevosDatos.getDomicilio().getAltura());
+			statement.setString(5, nuevosDatos.getDomicilio().getPiso());
+			statement.setString(6, nuevosDatos.getDomicilio().getDepartamento());
+			statement.setString(7, nuevosDatos.getEmail());
+			statement.setDate(8, nuevosDatos.getFechaDeCumpleanios());
+			statement.setString(9, nuevosDatos.getTipoDeContacto());
+			statement.setString(10, nuevosDatos.getPais());
+			statement.setString(11, nuevosDatos.getProvincia());
+			statement.setString(12, nuevosDatos.getLocalidad());
+			statement.setInt(13, idPersona);
+
+			if (statement.executeUpdate() > 0) {
 				conexion.commit();
 				isUpdateExitoso = true;
 			}
