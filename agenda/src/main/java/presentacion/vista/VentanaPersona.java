@@ -205,7 +205,6 @@ public class VentanaPersona extends JFrame {
 		JLabel lblNewLabel_11 = new JLabel("Fecha de Nacimiento");
 		lblNewLabel_11.setBounds(10, 97, 113, 13);
 		panel.add(lblNewLabel_11);
-		btnCancelar.setVisible(false);
 
 		this.setVisible(false);
 	}
@@ -295,7 +294,6 @@ public class VentanaPersona extends JFrame {
 		this.txtNombre.setText("");
 		this.txtTelefono.setText("");
 		this.txtEmail.setText("");
-		this.fechaCumpleanios.setDate(null);
 		this.txtCalle.setText("");
 		this.txtAltura.setText("");
 		this.txtPiso.setText("");
