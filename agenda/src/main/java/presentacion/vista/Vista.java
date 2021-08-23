@@ -2,6 +2,7 @@ package presentacion.vista;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.sql.Date;
 import java.util.List;
 
 import javax.swing.JFrame;
@@ -26,7 +27,8 @@ public class Vista
 	private JButton btnBorrar;
 	private JButton btnReporte;
 	private DefaultTableModel modelPersonas;
-	private  String[] nombreColumnas = {"Nombre y apellido","Telefono"};
+	private String[] nombreColumnas = { "Nombre y apellido", "Telefono", "Calle", "Altura", "Piso", "Departamento",
+			"Email", "Fecha de Cumpleanios", "Tipo de Contacto", "Pais" , "Provincia", "Localidad" };
 
 	public Vista() 
 	{
@@ -136,17 +138,24 @@ public class Vista
 
 
 	public void llenarTabla(List<PersonaDTO> personasEnTabla) {
-		this.getModelPersonas().setRowCount(0); //Para vaciar la tabla
+		this.getModelPersonas().setRowCount(0);
 		this.getModelPersonas().setColumnCount(0);
 		this.getModelPersonas().setColumnIdentifiers(this.getNombreColumnas());
-
-		for (PersonaDTO p : personasEnTabla)
-		{
+		for (PersonaDTO p : personasEnTabla) {
 			String nombre = p.getNombre();
 			String tel = p.getTelefono();
-			Object[] fila = {nombre, tel};
+			String calle = p.getDomicilio().getCalle();
+			String altura = p.getDomicilio().getAltura();
+			String piso = p.getDomicilio().getPiso();
+			String departamento = p.getDomicilio().getDepartamento();
+			String email = p.getEmail();
+			Date fechaDeCumpleanios = (Date) p.getFechaDeCumpleanios();
+			String tipoContacto = p.getTipoDeContacto();
+			String pais = p.getPais();
+			String provincia = p.getProvincia();
+			String localidad = p.getLocalidad();
+			Object[] fila = { nombre, tel, calle, altura, piso, departamento, email, fechaDeCumpleanios, tipoContacto,pais,provincia,localidad };
 			this.getModelPersonas().addRow(fila);
 		}
-		
 	}
 }

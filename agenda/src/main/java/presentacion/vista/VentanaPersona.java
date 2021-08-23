@@ -1,5 +1,6 @@
 package presentacion.vista;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
@@ -34,11 +35,11 @@ public class VentanaPersona extends JFrame {
 	// Datos nuevos persona, aun no puestos en la vista
 	private JTextField calle;
 
-	private JTextField altura;
-	private JTextField piso;
-	private JTextField departamento;
-	private JTextField domicilio;
-	private JTextField email;
+//	private JTextField altura;
+//	private JTextField piso;
+//	private JTextField departamento;
+//	private JTextField domicilio;
+//	private JTextField email;
 
 	// Fecha cumpleanios
 	private JDateChooser fechaCumpleanios;
@@ -77,14 +78,14 @@ public class VentanaPersona extends JFrame {
 		}
 
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 343, 455);
+		setBounds(100, 100, 343, 521);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
 		JPanel panel = new JPanel();
-		panel.setBounds(10, 11, 307, 407);
+		panel.setBounds(10, 11, 307, 463);
 		contentPane.add(panel);
 		panel.setLayout(null);
 
@@ -208,23 +209,28 @@ public class VentanaPersona extends JFrame {
 		panel.add(lblNewLabel_10);
 
 		cbPais = new JComboBox();
-		cbPais.setModel(new DefaultComboBoxModel(new String[] {"Argentina"}));
+//		cbPais.setModel(new DefaultComboBoxModel(new String[] {"Argentina"}));
 		cbPais.setBounds(133, 304, 164, 22);
 		panel.add(cbPais);
 
 		cbProvincia = new JComboBox();
-		cbProvincia.setModel(new DefaultComboBoxModel(new String[] {"Buenos Aires"}));
+//		cbProvincia.setModel(new DefaultComboBoxModel(new String[] {"Buenos Aires"}));
 		cbProvincia.setBounds(133, 329, 164, 22);
 		panel.add(cbProvincia);
 
 		cbLocalidad = new JComboBox();
-		cbLocalidad.setModel(new DefaultComboBoxModel(new String[] {"San Miguel"}));
+//		cbLocalidad.setModel(new DefaultComboBoxModel(new String[] {"San Miguel"}));
 		cbLocalidad.setBounds(133, 355, 164, 22);
 		panel.add(cbLocalidad);
 
 		btnEditarLocalidad = new JButton("Editar Localidad");
 		btnEditarLocalidad.setBounds(10, 383, 113, 23);
 		panel.add(btnEditarLocalidad);
+		
+		fechaCumpleanios = new JDateChooser();
+		fechaCumpleanios.setBounds(143, 100, 135, 19);
+		fechaCumpleanios.setDate(new Date());
+		panel.add(fechaCumpleanios);
 		
 		
 		
@@ -296,27 +302,27 @@ public class VentanaPersona extends JFrame {
 	}
 
 	public JTextField getCalle() {
-		return calle;
+		return this.txtCalle;
 	}
 
 	public JTextField getAltura() {
-		return altura;
+		return this.txtAltura;
 	}
 
 	public JTextField getPiso() {
-		return piso;
+		return this.txtPiso;
 	}
 
 	public JTextField getDepartamento() {
-		return departamento;
+		return this.txtDepartamento;
 	}
 
-	public JTextField getDomicilio() {
-		return domicilio;
-	}
+//	public JTextField getDomicilio() {
+//		return this.txtDomicilio;
+//	}
 
 	public JTextField getEmail() {
-		return email;
+		return this.txtEmail;
 	}
 
 //<<<<<<< HEAD
@@ -335,7 +341,7 @@ public class VentanaPersona extends JFrame {
 	}
 //=======
 	public JDateChooser getFechaCumpleanios() {
-		return fechaCumpleanios;
+		return this.fechaCumpleanios;
 
 	}
 
@@ -411,6 +417,4 @@ public class VentanaPersona extends JFrame {
 			this.cbTipoContacto.addItem(l.getNombreLocalidad());
 		}
 	}
-	
-	
 }

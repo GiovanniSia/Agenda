@@ -112,6 +112,7 @@ public class Controlador implements ActionListener
 			this.tipoContacto.agregarTipoContacto(nuevoTipoContacto);
 			this.refrescarTablaTipoContacto();
 			this.ventanaTipoContacto.limpiarTxtTipoContacto();
+			refrescarCbTipoContacto();
 		}
 		
 		private void editarTipoContacto(ActionEvent e) {
@@ -123,6 +124,7 @@ public class Controlador implements ActionListener
 			TipoContactoDTO datosNuevos = new TipoContactoDTO(0,nombreNuevo);
 			tipoContacto.editarTipoContacto(idModificar,datosNuevos);
 			this.refrescarTablaTipoContacto();	
+			refrescarCbTipoContacto();
 			
 			/*
 			int[] filasSeleccionadas = this.ventanaTipoContacto.getTablaTipoContacto().getSelectedRows();
@@ -142,11 +144,13 @@ public class Controlador implements ActionListener
 			}
 			this.refrescarTablaTipoContacto();
 			this.ventanaTipoContacto.limpiarTxtTipoContacto();
+			refrescarCbTipoContacto();
 		}
 		
 		private void salirTipoContacto(ActionEvent s) {
 			this.ventanaTipoContacto.cerrar();
 			this.ventanaTipoContacto.limpiarTxtTipoContacto();
+			refrescarCbTipoContacto();
 		}
 		
 		public void refrescarTablaTipoContacto() {
@@ -231,6 +235,7 @@ public class Controlador implements ActionListener
 		
 		private void ventanaAgregarPersona(ActionEvent a) {
 			this.ventanaPersona.mostrarVentana();
+			refrescarCbTipoContacto();
 		}
 		
 		private void guardarPersona(ActionEvent p) {
@@ -265,6 +270,7 @@ public class Controlador implements ActionListener
 				return;
 			}	
 			this.ventanaPersona.mostrarVentanaConValores(this.personasEnTabla.get(filaSeleccionada), tipoContactoEnTabla,paisEnTabla,provinciaEnTabla,localidadEnTabla);
+			refrescarCbTipoContacto();
 		}
 		
 		public void editarPersona(ActionEvent e) {
@@ -298,7 +304,6 @@ public class Controlador implements ActionListener
 		public void actionPerformed(ActionEvent e) { }
 		
 		
-		
 		public PersonaDTO obtenerPersonaDeVista() {
 			String nombre = ventanaPersona.getTxtNombre().getText();
 			String telefono = ventanaPersona.getTxtTelefono().getText();
@@ -310,9 +315,16 @@ public class Controlador implements ActionListener
 			java.sql.Date fechaDeCumpleanios = new java.sql.Date(ventanaPersona.getFechaCumpleanios().getDate().getTime());
 			Domicilio domicilio = new Domicilio(calle, altura, piso, departamento);
 			String tipoContacto = ventanaPersona.getTipoDeContactoSeleccionado();
-			return new PersonaDTO(0, nombre, telefono, domicilio, email, fechaDeCumpleanios, tipoContacto);
-		}
+			String pais = ventanaPersona.getPaisSeleccionado();
+			String provincia = ventanaPersona.getProvinciaSeleccionado();
+			String localidad = ventanaPersona.getLocalidadSeleccionado();
 			
+			return new PersonaDTO(0, nombre, telefono, domicilio, email, fechaDeCumpleanios, tipoContacto,pais,provincia,localidad);	
+		}
+		
+
+
+
 		public boolean todosLosCamposSonValidos(PersonaDTO datosNuevos) {	
 			String nombre = datosNuevos.getNombre();
 			boolean expresionNombre = nombre.matches("[\\w\\s&&[^\\d]]{1,45}");
@@ -378,11 +390,16 @@ public class Controlador implements ActionListener
 //			return false;
 //		}
 		
-		if(datosNuevos.getTipoContacto()==null) {
+		if(datosNuevos.getTipoDeContacto()==null) {
 			JOptionPane.showMessageDialog(null, "Debe seleccionar un tipo de contacto");
 			return false;
 		}
-		
 		return true;
 	}
+		
+		
+		private void refrescarCbTipoContacto() {
+			this.ventanaPersona.escribirComboBoxTipoDeContacto(this.tipoContactoEnTabla);
+		}
+		
 }
