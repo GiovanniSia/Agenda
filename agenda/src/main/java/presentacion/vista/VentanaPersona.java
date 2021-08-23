@@ -1,7 +1,8 @@
 package presentacion.vista;
 
-import java.util.Date;
 import java.util.List;
+
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -10,8 +11,13 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
+
 import com.toedter.calendar.JDateChooser;
+
+import dto.LocalidadDTO;
+import dto.PaisDTO;
 import dto.PersonaDTO;
+import dto.ProvinciaDTO;
 import dto.TipoContactoDTO;
 
 public class VentanaPersona extends JFrame {
@@ -24,15 +30,35 @@ public class VentanaPersona extends JFrame {
 	JPanel panel;
 	JButton btnCancelar;
 	private JButton btnAceptar;
+
+	// Datos nuevos persona, aun no puestos en la vista
+	private JTextField calle;
+
+	private JTextField altura;
+	private JTextField piso;
+	private JTextField departamento;
+	private JTextField domicilio;
+	private JTextField email;
+
+	// Fecha cumpleanios
 	private JDateChooser fechaCumpleanios;
+
 	private JTextField txtEmail;
 	private JTextField txtCalle;
 	private JTextField txtAltura;
 	private JTextField txtPiso;
 	private JTextField txtDepartamento;
-	private JButton btnEditarTipoContacto;
-	private JComboBox cbTipoContacto;
 
+	private JButton btnEditarTipoContacto;
+
+	//Localidad
+	private JButton btnEditarLocalidad;
+	private JComboBox cbPais;
+	private JComboBox cbProvincia;
+	private JComboBox cbTipoContacto;
+	private JComboBox cbLocalidad;
+	
+	
 	public static VentanaPersona getInstance() {
 		if (INSTANCE == null) {
 			INSTANCE = new VentanaPersona();
@@ -51,14 +77,14 @@ public class VentanaPersona extends JFrame {
 		}
 
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 343, 365);
+		setBounds(100, 100, 343, 455);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
 		JPanel panel = new JPanel();
-		panel.setBounds(10, 11, 307, 319);
+		panel.setBounds(10, 11, 307, 407);
 		contentPane.add(panel);
 		panel.setLayout(null);
 
@@ -82,6 +108,7 @@ public class VentanaPersona extends JFrame {
 
 		btnAgregarPersona = new JButton("Agregar");
 		btnAgregarPersona.setBounds(218, 287, 89, 23);
+		btnAgregarPersona.setBounds(208, 425, 89, 23);
 		panel.add(btnAgregarPersona);
 
 		JLabel lblNewLabel = new JLabel("Email");
@@ -94,7 +121,7 @@ public class VentanaPersona extends JFrame {
 		txtEmail.setColumns(10);
 
 		JLabel lblNewLabel_1 = new JLabel("Domicilio");
-		lblNewLabel_1.setBounds(10, 120, 46, 14);
+		lblNewLabel_1.setBounds(10, 111, 46, 14);
 		panel.add(lblNewLabel_1);
 
 		JLabel lblNewLabel_2 = new JLabel("Calle");
@@ -151,28 +178,69 @@ public class VentanaPersona extends JFrame {
 		btnCancelar.setVisible(false);
 
 		btnAceptar = new JButton("Aceptar");
+
+		
 		btnAceptar.setBounds(218, 288, 89, 21);
+
+		btnAceptar.setBounds(113, 426, 85, 21);
+
+
 		panel.add(btnAceptar);
-
-		fechaCumpleanios = new JDateChooser();
-		fechaCumpleanios.setBounds(133, 100, 164, 19);
-		fechaCumpleanios.setDate(new Date());
-		panel.add(fechaCumpleanios);
-
-		JLabel lblNewLabel_11 = new JLabel("Fecha de Nacimiento");
-		lblNewLabel_11.setBounds(10, 97, 113, 13);
-		panel.add(lblNewLabel_11);
 		btnCancelar.setVisible(false);
 
+		
+		//LOCALIDAD
+
+		JLabel lblNewLabel_7 = new JLabel("Localidad");
+		lblNewLabel_7.setBounds(10, 289, 100, 14);
+		panel.add(lblNewLabel_7);
+
+		JLabel lblNewLabel_8 = new JLabel("Pais");
+		lblNewLabel_8.setBounds(77, 308, 46, 14);
+		panel.add(lblNewLabel_8);
+
+		JLabel lblNewLabel_9 = new JLabel("Provincia");
+		lblNewLabel_9.setBounds(77, 333, 46, 14);
+		panel.add(lblNewLabel_9);
+
+		JLabel lblNewLabel_10 = new JLabel("Localidad");
+		lblNewLabel_10.setBounds(77, 358, 46, 14);
+		panel.add(lblNewLabel_10);
+
+		cbPais = new JComboBox();
+		cbPais.setModel(new DefaultComboBoxModel(new String[] {"Argentina"}));
+		cbPais.setBounds(133, 304, 164, 22);
+		panel.add(cbPais);
+
+		cbProvincia = new JComboBox();
+		cbProvincia.setModel(new DefaultComboBoxModel(new String[] {"Buenos Aires"}));
+		cbProvincia.setBounds(133, 329, 164, 22);
+		panel.add(cbProvincia);
+
+		cbLocalidad = new JComboBox();
+		cbLocalidad.setModel(new DefaultComboBoxModel(new String[] {"San Miguel"}));
+		cbLocalidad.setBounds(133, 355, 164, 22);
+		panel.add(cbLocalidad);
+
+		btnEditarLocalidad = new JButton("Editar Localidad");
+		btnEditarLocalidad.setBounds(10, 383, 113, 23);
+		panel.add(btnEditarLocalidad);
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		this.setVisible(false);
 	}
 
-	public void mostrarVentana(List<TipoContactoDTO> tiposDeContactosEnTabla) {
+	public void mostrarVentana() {
 		this.btnAceptar.setVisible(false);
 		this.btnAgregarPersona.setVisible(true);
-		escribirComboBoxTipoDeContacto(tiposDeContactosEnTabla);
 		this.setVisible(true);
-
 	}
 
 	public JTextField getTxtNombre() {
@@ -199,9 +267,11 @@ public class VentanaPersona extends JFrame {
 		return btnEditarTipoContacto;
 	}
 
-//	public JButton getBtnEditarLocalidad() {
-//		return btnEditarLocalidad;
-//	}
+
+	
+	public JButton getBtnEditarLocalidad() {
+		return btnEditarLocalidad;
+	}
 //
 //	public JComboBox getCbPais() {
 //		return cbPais;
@@ -226,29 +296,30 @@ public class VentanaPersona extends JFrame {
 	}
 
 	public JTextField getCalle() {
-		return this.txtCalle;
+		return calle;
 	}
 
 	public JTextField getAltura() {
-		return this.txtAltura;
+		return altura;
 	}
 
 	public JTextField getPiso() {
-		return this.txtPiso;
+		return piso;
 	}
 
 	public JTextField getDepartamento() {
-		return this.txtDepartamento;
+		return departamento;
+	}
+
+	public JTextField getDomicilio() {
+		return domicilio;
 	}
 
 	public JTextField getEmail() {
-		return this.txtEmail;
+		return email;
 	}
 
-	public JDateChooser getFechaCumpleanios() {
-		return this.fechaCumpleanios;
-	}
-
+//<<<<<<< HEAD
 	public void limpiarValores() {
 		this.txtNombre.setText("");
 		this.txtTelefono.setText("");
@@ -262,8 +333,14 @@ public class VentanaPersona extends JFrame {
 //		this.cbProvincia.setSelectedItem(null);
 //		this.cbLocalidad.setSelectedItem(null);
 	}
+//=======
+	public JDateChooser getFechaCumpleanios() {
+		return fechaCumpleanios;
 
-	public void mostrarVentanaConValores(PersonaDTO persona, List<TipoContactoDTO> tiposDeContactosEnTabla) {
+	}
+
+	// NOSE SI LA VISTA PUEDE TENER CONTACTO CON EL CÓDIGO
+	public void mostrarVentanaConValores(PersonaDTO persona, List<TipoContactoDTO> tiposDeContactosEnTabla, List<PaisDTO> paisEnTabla, List<ProvinciaDTO> provinciaEnTabla, List<LocalidadDTO> localidadEnTabla) {
 		this.txtNombre.setText(persona.getNombre());
 		this.txtTelefono.setText(persona.getTelefono());
 		this.txtEmail.setText(persona.getEmail());
@@ -273,23 +350,67 @@ public class VentanaPersona extends JFrame {
 		this.txtPiso.setText(persona.getDomicilio().getPiso());
 		this.txtDepartamento.setText(persona.getDomicilio().getDepartamento());
 		this.escribirComboBoxTipoDeContacto(tiposDeContactosEnTabla);
-
-		// Cambiamos los botones
+		this.escribirComboBoxPais(paisEnTabla);
+		this.escribirComboBoxProvincia(provinciaEnTabla);
+		this.escribirComboBoxLocalidad(localidadEnTabla);
+	
 		this.btnAgregarPersona.setVisible(false);
 		this.btnCancelar.setVisible(true);
 		this.btnAceptar.setVisible(true);
 
 		this.setVisible(true);
 	}
-
+	
+	
+	
+	
+	
+	//Localidad
 	public String getTipoDeContactoSeleccionado() {
 		return (String) this.cbTipoContacto.getSelectedItem();
 	}
 
+	public String getPaisSeleccionado() {
+		return (String)this.cbPais.getSelectedItem();
+	}
+	
+	public String getProvinciaSeleccionado() {
+		return (String)this.cbProvincia.getSelectedItem();
+	}
+	
+	public String getLocalidadSeleccionado() {
+		return (String)this.cbLocalidad.getSelectedItem();
+	}
+	
+	
+	
 	public void escribirComboBoxTipoDeContacto(List<TipoContactoDTO> tiposDeContactosEnTabla) {
 		this.cbTipoContacto.removeAllItems();
 		for (TipoContactoDTO tipo : tiposDeContactosEnTabla) {
 			this.cbTipoContacto.addItem(tipo.getNombreTipoContacto());
 		}
 	}
+	
+	public void escribirComboBoxPais(List<PaisDTO> paisEnTabla) {
+		this.cbPais.removeAllItems();
+		for (PaisDTO p : paisEnTabla) {
+			this.cbTipoContacto.addItem(p.getNombrePais());
+		}
+	}
+	
+	public void escribirComboBoxProvincia(List<ProvinciaDTO> provinciaEnTabla) {
+		this.cbProvincia.removeAllItems();
+		for (ProvinciaDTO p : provinciaEnTabla) {
+			this.cbTipoContacto.addItem(p.getNombreProvincia());
+		}
+	}
+	
+	public void escribirComboBoxLocalidad(List<LocalidadDTO> localidadEnTabla) {
+		this.cbTipoContacto.removeAllItems();
+		for (LocalidadDTO l : localidadEnTabla) {
+			this.cbTipoContacto.addItem(l.getNombreLocalidad());
+		}
+	}
+	
+	
 }

@@ -6,28 +6,28 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import persistencia.conexion.Conexion;
-import persistencia.dao.interfaz.TipoContactoDAO;
+
+import dto.PaisDTO;
 import dto.TipoContactoDTO;
-import presentacion.vista.VentanaTipoContacto;
+import persistencia.conexion.Conexion;
+import persistencia.dao.interfaz.PaisDAO;
 
-public class TipoContactoDAOSQL implements TipoContactoDAO {
-	private static final String insert = "INSERT INTO tiposdecontactos(idTipoContacto, nombreTipoContacto) VALUES(?, ?)";
-	private static final String delete = "DELETE FROM tiposdecontactos WHERE idTipoContacto = ?";
-	private static final String edit = "UPDATE tiposdecontactos set nombreTipoContacto=? where idTipoContacto=?";
-	private static final String readall = "SELECT * FROM tiposdecontactos";
-
-	private VentanaTipoContacto ventanaTipoContacto = new VentanaTipoContacto();
+public class PaisDAOSQL implements PaisDAO {
+	
+	private static final String insert = "INSERT INTO paises(idPais, nombrePais) VALUES(?, ?)";
+	private static final String delete = "DELETE FROM paises WHERE idPais = ?";
+	private static final String edit = "UPDATE paises set nombrePais=? where idPais=?";
+	private static final String readall = "SELECT * FROM paises";
 
 	@Override
-	public boolean insert(TipoContactoDTO tipoContacto) {
+	public boolean insert(PaisDTO Pais) {
 		PreparedStatement statement;
 		Connection conexion = Conexion.getConexion().getSQLConexion();
 		boolean isInsertExitoso = false;
 		try {
 			statement = conexion.prepareStatement(insert);
-			statement.setInt(1, tipoContacto.getIdTipoContacto());
-			statement.setString(2, tipoContacto.getNombreTipoContacto());
+			statement.setInt(1, Pais.getIdPais());
+			statement.setString(2, Pais.getNombrePais());
 			if (statement.executeUpdate() > 0) {
 				conexion.commit();
 				isInsertExitoso = true;
@@ -45,13 +45,13 @@ public class TipoContactoDAOSQL implements TipoContactoDAO {
 	}
 
 	@Override
-	public boolean delete(TipoContactoDTO tipoContacto_a_eliminar) {
+	public boolean delete(PaisDTO Pais_a_eliminar) {
 		PreparedStatement statement;
 		Connection conexion = Conexion.getConexion().getSQLConexion();
 		boolean isdeleteExitoso = false;
 		try {
 			statement = conexion.prepareStatement(delete);
-			statement.setString(1, Integer.toString(tipoContacto_a_eliminar.getIdTipoContacto()));
+			statement.setString(1, Integer.toString(Pais_a_eliminar.getIdPais()));
 			if (statement.executeUpdate() > 0) {
 				conexion.commit();
 				isdeleteExitoso = true;
@@ -63,15 +63,15 @@ public class TipoContactoDAOSQL implements TipoContactoDAO {
 	}
 
 	@Override
-	public boolean edit(int idTipoContacto, TipoContactoDTO tipoContacto_a_editar) {
+	public boolean edit(int idPais, PaisDTO Pais_a_editar) {
 		PreparedStatement statement;
 		Connection conexion = Conexion.getConexion().getSQLConexion();
 		boolean isUpdateExitoso = false;
 		try {
 			statement = conexion.prepareStatement(edit);
 
-			statement.setString(1, tipoContacto_a_editar.getNombreTipoContacto());
-			statement.setInt(2, idTipoContacto);
+			statement.setString(1, Pais_a_editar.getNombrePais());
+			statement.setInt(2, idPais);
 
 			if (statement.executeUpdate() > 0) {
 				conexion.commit();
@@ -84,26 +84,26 @@ public class TipoContactoDAOSQL implements TipoContactoDAO {
 	}
 
 	@Override
-	public List<TipoContactoDTO> readAll() {
+	public ArrayList<PaisDTO> readAll() {
 		PreparedStatement statement;
 		ResultSet resultSet; // Guarda el resultado de la query
-		ArrayList<TipoContactoDTO> tipoContactos = new ArrayList<TipoContactoDTO>();
+		ArrayList<PaisDTO> paises = new ArrayList<PaisDTO>();
 		Conexion conexion = Conexion.getConexion();
 		try {
 			statement = conexion.getSQLConexion().prepareStatement(readall);
 			resultSet = statement.executeQuery();
 			while (resultSet.next()) {
-				tipoContactos.add(getTipoContactoDTO(resultSet));
+				paises.add(getPaisDTO(resultSet));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return tipoContactos;
+		return paises;
 	}
 
-	private TipoContactoDTO getTipoContactoDTO(ResultSet resultSet) throws SQLException {
-		int id = resultSet.getInt("idTipoContacto");
-		String nombre = resultSet.getString("nombreTipoContacto");
-		return new TipoContactoDTO(id, nombre);
+	private PaisDTO getPaisDTO(ResultSet resultSet) throws SQLException {
+		int id = resultSet.getInt("idPais");
+		String nombre = resultSet.getString("nombrePais");
+		return new PaisDTO(id, nombre);
 	}
 }
