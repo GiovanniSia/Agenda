@@ -74,7 +74,7 @@ public class Controlador implements ActionListener
 
 			
 			int filaSeleccionado = this.ventanaTipoContacto.tablaTipoContactoSeleccionada();
-			int idModificar = this.tipoContactoEnTabla.get(filaSeleccionado).getIdTipoContacto();
+			int idModificar = this.tiposDeContactosEnTabla.get(filaSeleccionado).getIdTipoContacto();
 			//System.out.println(idModificar);
 			String nombreNuevo = ventanaTipoContacto.getTxtTipoContacto().getText();
 			
@@ -87,7 +87,7 @@ public class Controlador implements ActionListener
 			int[] filasSeleccionadas = this.ventanaTipoContacto.getTablaTipoContacto().getSelectedRows();
 			for (int fila : filasSeleccionadas)
 			{
-				this.tipoContacto.borrarTipoContacto(this.tipoContactoEnTabla.get(fila));
+				this.tipoContacto.borrarTipoContacto(this.tiposDeContactosEnTabla.get(fila));
 			}
 			this.refrescarTablaTipoContacto();
 			this.ventanaTipoContacto.limpiarTxtTipoContacto();
@@ -99,13 +99,11 @@ public class Controlador implements ActionListener
 		}
 		
 		public void refrescarTablaTipoContacto() {
-			this.tipoContactoEnTabla = tipoContacto.obtenerTipoContacto();
-			this.ventanaTipoContacto.llenarTabla(tipoContactoEnTabla);
+			this.tiposDeContactosEnTabla = tipoContacto.obtenerTipoContacto();
+			this.ventanaTipoContacto.llenarTabla(tiposDeContactosEnTabla);
 		}
 	
-		private void ventanaAgregarPersona(ActionEvent a) {
-			this.ventanaPersona.mostrarVentana();
-		}
+
 		
 		private void guardarPersona(ActionEvent p) {
 			PersonaDTO nuevaPersona = obtenerPersonaDeVista();
