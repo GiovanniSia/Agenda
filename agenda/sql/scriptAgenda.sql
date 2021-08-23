@@ -57,4 +57,3 @@ insert into localidades values(1,"Malvinas Argentinas",1);
 insert into tiposdecontactos values(1,"Trabajo");
 insert into tiposdecontactos values(2,"Familia");
 insert into tiposdecontactos values(3,"Amigos");
-
