@@ -14,10 +14,10 @@ import dto.Domicilio;
 import dto.PersonaDTO;
 
 public class PersonaDAOSQL implements PersonaDAO {
-	private static final String insert = "INSERT INTO personas VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
+	private static final String insert = "INSERT INTO personas VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	private static final String delete = "DELETE FROM personas WHERE idPersona = ?";
 	private static final String readall = "SELECT * FROM personas";
-	private static final String update = "UPDATE personas SET Nombre = ?, Telefono = ?, calle = ?, altura = ?, piso = ?, departamento = ?, email = ?, fechaCumpleanios = ?, tipoContacto = ? WHERE idPersona = ?";
+	private static final String update = "UPDATE personas SET Nombre = ?, Telefono = ?, calle = ?, altura = ?, piso = ?, departamento = ?, email = ?, fechaCumpleanios = ?, tipoContacto = ? , idPais= ? , idProvincia= ? , idLocalidad= ? WHERE idPersona = ?";
 
 	public boolean insert(PersonaDTO persona) {
 		PreparedStatement statement;
@@ -96,10 +96,13 @@ public class PersonaDAOSQL implements PersonaDAO {
 		String departamento = resultSet.getString("departamento");
 		String email = resultSet.getString("email");
 		Date fechaCumpleanios = resultSet.getDate("fechaCumpleanios");
-		String etiqueta = resultSet.getString("tipoContacto");
 		Domicilio domicilio = new Domicilio(calle, altura, piso, departamento);
-
-		return new PersonaDTO(id, nombre, tel, domicilio, email, fechaCumpleanios, etiqueta);
+		String etiqueta = resultSet.getString("tipoContacto");
+		int idPais = resultSet.getInt("idPais");
+		int idProvincia = resultSet.getInt("idProvincia");
+		int idLocalidad = resultSet.getInt("idLocalidad");
+		
+		return new PersonaDTO(id, nombre, tel, domicilio, email, fechaCumpleanios, etiqueta,idPais,idProvincia,idLocalidad);
 	}
 
 	public boolean updatePersona(int idPersona, PersonaDTO nuevosDatos) {
@@ -118,7 +121,10 @@ public class PersonaDAOSQL implements PersonaDAO {
 			statement.setString(7, nuevosDatos.getEmail());
 			statement.setDate(8, nuevosDatos.getFechaDeCumpleanios());
 			statement.setString(9, nuevosDatos.getTipoDeContacto());
-			statement.setInt(10, idPersona);
+			statement.setInt(10, nuevosDatos.getIdPais());
+			statement.setInt(11, nuevosDatos.getIdProvincia());
+			statement.setInt(12, nuevosDatos.getIdLocalidad());
+			statement.setInt(13, idPersona);
 
 			if (statement.executeUpdate() > 0) {
 				conexion.commit();
