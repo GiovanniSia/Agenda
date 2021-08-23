@@ -8,11 +8,12 @@ import java.util.ArrayList;
 
 import dto.ProvinciaDTO;
 import persistencia.conexion.Conexion;
+import persistencia.dao.interfaz.PaisDAO;
 import persistencia.dao.interfaz.ProvinciaDAO;
 
 public class ProvinciaDAOSQL implements ProvinciaDAO{
 	
-	private static final String insert = "INSERT INTO provincias(idProvincia, nombreProvincia,ForeignPais) VALUES(?,?,?)";
+	private static final String insert = "INSERT INTO provincias(idProvincia, nombreProvincia) VALUES(?, ?)";
 	private static final String delete = "DELETE FROM provincias WHERE idProvincia = ?";
 	private static final String edit = "UPDATE provincias set nombreProvincia=? where idProvincia=?";
 	private static final String readall = "SELECT * FROM provincias";
@@ -26,7 +27,7 @@ public class ProvinciaDAOSQL implements ProvinciaDAO{
 			statement = conexion.prepareStatement(insert);
 			statement.setInt(1, Provincia.getIdProvincia());
 			statement.setString(2, Provincia.getNombreProvincia());
-			statement.setInt(3, Provincia.getForeignPais());
+			statement.setInt(3, Provincia.getIdForeignPais());
 			if (statement.executeUpdate() > 0) {
 				conexion.commit();
 				isInsertExitoso = true;
@@ -62,7 +63,7 @@ public class ProvinciaDAOSQL implements ProvinciaDAO{
 	}
 
 	@Override
-	public boolean edit(int idProvincia, ProvinciaDTO Provincia_a_editar,int ForeignPais) {
+	public boolean edit(int idProvincia, ProvinciaDTO Provincia_a_editar) {
 		PreparedStatement statement;
 		Connection conexion = Conexion.getConexion().getSQLConexion();
 		boolean isUpdateExitoso = false;
@@ -71,7 +72,6 @@ public class ProvinciaDAOSQL implements ProvinciaDAO{
 
 			statement.setString(1, Provincia_a_editar.getNombreProvincia());
 			statement.setInt(2, idProvincia);
-			statement.setInt(3, ForeignPais);
 
 			if (statement.executeUpdate() > 0) {
 				conexion.commit();
@@ -85,7 +85,6 @@ public class ProvinciaDAOSQL implements ProvinciaDAO{
 
 	@Override
 	public ArrayList<ProvinciaDTO> readAll() {
-		System.out.println("Hola");
 		PreparedStatement statement;
 		ResultSet resultSet; // Guarda el resultado de la query
 		ArrayList<ProvinciaDTO> provincias = new ArrayList<ProvinciaDTO>();
@@ -105,7 +104,7 @@ public class ProvinciaDAOSQL implements ProvinciaDAO{
 	private ProvinciaDTO getProvinciaDTO(ResultSet resultSet) throws SQLException {
 		int id = resultSet.getInt("idProvincia");
 		String nombre = resultSet.getString("nombreProvincia");
-		int idPais = resultSet.getInt("ForeignPais");
+		int idPais = resultSet.getInt("idForeignPais");
 		return new ProvinciaDTO(id, nombre, idPais);
 	}
 }

@@ -12,7 +12,7 @@ import persistencia.dao.interfaz.LocalidadDAO;
 
 public class LocalidadDAOSQL implements LocalidadDAO{
 	
-	private static final String insert = "INSERT INTO localidades(idLocalidad, nombreLocalidad,idForeignProvincia) VALUES(?, ?,?)";
+	private static final String insert = "INSERT INTO localidades(idLocalidad, nombreLocalidad) VALUES(?, ?)";
 	private static final String delete = "DELETE FROM localidades WHERE idLocalidad = ?";
 	private static final String edit = "UPDATE localidades set nombreLocalidad=? where idLocalidad=?";
 	private static final String readall = "SELECT * FROM localidades";
@@ -26,7 +26,7 @@ public class LocalidadDAOSQL implements LocalidadDAO{
 			statement = conexion.prepareStatement(insert);
 			statement.setInt(1, Localidad.getIdLocalidad());
 			statement.setString(2, Localidad.getNombreLocalidad());
-			statement.setInt(3, Localidad.getIdForeignProvincia());
+			statement.setInt(3, Localidad.getIdForeignPais());
 			if (statement.executeUpdate() > 0) {
 				conexion.commit();
 				isInsertExitoso = true;
@@ -103,7 +103,8 @@ public class LocalidadDAOSQL implements LocalidadDAO{
 	private LocalidadDTO getLocalidadDTO(ResultSet resultSet) throws SQLException {
 		int id = resultSet.getInt("idLocalidad");
 		String nombre = resultSet.getString("nombreLocalidad");
+		int idPais = resultSet.getInt("idForeignPais");
 		int idProvincia = resultSet.getInt("idForeignProvincia");
-		return new LocalidadDTO(id, nombre,idProvincia);
+		return new LocalidadDTO(id, nombre, idPais,idProvincia);
 	}
 }

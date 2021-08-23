@@ -5,6 +5,7 @@ import java.util.List;
 import dto.PaisDTO;
 import persistencia.dao.interfaz.DAOAbstractFactory;
 import persistencia.dao.interfaz.PaisDAO;
+import persistencia.dao.interfaz.PaisDAO;
 
 public class Pais {
 private PaisDAO pais;
