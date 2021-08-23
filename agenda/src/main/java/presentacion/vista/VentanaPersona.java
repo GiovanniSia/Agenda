@@ -2,7 +2,6 @@ package presentacion.vista;
 
 import java.util.Date;
 import java.util.List;
-
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -11,7 +10,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
-
 import com.toedter.calendar.JDateChooser;
 import dto.PersonaDTO;
 import dto.TipoContactoDTO;
@@ -26,15 +24,12 @@ public class VentanaPersona extends JFrame {
 	JPanel panel;
 	JButton btnCancelar;
 	private JButton btnAceptar;
-
 	private JDateChooser fechaCumpleanios;
-
 	private JTextField txtEmail;
 	private JTextField txtCalle;
 	private JTextField txtAltura;
 	private JTextField txtPiso;
 	private JTextField txtDepartamento;
-
 	private JButton btnEditarTipoContacto;
 	private JButton btnEditarLocalidad;
 	private JComboBox cbPais;
@@ -281,7 +276,7 @@ public class VentanaPersona extends JFrame {
 	public JTextField getDepartamento() {
 		return this.txtDepartamento;
 	}
-	
+
 	public JTextField getEmail() {
 		return this.txtEmail;
 	}
@@ -304,7 +299,7 @@ public class VentanaPersona extends JFrame {
 		this.cbProvincia.setSelectedItem(null);
 		this.cbLocalidad.setSelectedItem(null);
 	}
-	
+
 	public void mostrarVentanaConValores(PersonaDTO persona, List<TipoContactoDTO> tiposDeContactosEnTabla) {
 		this.txtNombre.setText(persona.getNombre());
 		this.txtTelefono.setText(persona.getTelefono());
@@ -327,7 +322,7 @@ public class VentanaPersona extends JFrame {
 	public String getTipoDeContactoSeleccionado() {
 		return (String) this.cbTipoContacto.getSelectedItem();
 	}
-	
+
 	public void escribirComboBoxTipoDeContacto(List<TipoContactoDTO> tiposDeContactosEnTabla) {
 		this.cbTipoContacto.removeAllItems();
 		for (TipoContactoDTO tipo : tiposDeContactosEnTabla) {

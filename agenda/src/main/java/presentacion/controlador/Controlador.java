@@ -20,12 +20,10 @@ public class Controlador implements ActionListener {
 	private Vista vista;
 	private List<PersonaDTO> personasEnTabla;
 	private List<TipoContactoDTO> tipoContactoEnTabla;
-
 	private VentanaPersona ventanaPersona;
 	private VentanaTipoContacto ventanaTipoContacto;
 	private Agenda agenda;
 	private TipoContacto tipoContacto;
-
 	int filaSeleccionada;
 
 	public Controlador(Vista vista, Agenda agenda) {
@@ -51,6 +49,11 @@ public class Controlador implements ActionListener {
 		this.ventanaPersona.getBtnAgregarPersona().addActionListener(p -> guardarPersona(p));
 		this.ventanaPersona.getBtnEditarTipoContacto().addActionListener(t -> ventanaEditarTipoContacto(t));
 		this.agenda = agenda;
+	}
+	
+	public void inicializar() {
+		this.refrescarTabla();
+		this.vista.show();
 	}
 
 	private void ventanaAgregarPersona(ActionEvent a) {
@@ -103,7 +106,7 @@ public class Controlador implements ActionListener {
 		refrescarCbTipoContacto();
 	}
 
-	public void refrescarTablaTipoContacto() {
+	private void refrescarTablaTipoContacto() {
 		this.tipoContactoEnTabla = tipoContacto.obtenerTipoContacto();
 		this.ventanaTipoContacto.llenarTabla(tipoContactoEnTabla);
 	}
@@ -115,15 +118,9 @@ public class Controlador implements ActionListener {
 			this.refrescarTabla();
 			this.ventanaPersona.cerrar();
 		}
-
 	}
 
-	private void mostrarReporte(ActionEvent r) {
-		ReporteAgenda reporte = new ReporteAgenda(agenda.obtenerPersonas());
-		reporte.mostrar();
-	}
-
-	public void borrarPersona(ActionEvent s) {
+	private void borrarPersona(ActionEvent s) {
 		int[] filasSeleccionadas = this.vista.getTablaPersonas().getSelectedRows();
 		for (int fila : filasSeleccionadas) {
 			this.agenda.borrarPersona(this.personasEnTabla.get(fila));
@@ -131,7 +128,7 @@ public class Controlador implements ActionListener {
 		this.refrescarTabla();
 	}
 
-	public void mostrarVentanaEditar(ActionEvent e) {
+	private void mostrarVentanaEditar(ActionEvent e) {
 		filaSeleccionada = this.vista.getTablaPersonas().getSelectedRow();
 		if (filaSeleccionada == -1) {
 			JOptionPane.showMessageDialog(null, "No ha seleccionado ninguna persona para editar");
@@ -140,7 +137,7 @@ public class Controlador implements ActionListener {
 		this.ventanaPersona.mostrarVentanaConValores(this.personasEnTabla.get(filaSeleccionada), tipoContactoEnTabla);
 	}
 
-	public void editarPersona(ActionEvent e) {
+	private void editarPersona(ActionEvent e) {
 		int idModificar = this.personasEnTabla.get(filaSeleccionada).getIdPersona();
 		PersonaDTO datosNuevos = obtenerPersonaDeVista();
 		if (todosLosCamposSonValidos(datosNuevos)) {
@@ -150,21 +147,16 @@ public class Controlador implements ActionListener {
 		}
 	}
 
-	public void cerrarVentanaEditar(ActionEvent e) {
+	private void cerrarVentanaEditar(ActionEvent e) {
 		this.ventanaPersona.cerrar();
 	}
 
-	public void inicializar() {
-		this.refrescarTabla();
-		this.vista.show();
-	}
-
 	private void refrescarTabla() {
-		this.personasEnTabla = agenda.obtenerPersonas();// lo obtiene de la bd
+		this.personasEnTabla = agenda.obtenerPersonas();
 		this.tipoContactoEnTabla = agenda.obtenerTiposDeContactos();
 		this.vista.llenarTabla(this.personasEnTabla);
 	}
-	
+
 	private void refrescarCbTipoContacto() {
 		this.ventanaPersona.escribirComboBoxTipoDeContacto(this.tipoContactoEnTabla);
 	}
@@ -172,8 +164,13 @@ public class Controlador implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 	}
+	
+	private void mostrarReporte(ActionEvent r) {
+		ReporteAgenda reporte = new ReporteAgenda(agenda.obtenerPersonas());
+		reporte.mostrar();
+	}
 
-	public PersonaDTO obtenerPersonaDeVista() {
+	private PersonaDTO obtenerPersonaDeVista() {
 		String nombre = ventanaPersona.getTxtNombre().getText();
 		String telefono = ventanaPersona.getTxtTelefono().getText();
 		String calle = ventanaPersona.getCalle().getText();
@@ -187,14 +184,14 @@ public class Controlador implements ActionListener {
 		return new PersonaDTO(0, nombre, telefono, domicilio, email, fechaDeCumpleanios, tipoContacto);
 	}
 
-	public boolean seSeleccionoTablaTipoContacto() {
-		if(this.ventanaTipoContacto.getTablaTipoContacto().getSelectedRow() != -1) {
+	private boolean seSeleccionoTablaTipoContacto() {
+		if (this.ventanaTipoContacto.getTablaTipoContacto().getSelectedRow() != -1) {
 			return true;
 		}
 		return false;
 	}
-	
-	public boolean todosLosCamposSonValidos(PersonaDTO datosNuevos) {
+
+	private boolean todosLosCamposSonValidos(PersonaDTO datosNuevos) {
 		String nombre = datosNuevos.getNombre();
 		boolean expresionNombre = nombre.matches("[\\w\\s&&[^\\d]]{1,45}");
 		if (!expresionNombre) {
@@ -235,7 +232,7 @@ public class Controlador implements ActionListener {
 
 		String mail = datosNuevos.getEmail();
 		boolean expresionMail = mail
-				.matches("^[A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");// NOSE
+				.matches("^[A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
 		if (!expresionMail) {
 			JOptionPane.showMessageDialog(null, "Por favor ingrese una dirección de mail válida");
 			return false;
