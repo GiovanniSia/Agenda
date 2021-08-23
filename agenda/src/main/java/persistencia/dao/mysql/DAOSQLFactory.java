@@ -1,3 +1,6 @@
+/**
+ * 
+ */
 package persistencia.dao.mysql;
 
 import persistencia.dao.interfaz.DAOAbstractFactory;
@@ -7,13 +10,14 @@ import persistencia.dao.interfaz.PersonaDAO;
 import persistencia.dao.interfaz.ProvinciaDAO;
 import persistencia.dao.interfaz.TipoContactoDAO;
 
-public class DAOSQLFactory implements DAOAbstractFactory {
-	/*
-	 * (non-Javadoc)
+public class DAOSQLFactory implements DAOAbstractFactory 
+{
+	/* (non-Javadoc)
 	 * @see persistencia.dao.interfaz.DAOAbstractFactory#createPersonaDAO()
 	 */
-	public PersonaDAO createPersonaDAO() {
-		return new PersonaDAOSQL();
+	public PersonaDAO createPersonaDAO() 
+	{
+				return new PersonaDAOSQL();
 	}
 
 	@Override
@@ -30,13 +34,13 @@ public class DAOSQLFactory implements DAOAbstractFactory {
 	@Override
 	public ProvinciaDAO createProvinciaDAO() {
 		// TODO Auto-generated method stub
-		return null;
+		return new ProvinciaDAOSQL();
 	}
 
 	@Override
 	public LocalidadDAO createLocalidadDAO() {
 		// TODO Auto-generated method stub
-		return null;
+		return new LocalidadDAOSQL();
 	}
 
 }

@@ -9,12 +9,15 @@ import java.util.List;
 import persistencia.conexion.Conexion;
 import persistencia.dao.interfaz.TipoContactoDAO;
 import dto.TipoContactoDTO;
+import presentacion.vista.VentanaTipoContacto;
 
 public class TipoContactoDAOSQL implements TipoContactoDAO {
 	private static final String insert = "INSERT INTO tiposdecontactos(idTipoContacto, nombreTipoContacto) VALUES(?, ?)";
 	private static final String delete = "DELETE FROM tiposdecontactos WHERE idTipoContacto = ?";
 	private static final String edit = "UPDATE tiposdecontactos set nombreTipoContacto=? where idTipoContacto=?";
 	private static final String readall = "SELECT * FROM tiposdecontactos";
+
+	private VentanaTipoContacto ventanaTipoContacto = new VentanaTipoContacto();
 
 	@Override
 	public boolean insert(TipoContactoDTO tipoContacto) {
@@ -37,6 +40,7 @@ public class TipoContactoDAOSQL implements TipoContactoDAO {
 				e1.printStackTrace();
 			}
 		}
+
 		return isInsertExitoso;
 	}
 

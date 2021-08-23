@@ -22,18 +22,18 @@ CREATE TABLE IF NOT EXISTS localidades
 (
     idLocalidad int(11) NOT NULL AUTO_INCREMENT,
     nombreLocalidad varchar(45) DEFAULT NULL,
-    idForeignPais int(11) NOT NULL,
     idForeignProvincia int(11) NOT NULL,
     PRIMARY KEY (idLocalidad),
     FOREIGN KEY (idForeignProvincia) REFERENCES provincias(idProvincia),
-    FOREIGN KEY (idForeignPais) REFERENCES paises(idPais)
 );
 
-CREATE TABLE IF NOT EXISTS tiposdecontactos(
-    idTipoContacto int(11) NOT NULL AUTO_INCREMENT,
-    nombreTipoContacto varchar(45) DEFAULT NULL,
-	PRIMARY KEY (idTipoContacto)
+CREATE TABLE IF NOT EXISTS `tiposdecontactos`
+(
+    `idTipoContacto` int(11) NOT NULL AUTO_INCREMENT,
+    `nombreTipoContacto` varchar(45) DEFAULT NULL,
+	PRIMARY KEY (`idTipoContacto`)
 );
+
 CREATE TABLE IF NOT EXISTS personas (
 	idPersona int(11) NOT NULL AUTO_INCREMENT,
   	Nombre varchar(45) NOT NULL,
@@ -50,6 +50,10 @@ CREATE TABLE IF NOT EXISTS personas (
 	localidad varchar(45) NOT NULL,
     PRIMARY KEY (idPersona)
 );
+
+insert into tiposdecontactos values(1,"Trabajo");
+insert into tiposdecontactos values(2,"Familia");
+insert into tiposdecontactos values(3,"Amigos");
 
 insert into paises values(1,"Argentina");
 insert into provincias values(1,"Buenos Aires",1);
