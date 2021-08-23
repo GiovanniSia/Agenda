@@ -6,14 +6,21 @@ import java.sql.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
 import modelo.Agenda;
+import modelo.Localidad;
+import modelo.Pais;
+import modelo.Provincia;
 import modelo.TipoContacto;
 import persistencia.dao.mysql.DAOSQLFactory;
 import presentacion.reportes.ReporteAgenda;
+import presentacion.vista.VentanaEditarLocalidad;
 import presentacion.vista.VentanaPersona;
 import presentacion.vista.VentanaTipoContacto;
 import presentacion.vista.Vista;
 import dto.Domicilio;
+import dto.LocalidadDTO;
+import dto.PaisDTO;
 import dto.PersonaDTO;
+import dto.ProvinciaDTO;
 import dto.TipoContactoDTO;
 
 public class Controlador implements ActionListener {
@@ -24,7 +31,14 @@ public class Controlador implements ActionListener {
 	private VentanaTipoContacto ventanaTipoContacto;
 	private Agenda agenda;
 	private TipoContacto tipoContacto;
+	private VentanaEditarLocalidad ventanaLocalidad;
 	int filaSeleccionada;
+	private Pais pais;
+	private List<PaisDTO> paisEnTabla;
+	private Provincia provincia;
+	private Localidad localidad;
+	private List<ProvinciaDTO> provinciaEnTabla;
+	private List<LocalidadDTO> localidadEnTabla;
 
 	public Controlador(Vista vista, Agenda agenda) {
 		this.ventanaTipoContacto = new VentanaTipoContacto();
@@ -33,8 +47,26 @@ public class Controlador implements ActionListener {
 		this.ventanaTipoContacto.getBtnBorrar().addActionListener(b -> borrarTipoContacto(b));
 		this.ventanaTipoContacto.getBtnSalir().addActionListener(s -> salirTipoContacto(s));
 
+		this.ventanaLocalidad = new VentanaEditarLocalidad();
+		this.ventanaLocalidad.getBtnAgregar().addActionListener(g -> agregarLocalidad(g));
+		this.ventanaLocalidad.getBtnEditar().addActionListener(h -> editarPais(h));
+		this.ventanaLocalidad.getBtnBorrar().addActionListener(j -> borrarPais(j));
+		this.ventanaLocalidad.getBtnSalir().addActionListener(k -> salirLocalidad(k));
+
+		this.ventanaLocalidad.getComboBox().addActionListener(x -> obtenerSeleccionCombo(x));
+		this.ventanaLocalidad.getBtnAgregar().addActionListener(y -> guardarLocalidad(y));
+
 		this.tipoContacto = new TipoContacto(new DAOSQLFactory());
 		this.refrescarTablaTipoContacto();
+
+		this.pais = new Pais(new DAOSQLFactory());
+		this.refrescarTablaPais();
+
+		this.provincia = new Provincia(new DAOSQLFactory());
+		// this.refrescarTablaProvincia();
+
+		this.localidad = new Localidad(new DAOSQLFactory());
+		// this.refrescarTablaLocalidad();
 
 		this.vista = vista;
 		this.vista.getBtnAgregar().addActionListener(a -> ventanaAgregarPersona(a));
@@ -48,9 +80,35 @@ public class Controlador implements ActionListener {
 
 		this.ventanaPersona.getBtnAgregarPersona().addActionListener(p -> guardarPersona(p));
 		this.ventanaPersona.getBtnEditarTipoContacto().addActionListener(t -> ventanaEditarTipoContacto(t));
+
+		this.ventanaPersona.getBtnEditarLocalidad().addActionListener(z -> ventanaEditarLocalidad(z));
 		this.agenda = agenda;
 	}
-	
+
+	private Object ventanaEditarLocalidad(ActionEvent z) {
+		this.ventanaLocalidad.mostrarVentana();
+		return null;
+	}
+
+	private Object obtenerSeleccionCombo(ActionEvent x) {
+		this.ventanaLocalidad.obtenerSeleccion();
+		return null;
+	}
+
+	private Object guardarLocalidad(ActionEvent y) {
+		this.ventanaLocalidad.guardarSeleccion();
+		return null;
+	}
+
+	private void agregarTipoContacto(ActionEvent a) {
+		String nombreTipoContacto = this.ventanaTipoContacto.getTxtTipoContacto().getText();
+		TipoContactoDTO nuevoTipoContacto = new TipoContactoDTO(0, nombreTipoContacto);
+		this.tipoContacto.agregarTipoContacto(nuevoTipoContacto);
+		this.refrescarTablaTipoContacto();
+		this.ventanaTipoContacto.limpiarTxtTipoContacto();
+		refrescarCbTipoContacto();
+	}
+
 	public void inicializar() {
 		this.refrescarTabla();
 		this.vista.show();
@@ -63,15 +121,6 @@ public class Controlador implements ActionListener {
 
 	private void ventanaEditarTipoContacto(ActionEvent t) {
 		this.ventanaTipoContacto.mostrarVentana();
-	}
-
-	private void agregarTipoContacto(ActionEvent a) {
-		String nombreTipoContacto = this.ventanaTipoContacto.getTxtTipoContacto().getText();
-		TipoContactoDTO nuevoTipoContacto = new TipoContactoDTO(0, nombreTipoContacto);
-		this.tipoContacto.agregarTipoContacto(nuevoTipoContacto);
-		this.refrescarTablaTipoContacto();
-		this.ventanaTipoContacto.limpiarTxtTipoContacto();
-		refrescarCbTipoContacto();
 	}
 
 	private void editarTipoContacto(ActionEvent e) {
@@ -89,7 +138,7 @@ public class Controlador implements ActionListener {
 		this.ventanaTipoContacto.limpiarTxtTipoContacto();
 		refrescarCbTipoContacto();
 	}
-
+	
 	private void borrarTipoContacto(ActionEvent b) {
 		int[] filasSeleccionadas = this.ventanaTipoContacto.getTablaTipoContacto().getSelectedRows();
 		for (int fila : filasSeleccionadas) {
@@ -110,6 +159,75 @@ public class Controlador implements ActionListener {
 		this.tipoContactoEnTabla = tipoContacto.obtenerTipoContacto();
 		this.ventanaTipoContacto.llenarTabla(tipoContactoEnTabla);
 	}
+	
+	private void agregarLocalidad(ActionEvent a) {
+		String nombreLocalidad = this.ventanaLocalidad.getTxtFieldNombreLocalidad().getText();
+		String comboBox = (String) this.ventanaLocalidad.getComboBox().getSelectedItem();
+
+		if (comboBox == "Pais") {
+			PaisDTO nuevaLocalidad = new PaisDTO(0, nombreLocalidad);
+			this.pais.agregarPais(nuevaLocalidad);
+			this.refrescarTablaPais();
+			this.ventanaLocalidad.limpiarTodosTxt();
+		} else if (comboBox == "Provincia") {
+			int idPais = Integer.parseInt((String) this.ventanaLocalidad.getTxtFieldId().getText());
+			ProvinciaDTO nuevaLocalidad = new ProvinciaDTO(0, nombreLocalidad, idPais);
+			this.provincia.agregarProvincia(nuevaLocalidad);
+			this.refrescarTablaProvincia();
+			this.ventanaLocalidad.limpiarTodosTxt();
+		}
+//			else if(comboBox == "Localidad") {
+//				
+//				LocalidadDTO nuevaLocalidad = new LocalidadDTO(0, nombreLocalidad);
+//				this.localidad.agregarLocalidad(nuevaLocalidad);
+//				this.refrescarTablaLocalidad();
+//				this.ventanaLocalidad.limpiarTodosTxt();
+//			}
+		else {
+			return;
+		}
+	}
+
+	private void editarPais(ActionEvent e) {
+		int filaSeleccionado = this.ventanaLocalidad.tablaPaisSeleccionada();
+		int idModificar = this.paisEnTabla.get(filaSeleccionado).getIdPais();
+		String nombreNuevo = ventanaLocalidad.getTxtFieldNombreLocalidad().getText();
+
+		PaisDTO datosNuevos = new PaisDTO(0, nombreNuevo);
+		pais.editarPais(idModificar, datosNuevos);
+		this.refrescarTablaPais();
+
+	}
+
+	private void borrarPais(ActionEvent b) {
+		int[] filasSeleccionadas = this.ventanaLocalidad.getTablaPais().getSelectedRows();
+		for (int fila : filasSeleccionadas) {
+			this.pais.borrarPais(this.paisEnTabla.get(fila));
+		}
+		this.refrescarTablaPais();
+		this.ventanaLocalidad.limpiarTodosTxt();
+	}
+
+	private void salirLocalidad(ActionEvent s) {
+		this.ventanaLocalidad.cerrar();
+		this.ventanaLocalidad.limpiarTodosTxt();
+	}
+
+	public void refrescarTablaPais() {
+		this.paisEnTabla = pais.obtenerPais();
+		this.ventanaLocalidad.llenarTablaPais(paisEnTabla);
+	}
+
+	public void refrescarTablaProvincia() {
+		this.provinciaEnTabla = provincia.obtenerProvincia();
+		this.ventanaLocalidad.llenarTablaProvincia(provinciaEnTabla);
+	}
+
+	public void refrescarTablaLocalidad() {
+		this.localidadEnTabla = localidad.obtenerLocalidad();
+		this.ventanaLocalidad.llenarTablaLocalidad(localidadEnTabla);
+	}
+
 
 	private void guardarPersona(ActionEvent p) {
 		PersonaDTO nuevaPersona = obtenerPersonaDeVista();
@@ -134,7 +252,7 @@ public class Controlador implements ActionListener {
 			JOptionPane.showMessageDialog(null, "No ha seleccionado ninguna persona para editar");
 			return;
 		}
-		this.ventanaPersona.mostrarVentanaConValores(this.personasEnTabla.get(filaSeleccionada), tipoContactoEnTabla);
+		this.ventanaPersona.mostrarVentanaConValores(this.personasEnTabla.get(filaSeleccionada), tipoContactoEnTabla,paisEnTabla,provinciaEnTabla,localidadEnTabla);
 	}
 
 	private void editarPersona(ActionEvent e) {
@@ -164,7 +282,7 @@ public class Controlador implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 	}
-	
+
 	private void mostrarReporte(ActionEvent r) {
 		ReporteAgenda reporte = new ReporteAgenda(agenda.obtenerPersonas());
 		reporte.mostrar();
@@ -181,7 +299,11 @@ public class Controlador implements ActionListener {
 		java.sql.Date fechaDeCumpleanios = new java.sql.Date(ventanaPersona.getFechaCumpleanios().getDate().getTime());
 		Domicilio domicilio = new Domicilio(calle, altura, piso, departamento);
 		String tipoContacto = ventanaPersona.getTipoDeContactoSeleccionado();
-		return new PersonaDTO(0, nombre, telefono, domicilio, email, fechaDeCumpleanios, tipoContacto);
+		String pais = ventanaPersona.getPaisSeleccionado();
+		String provincia = ventanaPersona.getProvinciaSeleccionado();
+		String localidad = ventanaPersona.getLocalidadSeleccionado();
+		
+		return new PersonaDTO(0, nombre, telefono, domicilio, email, fechaDeCumpleanios, tipoContacto,pais,provincia,localidad);
 	}
 
 	private boolean seSeleccionoTablaTipoContacto() {

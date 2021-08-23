@@ -23,7 +23,7 @@ public class Vista {
 	private JButton btnReporte;
 	private DefaultTableModel modelPersonas;
 	private String[] nombreColumnas = { "Nombre y apellido", "Telefono", "Calle", "Altura", "Piso", "Departamento",
-			"Email", "Fecha de Cumpleanios", "Tipo de Contacto" };
+			"Email", "Fecha de Cumpleanios", "Tipo de Contacto", "Pais" , "Provincia", "Localidad" };
 
 	public Vista() {
 		super();
@@ -133,7 +133,10 @@ public class Vista {
 			String email = p.getEmail();
 			Date fechaDeCumpleanios = (Date) p.getFechaDeCumpleanios();
 			String tipoContacto = p.getTipoDeContacto();
-			Object[] fila = { nombre, tel, calle, altura, piso, departamento, email, fechaDeCumpleanios, tipoContacto };
+			String pais = p.getPais();
+			String provincia = p.getProvincia();
+			String localidad = p.getLocalidad();
+			Object[] fila = { nombre, tel, calle, altura, piso, departamento, email, fechaDeCumpleanios, tipoContacto,pais,provincia,localidad };
 			this.getModelPersonas().addRow(fila);
 		}
 	}
