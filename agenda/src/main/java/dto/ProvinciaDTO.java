@@ -3,13 +3,13 @@ package dto;
 public class ProvinciaDTO {
 	private int idProvincia;
 	private String nombreProvincia;
-	private int idForeignPais;
+	private int foreignPais;
 
-	public ProvinciaDTO(int idProvincia, String nombreProvincia, int idPaisForeign)
+	public ProvinciaDTO(int idProvincia, String nombreProvincia, int foreignPais)
 	{
 		this.idProvincia = idProvincia;
 		this.nombreProvincia = nombreProvincia;
-		this.idForeignPais = idForeignPais;
+		this.foreignPais = foreignPais;
 	}
 
 	public int getIdProvincia() 
@@ -32,11 +32,9 @@ public class ProvinciaDTO {
 		this.nombreProvincia = nombreProvincia;
 	}
 	
-	public int getIdForeignPais() {
-		return idForeignPais;
+	public int getForeignPais() {
+		return foreignPais;
 	}
 
-	public void setIdForeignPais(int idPaisForeign) {
-		this.idForeignPais = idPaisForeign;
-	}
+	
 }

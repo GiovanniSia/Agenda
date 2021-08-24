@@ -2,7 +2,8 @@ package dto;
 
 import java.sql.Date;
 
-public class PersonaDTO {
+public class PersonaDTO 
+{
 	private int idPersona;
 	private String nombre;
 	private String telefono;
@@ -79,6 +80,5 @@ public class PersonaDTO {
 	public String getLocalidad() {
 		return Localidad;
 	}
-	
 	
 }

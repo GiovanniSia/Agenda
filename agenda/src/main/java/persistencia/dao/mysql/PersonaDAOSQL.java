@@ -13,7 +13,8 @@ import persistencia.dao.interfaz.PersonaDAO;
 import dto.Domicilio;
 import dto.PersonaDTO;
 
-public class PersonaDAOSQL implements PersonaDAO {
+public class PersonaDAOSQL implements PersonaDAO
+{
 	private static final String insert = "INSERT INTO personas VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	private static final String delete = "DELETE FROM personas WHERE idPersona = ?";
 	private static final String readall = "SELECT * FROM personas";
@@ -108,6 +109,7 @@ public class PersonaDAOSQL implements PersonaDAO {
 		return new PersonaDTO(id, nombre, tel, domicilio, email, fechaCumpleanios, etiqueta,Pais,Provincia,Localidad);
 	}
 
+	
 	public boolean updatePersona(int idPersona, PersonaDTO nuevosDatos) {
 		PreparedStatement statement;
 		Connection conexion = Conexion.getConexion().getSQLConexion();
@@ -138,5 +140,4 @@ public class PersonaDAOSQL implements PersonaDAO {
 		}
 		return isUpdateExitoso;
 	}
-
 }
