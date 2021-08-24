@@ -36,7 +36,5 @@ public class ProvinciaDTO {
 		return foreignPais;
 	}
 
-	public void setForeignPais(int foreignPais) {
-		this.foreignPais = foreignPais;
-	}
+	
 }

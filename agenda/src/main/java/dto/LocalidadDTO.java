@@ -35,8 +35,4 @@ public class LocalidadDTO {
 	public int getIdForeignProvincia() {
 		return idForeignProvincia;
 	}
-
-	public void setIdForeignProvincia(int idForeignProvincia) {
-		this.idForeignProvincia = idForeignProvincia;
-	}
 }

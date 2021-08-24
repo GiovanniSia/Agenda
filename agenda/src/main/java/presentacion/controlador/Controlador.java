@@ -112,6 +112,9 @@ public class Controlador implements ActionListener
 			this.tipoContacto.agregarTipoContacto(nuevoTipoContacto);
 			this.refrescarTablaTipoContacto();
 			this.ventanaTipoContacto.limpiarTxtTipoContacto();
+			refresecarCbPaises();
+			refrescarCbProvincias();
+			refrescarCbLocalidades();
 			refrescarCbTipoContacto();
 		}
 		
@@ -171,7 +174,7 @@ public class Controlador implements ActionListener
 				this.refrescarTablaPais();
 				this.ventanaLocalidad.limpiarTodosTxt();
 			}
-			else if(comboBox == "Provincia") {
+			if(comboBox == "Provincia") {
 				System.out.println("Agrego Provincia");
 				int idPais = Integer.parseInt((String)this.ventanaLocalidad.getTxtFieldId().getText());
 				ProvinciaDTO nuevaLocalidad = new ProvinciaDTO(0, nombreLocalidad, idPais);
@@ -179,7 +182,7 @@ public class Controlador implements ActionListener
 				this.refrescarTablaProvincia();
 				this.ventanaLocalidad.limpiarTodosTxt();
 			}
-			else if(comboBox == "Localidad") {
+			if(comboBox == "Localidad") {
 				System.out.println("Agrego localidad");
 				int idPais = Integer.parseInt((String)this.ventanaLocalidad.getTxtFieldId().getText());
 				LocalidadDTO nuevaLocalidad = new LocalidadDTO(0, nombreLocalidad,idPais);
@@ -187,9 +190,7 @@ public class Controlador implements ActionListener
 				this.refrescarTablaLocalidad();
 				this.ventanaLocalidad.limpiarTodosTxt();
 			}
-			else {
-				return;
-			}
+
 		}
 		
 		private void editarPais(ActionEvent e) {
@@ -216,6 +217,11 @@ public class Controlador implements ActionListener
 		private void salirLocalidad(ActionEvent s) {
 			this.ventanaLocalidad.limpiarTodosTxt();
 			this.ventanaLocalidad.cerrar();
+
+			refresecarCbPaises();
+			refrescarCbProvincias();
+			refrescarCbLocalidades();
+			refrescarCbTipoContacto();
 		}
 		
 		public void refrescarTablaPais() {
@@ -235,6 +241,10 @@ public class Controlador implements ActionListener
 		
 		private void ventanaAgregarPersona(ActionEvent a) {
 			this.ventanaPersona.mostrarVentana();
+
+			refresecarCbPaises();
+			refrescarCbProvincias();
+			refrescarCbLocalidades();
 			refrescarCbTipoContacto();
 		}
 		
@@ -271,6 +281,9 @@ public class Controlador implements ActionListener
 			}	
 			this.ventanaPersona.mostrarVentanaConValores(this.personasEnTabla.get(filaSeleccionada), tipoContactoEnTabla,paisEnTabla,provinciaEnTabla,localidadEnTabla);
 			refrescarCbTipoContacto();
+			refresecarCbPaises();
+			refrescarCbProvincias();
+			refrescarCbLocalidades();
 		}
 		
 		public void editarPersona(ActionEvent e) {
@@ -398,8 +411,17 @@ public class Controlador implements ActionListener
 	}
 		
 		
-		private void refrescarCbTipoContacto() {
-			this.ventanaPersona.escribirComboBoxTipoDeContacto(this.tipoContactoEnTabla);
-		}
-		
+	private void refrescarCbTipoContacto() {
+		this.ventanaPersona.escribirComboBoxTipoDeContacto(this.tipoContactoEnTabla);
+	}
+	private void refresecarCbPaises() {
+		this.ventanaPersona.escribirComboBoxPais(this.paisEnTabla);
+	}
+	private void refrescarCbProvincias() {
+		this.ventanaPersona.escribirComboBoxProvincia(this.provinciaEnTabla,this.ventanaPersona.getCbPais().getSelectedItem());
+	}
+	private void refrescarCbLocalidades() {
+		this.ventanaPersona.escribirComboBoxLocalidad(this.localidadEnTabla,this.ventanaPersona.getCbProvincia().getSelectedItem());
+	}
+	
 }
