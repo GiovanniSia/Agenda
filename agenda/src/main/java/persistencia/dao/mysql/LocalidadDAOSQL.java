@@ -14,7 +14,7 @@ public class LocalidadDAOSQL implements LocalidadDAO{
 	
 	private static final String insert = "INSERT INTO localidades(idLocalidad, nombreLocalidad,idForeignProvincia) VALUES(?, ?,?)";
 	private static final String delete = "DELETE FROM localidades WHERE idLocalidad = ?";
-	private static final String edit = "UPDATE localidades set nombreLocalidad=? where idLocalidad=?";
+	private static final String update = "UPDATE localidades set nombreLocalidad=? where idLocalidad=?";
 	private static final String readall = "SELECT * FROM localidades";
 
 	@Override
@@ -50,7 +50,8 @@ public class LocalidadDAOSQL implements LocalidadDAO{
 		boolean isdeleteExitoso = false;
 		try {
 			statement = conexion.prepareStatement(delete);
-			statement.setString(1, Integer.toString(Localidad_a_eliminar.getIdLocalidad()));
+			System.out.println("se borra la localidad con id:"+Localidad_a_eliminar.getIdLocalidad());
+			statement.setInt(1, Localidad_a_eliminar.getIdLocalidad());
 			if (statement.executeUpdate() > 0) {
 				conexion.commit();
 				isdeleteExitoso = true;
@@ -62,15 +63,15 @@ public class LocalidadDAOSQL implements LocalidadDAO{
 	}
 
 	@Override
-	public boolean edit(int idLocalidad, LocalidadDTO Localidad_a_editar) {
+	public boolean update(LocalidadDTO Localidad_a_editar,String nuevoNombre) {
 		PreparedStatement statement;
 		Connection conexion = Conexion.getConexion().getSQLConexion();
 		boolean isUpdateExitoso = false;
 		try {
-			statement = conexion.prepareStatement(edit);
+			statement = conexion.prepareStatement(update);
 
-			statement.setString(1, Localidad_a_editar.getNombreLocalidad());
-			statement.setInt(2, idLocalidad);
+			statement.setString(1, nuevoNombre);
+			statement.setInt(2, Localidad_a_editar.getIdLocalidad());
 
 			if (statement.executeUpdate() > 0) {
 				conexion.commit();
@@ -79,6 +80,7 @@ public class LocalidadDAOSQL implements LocalidadDAO{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		System.out.println("se ejecuto el update");
 		return isUpdateExitoso;
 	}
 

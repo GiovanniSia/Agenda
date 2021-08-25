@@ -9,7 +9,7 @@ public interface LocalidadDAO {
 	
 	public boolean delete(LocalidadDTO Localidad_a_eliminar);
 	
-	public boolean edit(int idLocalidad,LocalidadDTO Localidad_a_editar);
+	public boolean update(LocalidadDTO Localidad_a_editar,String nuevoNombre);
 	
 	public List<LocalidadDTO> readAll();
 }

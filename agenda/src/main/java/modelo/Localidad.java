@@ -20,10 +20,10 @@ private LocalidadDAO localidad;
 	public void borrarLocalidad(LocalidadDTO Localidad_a_eliminar) {
 		this.localidad.delete(Localidad_a_eliminar);
 	}
-	public void editarLocalidad(int idLocalidad,LocalidadDTO Localidad_a_editar) {
-		this.localidad.edit(idLocalidad,Localidad_a_editar);
+	public void editarLocalidad(LocalidadDTO Localidad_a_editar,String nuevoNombre) {
+		this.localidad.update(Localidad_a_editar,nuevoNombre);
 	}
-	public List<LocalidadDTO> obtenerLocalidad(){
+	public List<LocalidadDTO> obtenerLocalidades(){
 		return this.localidad.readAll();
 	}
 }

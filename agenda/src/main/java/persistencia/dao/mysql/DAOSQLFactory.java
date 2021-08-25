@@ -27,19 +27,16 @@ public class DAOSQLFactory implements DAOAbstractFactory
 
 	@Override
 	public PaisDAO createPaisDAO() {
-		// TODO Auto-generated method stub
 		return new PaisDAOSQL();
 	}
 
 	@Override
 	public ProvinciaDAO createProvinciaDAO() {
-		// TODO Auto-generated method stub
 		return new ProvinciaDAOSQL();
 	}
 
 	@Override
 	public LocalidadDAO createLocalidadDAO() {
-		// TODO Auto-generated method stub
 		return new LocalidadDAOSQL();
 	}
 
