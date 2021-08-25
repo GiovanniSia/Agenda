@@ -51,6 +51,12 @@ CREATE TABLE IF NOT EXISTS personas (
     PRIMARY KEY (idPersona)
 );
 
+CREATE TABLE IF NOT EXISTS signozodiaco(
+	idSignoZodiaco int NOT NULL AUTO_INCREMENT,
+	nombreSignoZodiaco varchar(30) NOT NULL,
+	PRIMARY KEY (idSignoZodiaco)
+);
+
 insert into paises values(1,"Argentina");
 insert into provincias values(1,"Buenos Aires",1);
 insert into localidades values(1,"Malvinas Argentinas",1);
@@ -59,8 +65,20 @@ insert into paises values(2,"Brasil");
 insert into provincias values(2,"Rio de Janeiro",2);
 insert into localidades values(2,"Playita",2);
 
-/*Ingreso valores predeterminados a la tabla tiposDeContactos*/
-
 insert into tiposdecontactos values(1,"Trabajo");
 insert into tiposdecontactos values(2,"Familia");
 insert into tiposdecontactos values(3,"Amigos");
+
+insert into signozodiaco values(1,"Aries");
+insert into signozodiaco values(2,"Tauro");
+insert into signozodiaco values(3,"Geminis");
+insert into signozodiaco values(4,"Cancer");
+insert into signozodiaco values(5,"Leo");
+insert into signozodiaco values(6,"Virgo");
+insert into signozodiaco values(7,"Libra");
+insert into signozodiaco values(8,"Escorpio");
+insert into signozodiaco values(9,"Sagitario");
+insert into signozodiaco values(10,"Capricornio");
+insert into signozodiaco values(11,"Acuario");
+insert into signozodiaco values(12,"Piscis");
+
