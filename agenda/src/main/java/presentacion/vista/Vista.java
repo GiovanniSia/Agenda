@@ -28,7 +28,7 @@ public class Vista
 	private JButton btnReporte;
 	private DefaultTableModel modelPersonas;
 	private String[] nombreColumnas = { "Nombre y apellido", "Telefono", "Calle", "Altura", "Piso", "Departamento",
-			"Email", "Fecha de Cumpleanios", "Tipo de Contacto", "Pais" , "Provincia", "Localidad" };
+			"Email", "Fecha de Cumpleanios", "Tipo de Contacto","Signo Zodiaco", "Pais" , "Provincia", "Localidad" };
 
 	public Vista() 
 	{
@@ -40,18 +40,18 @@ public class Vista
 	private void initialize() 
 	{
 		frame = new JFrame();
-		frame.setBounds(100, 100, 705, 303);
+		frame.setBounds(100, 100, 786, 303);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(0, 0, 693, 262);
+		panel.setBounds(0, 0, 760, 262);
 		frame.getContentPane().add(panel);
 		panel.setLayout(null);
 
 		JScrollPane spPersonas = new JScrollPane(tablaPersonas, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		spPersonas.setBounds(8, 30, 678, 182);
+		spPersonas.setBounds(8, 30, 742, 182);
 		panel.add(spPersonas);
 		
 		modelPersonas = new DefaultTableModel(null,nombreColumnas);
@@ -151,10 +151,11 @@ public class Vista
 			String email = p.getEmail();
 			Date fechaDeCumpleanios = (Date) p.getFechaDeCumpleanios();
 			String tipoContacto = p.getTipoDeContacto();
+			String signoZodiaco = p.getSignoZodiaco();
 			String pais = p.getPais();
 			String provincia = p.getProvincia();
 			String localidad = p.getLocalidad();
-			Object[] fila = { nombre, tel, calle, altura, piso, departamento, email, fechaDeCumpleanios, tipoContacto,pais,provincia,localidad };
+			Object[] fila = { nombre, tel, calle, altura, piso, departamento, email, fechaDeCumpleanios, tipoContacto,signoZodiaco,pais,provincia,localidad };
 			this.getModelPersonas().addRow(fila);
 		}
 	}

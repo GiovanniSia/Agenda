@@ -66,6 +66,8 @@ public class Controlador implements ActionListener
 			this.tipoContacto = new TipoContacto(new DAOSQLFactory());
 			this.refrescarTablaTipoContacto();
 			
+			this.signoZodiaco = new SignoZodiaco(new DAOSQLFactory());
+			this.refrescarTablaSignoZodiaco();
 			
 			this.pais = new Pais(new DAOSQLFactory());
 			this.refrescarTablaPais();
@@ -91,9 +93,6 @@ public class Controlador implements ActionListener
 			
 			this.ventanaPersona.getBtnEditarLocalidad().addActionListener(z->ventanaEditarLocalidad(z));
 			escucharCbLocalidad();
-
-			this.signoZodiaco = new SignoZodiaco(new DAOSQLFactory());
-			this.refrescarCbSignoZodiaco();
 			
 			this.agenda = agenda;	
 		}
@@ -102,13 +101,8 @@ public class Controlador implements ActionListener
 		
 //Signo Zodiaco
 		private void refrescarCbSignoZodiaco() {
-			//this.escribirComboBoxSignoZodiaco();
-			this.refrescarTablaSignoZodiaco();
-			//this.ventanaPersona.getCbSignoZodiaco().removeAllItems();
+			this.ventanaPersona.getCbSignoZodiaco().removeAllItems();
 			for(SignoZodiacoDTO s : this.signoZodiacoEnTabla) {
-				
-				System.out.println(s.getNombreSignoZodiaco());
-				//this.ventanaPersona.getCbSignoZodiaco().addItem("Aries");
 				this.ventanaPersona.getCbSignoZodiaco().addItem(s.getNombreSignoZodiaco());
 			}
 		} 
@@ -160,6 +154,7 @@ public class Controlador implements ActionListener
 
 		
 		private void ventanaAgregarPersona(ActionEvent a) {
+			this.ventanaPersona.limpiarValores();
 			escribirComboBoxesAgregar();
 			this.ventanaPersona.mostrarVentana();
 		}
@@ -190,7 +185,7 @@ public class Controlador implements ActionListener
 				JOptionPane.showMessageDialog(null, "No ha seleccionado ninguna persona para editar");
 				return;
 			}	
-
+			this.mostrarVentanaConValores();
 		}
 		
 		
@@ -209,13 +204,14 @@ public class Controlador implements ActionListener
 			this.ventanaPersona.getAltura().setText(persona.getDomicilio().getAltura());
 			this.ventanaPersona.getPiso().setText(persona.getDomicilio().getPiso());
 			this.ventanaPersona.getDepartamento().setText(persona.getDomicilio().getDepartamento());
-			
+			this.ventanaPersona.getCbTipoContacto().setSelectedItem(persona.getTipoDeContacto());
+			this.ventanaPersona.getCbSignoZodiaco().setSelectedItem(persona.getSignoZodiaco());
 			//defectuoso
 			this.ventanaPersona.getCbPais().setSelectedItem(persona.getPais());
 			this.ventanaPersona.getCbProvincia().setSelectedItem(persona.getProvincia());
 			this.ventanaPersona.getCbLocalidad().setSelectedItem(persona.getLocalidad());
 			
-			escribirComboBoxEditar();
+			//escribirComboBoxEditar();
 		
 			this.ventanaPersona.getBtnAgregarPersona().setVisible(false);
 			this.ventanaPersona.getBtnCancelar().setVisible(true);
@@ -251,11 +247,12 @@ public class Controlador implements ActionListener
 			java.sql.Date fechaDeCumpleanios = new java.sql.Date(ventanaPersona.getFechaCumpleanios().getDate().getTime());
 			Domicilio domicilio = new Domicilio(calle, altura, piso, departamento);
 			String tipoContacto = ventanaPersona.getTipoDeContactoSeleccionado();
+			String signoZodiaco = ventanaPersona.getSignoZodiacoSeleccionado();
 			String pais = ventanaPersona.getPaisSeleccionado();
 			String provincia = ventanaPersona.getProvinciaSeleccionado();
 			String localidad = ventanaPersona.getLocalidadSeleccionado();
 			
-			return new PersonaDTO(0, nombre, telefono, domicilio, email, fechaDeCumpleanios, tipoContacto,pais,provincia,localidad);	
+			return new PersonaDTO(0, nombre, telefono, domicilio, email, fechaDeCumpleanios, tipoContacto, signoZodiaco, pais, provincia, localidad);	
 		}
 		
 
@@ -385,6 +382,7 @@ public class Controlador implements ActionListener
 		
 		public void escribirComboBoxesAgregar() {
 			refrescarCbTipoContacto();
+			refrescarCbSignoZodiaco();
 			refresecarCbPaises();
 			escribirComboBoxProvincias();
 			escribirComboBoxLocalidades();

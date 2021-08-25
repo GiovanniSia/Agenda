@@ -312,7 +312,6 @@ public class VentanaPersona extends JFrame {
 		return this.txtEmail;
 	}
 
-//<<<<<<< HEAD
 	public void limpiarValores() {
 		this.txtNombre.setText("");
 		this.txtTelefono.setText("");
@@ -321,8 +320,11 @@ public class VentanaPersona extends JFrame {
 		this.txtAltura.setText("");
 		this.txtPiso.setText("");
 		this.txtDepartamento.setText("");
-		this.cbTipoContacto.setSelectedItem(null);
-
+		this.cbTipoContacto.setSelectedItem("");
+		this.cbSignoZodiaco.setSelectedItem("");
+		this.cbPais.setSelectedItem("");
+		this.cbProvincia.setSelectedItem("");
+		this.cbLocalidad.setSelectedItem("");
 	}
 
 	public JDateChooser getFechaCumpleanios() {
