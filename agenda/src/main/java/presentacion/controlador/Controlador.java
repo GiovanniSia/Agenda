@@ -678,10 +678,29 @@ public class Controlador implements ActionListener
 			String provElegida = (String) this.ventanaEditarLocalidad.getComboProvincias().getSelectedItem();
 			
 			this.localidadEnTabla = this.localidad.obtenerLocalidades();
-			llenarTablaEditarLocalidad(paisElegido,provElegida);
+			
+//			Si solo queda una fila en la tabla solo borramos la localidad
+			if(this.ventanaEditarLocalidad.getTable().getRowCount()==1) {
+				llenarTablaConSinLocalidad(paisElegido,provElegida);
+			}else {
+				llenarTablaEditarLocalidad(paisElegido,provElegida);
+			}
+			
 		}
 			
-		
+		public void llenarTablaConSinLocalidad(String paisElegido,String provElegida) {
+			this.ventanaEditarLocalidad.getModelTabla().setRowCount(0);
+			this.ventanaEditarLocalidad.getModelTabla().setColumnCount(0);
+			this.ventanaEditarLocalidad.getModelTabla().setColumnIdentifiers(this.ventanaEditarLocalidad.getNombreColumnas());
+			PaisDTO paisReferenciado = getPaisDeTabla(paisElegido);
+			ProvinciaDTO provinciaReferenciada = getProvinciaDeTabla(provElegida,paisReferenciado.getIdPais());
+			
+						
+			Object[] fila = {paisElegido,provElegida,""};
+			this.ventanaEditarLocalidad.getModelTabla().addRow(fila);
+				
+			
+		}
 		
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 				
