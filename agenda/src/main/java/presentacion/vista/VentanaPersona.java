@@ -2,7 +2,6 @@ package presentacion.vista;
 
 import java.util.Date;
 import java.util.List;
-
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -12,9 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
-
 import com.toedter.calendar.JDateChooser;
-
 import dto.LocalidadDTO;
 import dto.PaisDTO;
 import dto.PersonaDTO;
@@ -31,27 +28,22 @@ public class VentanaPersona extends JFrame {
 	JPanel panel;
 	JButton btnCancelar;
 	private JButton btnAceptar;
-
-	// Fecha cumpleanios
 	private JDateChooser fechaCumpleanios;
-
 	private JTextField txtEmail;
 	private JTextField txtCalle;
 	private JTextField txtAltura;
 	private JTextField txtPiso;
 	private JTextField txtDepartamento;
-
 	private JButton btnEditarTipoContacto;
-
-	//Localidad
+	private JButton btnEditarPais;
 	private JButton btnEditarLocalidad;
-
+	private JButton btnEditarProvincia;
 	private JComboBox cbPais;
 	private JComboBox cbProvincia;
 	private JComboBox cbTipoContacto;
 	private JComboBox cbLocalidad;
-	
-	
+	private JComboBox cbSignoZodiaco;
+
 	public static VentanaPersona getInstance() {
 		if (INSTANCE == null) {
 			INSTANCE = new VentanaPersona();
@@ -62,7 +54,6 @@ public class VentanaPersona extends JFrame {
 
 	private VentanaPersona() {
 		super();
-
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (Exception e) {
@@ -70,95 +61,94 @@ public class VentanaPersona extends JFrame {
 		}
 
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 328, 521);
+		setBounds(100, 100, 372, 521);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
 		JPanel panel = new JPanel();
-		panel.setBounds(10, 11, 303, 463);
+		panel.setBounds(10, 11, 344, 463);
 		contentPane.add(panel);
 		panel.setLayout(null);
 
 		JLabel lblNombreYApellido = new JLabel("Nombre y apellido");
-		lblNombreYApellido.setBounds(10, 11, 113, 14);
+		lblNombreYApellido.setBounds(21, 14, 113, 14);
 		panel.add(lblNombreYApellido);
 
 		JLabel lblTelfono = new JLabel("Telefono");
-		lblTelfono.setBounds(10, 42, 113, 14);
+		lblTelfono.setBounds(39, 45, 113, 14);
 		panel.add(lblTelfono);
 
 		txtNombre = new JTextField();
-		txtNombre.setBounds(133, 8, 164, 20);
+		txtNombre.setBounds(173, 11, 164, 20);
 		panel.add(txtNombre);
 		txtNombre.setColumns(10);
 
 		txtTelefono = new JTextField();
-		txtTelefono.setBounds(133, 39, 164, 20);
+		txtTelefono.setBounds(173, 42, 164, 20);
 		panel.add(txtTelefono);
 		txtTelefono.setColumns(10);
 
 		btnAgregarPersona = new JButton("Agregar");
-		btnAgregarPersona.setBounds(218, 287, 89, 23);
-		btnAgregarPersona.setBounds(208, 425, 89, 23);
+		btnAgregarPersona.setBounds(248, 426, 89, 23);
 		panel.add(btnAgregarPersona);
 
 		JLabel lblNewLabel = new JLabel("Email");
-		lblNewLabel.setBounds(10, 73, 113, 14);
+		lblNewLabel.setBounds(49, 76, 113, 14);
 		panel.add(lblNewLabel);
 
 		txtEmail = new JTextField();
-		txtEmail.setBounds(133, 70, 164, 20);
+		txtEmail.setBounds(173, 73, 164, 20);
 		panel.add(txtEmail);
 		txtEmail.setColumns(10);
 
 		JLabel lblNewLabel_1 = new JLabel("Domicilio");
-		lblNewLabel_1.setBounds(10, 111, 46, 14);
+		lblNewLabel_1.setBounds(10, 135, 100, 14);
 		panel.add(lblNewLabel_1);
 
 		JLabel lblNewLabel_2 = new JLabel("Calle");
-		lblNewLabel_2.setBounds(77, 132, 46, 14);
+		lblNewLabel_2.setBounds(123, 135, 46, 14);
 		panel.add(lblNewLabel_2);
 
 		txtCalle = new JTextField();
-		txtCalle.setBounds(133, 129, 164, 20);
+		txtCalle.setBounds(173, 132, 164, 20);
 		panel.add(txtCalle);
 		txtCalle.setColumns(10);
 
 		JLabel lblNewLabel_3 = new JLabel("Altura");
-		lblNewLabel_3.setBounds(77, 157, 46, 14);
+		lblNewLabel_3.setBounds(123, 160, 46, 14);
 		panel.add(lblNewLabel_3);
 
 		txtAltura = new JTextField();
-		txtAltura.setBounds(133, 154, 164, 20);
+		txtAltura.setBounds(173, 157, 164, 20);
 		panel.add(txtAltura);
 		txtAltura.setColumns(10);
 
 		JLabel lblNewLabel_4 = new JLabel("Piso");
-		lblNewLabel_4.setBounds(77, 182, 46, 14);
+		lblNewLabel_4.setBounds(123, 185, 46, 14);
 		panel.add(lblNewLabel_4);
 
 		txtPiso = new JTextField();
-		txtPiso.setBounds(133, 179, 164, 20);
+		txtPiso.setBounds(173, 182, 164, 20);
 		panel.add(txtPiso);
 		txtPiso.setColumns(10);
 
 		JLabel lblNewLabel_5 = new JLabel("Departamento");
-		lblNewLabel_5.setBounds(54, 207, 69, 14);
+		lblNewLabel_5.setBounds(100, 210, 69, 14);
 		panel.add(lblNewLabel_5);
 
 		txtDepartamento = new JTextField();
-		txtDepartamento.setBounds(133, 204, 164, 20);
+		txtDepartamento.setBounds(173, 207, 164, 20);
 		panel.add(txtDepartamento);
 		txtDepartamento.setColumns(10);
 
 		JLabel lblNewLabel_6 = new JLabel("Tipo de Contacto");
-		lblNewLabel_6.setBounds(10, 239, 100, 14);
+		lblNewLabel_6.setBounds(10, 239, 113, 14);
 		panel.add(lblNewLabel_6);
 
 		cbTipoContacto = new JComboBox();
-		cbTipoContacto.setBounds(133, 235, 164, 22);
+		cbTipoContacto.setBounds(173, 235, 164, 22);
 		panel.add(cbTipoContacto);
 
 		btnEditarTipoContacto = new JButton("Editar Contacto");
@@ -171,67 +161,66 @@ public class VentanaPersona extends JFrame {
 		btnCancelar.setVisible(false);
 
 		btnAceptar = new JButton("Aceptar");
-
-		
-		btnAceptar.setBounds(218, 288, 89, 21);
-
-		btnAceptar.setBounds(113, 426, 85, 21);
-
-
+		btnAceptar.setBounds(248, 427, 85, 21);
 		panel.add(btnAceptar);
-		btnCancelar.setVisible(false);
-
-		
-		//LOCALIDAD
 
 		JLabel lblNewLabel_7 = new JLabel("Localidad");
-		lblNewLabel_7.setBounds(10, 289, 100, 14);
+		lblNewLabel_7.setBounds(10, 308, 100, 14);
 		panel.add(lblNewLabel_7);
 
 		JLabel lblNewLabel_8 = new JLabel("Pais");
-		lblNewLabel_8.setBounds(77, 313, 46, 14);
+		lblNewLabel_8.setBounds(129, 332, 46, 14);
 		panel.add(lblNewLabel_8);
 
 		JLabel lblNewLabel_9 = new JLabel("Provincia");
-		lblNewLabel_9.setBounds(77, 339, 46, 14);
+		lblNewLabel_9.setBounds(117, 357, 46, 14);
 		panel.add(lblNewLabel_9);
 
 		JLabel lblNewLabel_10 = new JLabel("Localidad");
-		lblNewLabel_10.setBounds(77, 363, 46, 14);
+		lblNewLabel_10.setBounds(117, 382, 46, 14);
 		panel.add(lblNewLabel_10);
 
 		cbPais = new JComboBox();
-//		cbPais.setModel(new DefaultComboBoxModel(new String[] {"Argentina"}));
-		cbPais.setBounds(133, 311, 164, 22);
+		cbPais.setBounds(173, 328, 164, 22);
 		panel.add(cbPais);
 
 		cbProvincia = new JComboBox();
-//		cbProvincia.setModel(new DefaultComboBoxModel(new String[] {"Buenos Aires"}));
-		cbProvincia.setBounds(133, 335, 164, 22);
+		cbProvincia.setBounds(173, 354, 164, 22);
 		panel.add(cbProvincia);
 
 		cbLocalidad = new JComboBox();
-//		cbLocalidad.setModel(new DefaultComboBoxModel(new String[] {"San Miguel"}));
-		cbLocalidad.setBounds(133, 359, 164, 22);
+		cbLocalidad.setBounds(173, 378, 164, 22);
 		panel.add(cbLocalidad);
 
-		btnEditarLocalidad = new JButton("Editar Localidad");
-		btnEditarLocalidad.setBounds(10, 399, 113, 23);
-		panel.add(btnEditarLocalidad);
-		
 		fechaCumpleanios = new JDateChooser();
-		fechaCumpleanios.setBounds(143, 100, 135, 19);
+		fechaCumpleanios.setBounds(173, 105, 164, 19);
 		fechaCumpleanios.setDate(new Date());
 		panel.add(fechaCumpleanios);
-		
-		
-		
-		
-		
-		
-		
-		
-		
+
+		JLabel lblNewLabel_11 = new JLabel("Fecha de cumpleaños");
+		lblNewLabel_11.setBounds(10, 110, 142, 14);
+		panel.add(lblNewLabel_11);
+
+		btnEditarPais = new JButton("Editar Pais");
+		btnEditarPais.setBounds(6, 328, 107, 23);
+		panel.add(btnEditarPais);
+
+		btnEditarLocalidad = new JButton("Editar Localidad");
+		btnEditarLocalidad.setBounds(6, 378, 107, 23);
+		panel.add(btnEditarLocalidad);
+
+		btnEditarProvincia = new JButton("Editar Provincia");
+		btnEditarProvincia.setBounds(6, 353, 107, 23);
+		panel.add(btnEditarProvincia);
+
+		JLabel lblNewLabel_12 = new JLabel("Signo del zodiaco");
+		lblNewLabel_12.setBounds(10, 289, 89, 14);
+		panel.add(lblNewLabel_12);
+
+		cbSignoZodiaco = new JComboBox();
+		cbSignoZodiaco.setBounds(173, 285, 164, 22);
+		panel.add(cbSignoZodiaco);
+
 		this.setVisible(false);
 	}
 
@@ -265,11 +254,18 @@ public class VentanaPersona extends JFrame {
 		return btnEditarTipoContacto;
 	}
 
+	public JButton getBtnEditarPais() {
+		return btnEditarPais;
+	}
 
-	
+	public JButton getBtnEditarProvincia() {
+		return btnEditarProvincia;
+	}
+
 	public JButton getBtnEditarLocalidad() {
 		return btnEditarLocalidad;
 	}
+
 	public JComboBox getCbPais() {
 		return cbPais;
 	}
@@ -284,6 +280,10 @@ public class VentanaPersona extends JFrame {
 
 	public JComboBox getCbLocalidad() {
 		return cbLocalidad;
+	}
+
+	public JComboBox getCbSignoZodiaco() {
+		return cbSignoZodiaco;
 	}
 
 	public void cerrar() {
@@ -308,7 +308,6 @@ public class VentanaPersona extends JFrame {
 		return this.txtDepartamento;
 	}
 
-
 	public JTextField getEmail() {
 		return this.txtEmail;
 	}
@@ -328,21 +327,21 @@ public class VentanaPersona extends JFrame {
 
 	public JDateChooser getFechaCumpleanios() {
 		return this.fechaCumpleanios;
-}
+	}
 
 	public String getTipoDeContactoSeleccionado() {
 		return (String) this.cbTipoContacto.getSelectedItem();
 	}
 
 	public String getPaisSeleccionado() {
-		return (String)this.cbPais.getSelectedItem();
+		return (String) this.cbPais.getSelectedItem();
 	}
-	
+
 	public String getProvinciaSeleccionado() {
-		return (String)this.cbProvincia.getSelectedItem();
+		return (String) this.cbProvincia.getSelectedItem();
 	}
-	
+
 	public String getLocalidadSeleccionado() {
-		return (String)this.cbLocalidad.getSelectedItem();
+		return (String) this.cbLocalidad.getSelectedItem();
 	}
 }
