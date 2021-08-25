@@ -344,4 +344,8 @@ public class VentanaPersona extends JFrame {
 	public String getLocalidadSeleccionado() {
 		return (String) this.cbLocalidad.getSelectedItem();
 	}
+	
+	public String getSignoZodiacoSeleccionado() {
+		return (String) this.cbSignoZodiaco.getSelectedItem();
+	}
 }
