@@ -12,4 +12,6 @@ public interface DAOAbstractFactory
 	public ProvinciaDAO createProvinciaDAO();
 	
 	public LocalidadDAO createLocalidadDAO();
+	
+	public SignoZodiacoDAO createSignoZodiacoDAO();
 }

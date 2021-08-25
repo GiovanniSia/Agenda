@@ -8,6 +8,7 @@ import persistencia.dao.interfaz.LocalidadDAO;
 import persistencia.dao.interfaz.PaisDAO;
 import persistencia.dao.interfaz.PersonaDAO;
 import persistencia.dao.interfaz.ProvinciaDAO;
+import persistencia.dao.interfaz.SignoZodiacoDAO;
 import persistencia.dao.interfaz.TipoContactoDAO;
 
 public class DAOSQLFactory implements DAOAbstractFactory 
@@ -43,4 +44,7 @@ public class DAOSQLFactory implements DAOAbstractFactory
 		return new LocalidadDAOSQL();
 	}
 
+	public SignoZodiacoDAO createSignoZodiacoDAO() {
+		return new SignoZodiacoDAOSQL();
+	}
 }
