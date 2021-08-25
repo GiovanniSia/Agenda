@@ -456,11 +456,16 @@ public class Controlador implements ActionListener
 		
 		public void agregarLocalidad(ActionEvent a) {
 			String nombreLocalidadNueva = this.ventanaEditarLocalidad.getTxtNuevaLocalidad().getText();
+			if(this.ventanaEditarLocalidad.getComboProvincias().getSelectedItem()==null) {
+				JOptionPane.showMessageDialog(null, "El pais no tiene provincias!");
+				return;
+			}
 			
 			if(nombreLocalidadNueva.equals("")) {
 				JOptionPane.showMessageDialog(null, "Por favor escriba una localidad nueva para agregar");
 				return;
 			}
+
 			
 			String nombrePaisSeleccionado=(String) this.ventanaEditarLocalidad.getComboBoxPaises().getSelectedItem();
 			String nombreProvinciaSeleccionada = (String) this.ventanaEditarLocalidad.getComboProvincias().getSelectedItem();
@@ -483,7 +488,12 @@ public class Controlador implements ActionListener
 			PaisDTO paisReferenciado = getPaisDeTabla(paisElegido);
 			ProvinciaDTO provinciaReferenciada = getProvinciaDeTabla(provElegida,paisReferenciado.getIdPais());
 			
-			
+			//Si el pais no tiene provincias
+			if(provinciaReferenciada==null) {
+				Object[] fila = {paisElegido,"",""};
+				this.ventanaEditarLocalidad.getModelTabla().addRow(fila);
+				return;
+			}
 			int cantLoc=0;
 			for(LocalidadDTO localidad: this.localidadEnTabla) {				
 				if(localidad.getIdForeignProvincia() == provinciaReferenciada.getIdProvincia() && provinciaReferenciada.getIdProvincia()==paisReferenciado.getIdPais()) {
@@ -572,12 +582,22 @@ public class Controlador implements ActionListener
 			if(filaSeleccionada == -1) {
 				JOptionPane.showMessageDialog(null, "Por favor seleccione una localidad de la fila para editar");
 				return;
-			}
-			
+			}			
 			DefaultTableModel modelo = (DefaultTableModel) this.ventanaEditarLocalidad.getTable().getModel();
 			PaisDTO paisSeleccionado = obtenerPaisDeTablaLocalidad(filaSeleccionada);
 			ProvinciaDTO provinciaSeleccionada = obtenerProvinciaDeTablaLocalidad(filaSeleccionada,paisSeleccionado.getIdPais());
 			String nombreLocalidadBorrar = (String) modelo.getValueAt(filaSeleccionada, 2);
+			String provinciaEnTabla= (String) modelo.getValueAt(filaSeleccionada, 1);
+			
+			if(provinciaEnTabla.equals("")) {
+				JOptionPane.showMessageDialog(null, "El pais no tiene provincias!");
+				return;
+			}			
+			if(nombreLocalidadBorrar.equals("")) {
+				JOptionPane.showMessageDialog(null, "La provincia no tiene localidades!");
+				return;
+			}
+			
 			String nuevoNombre = this.ventanaEditarLocalidad.getTxtNuevaLocalidad().getText();
 			for(LocalidadDTO loc: this.localidadEnTabla) {
 				if(loc.getNombreLocalidad().equals(nombreLocalidadBorrar) && loc.getIdForeignProvincia()==provinciaSeleccionada.getIdProvincia() && provinciaSeleccionada.getForeignPais()==paisSeleccionado.getIdPais()) {
@@ -627,7 +647,16 @@ public class Controlador implements ActionListener
 			DefaultTableModel modelo = (DefaultTableModel) this.ventanaEditarLocalidad.getTable().getModel();
 //			LocalidadDTO localidadBorrar = obtenerLocalidadDeTablaLocalidad(filaSeleccionada, provEnTabla.getIdProvincia());
 			String nombreLocalidadBorrar = (String) modelo.getValueAt(filaSeleccionada, 2);
-			
+			String provinciaEnTabla = (String) modelo.getValueAt(filaSeleccionada, 1);
+
+			if(provinciaEnTabla.equals("")) {
+				JOptionPane.showMessageDialog(null, "El país no tiene provincias ni localidad para borrar");
+				return;
+			}
+			if(nombreLocalidadBorrar.equals("")) {
+				JOptionPane.showMessageDialog(null, "La provincia seleccionada no tiene localidades para borrar");
+				return;
+			}
 			//Obtenemos los obj :(
 			
 			
