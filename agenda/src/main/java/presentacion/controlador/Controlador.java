@@ -496,7 +496,6 @@ public class Controlador implements ActionListener
 		for(LocalidadDTO localidad: this.localidadEnTabla) {
 			String provReferenciada = obtenerProvinciaReferenciada(localidad).getNombreProvincia();
 			if(provinciaSeleccionada.equals(provReferenciada)) {
-				System.out.println("se escriben localidades");
 				this.ventanaPersona.getCbLocalidad().addItem(localidad.getNombreLocalidad());
 			}
 			
@@ -531,6 +530,7 @@ public class Controlador implements ActionListener
 	
 	public void escucharCbLocalidad() {
 		this.ventanaPersona.getCbPais().addActionListener(e -> refrescarCbProvLoca(e));
+		this.ventanaPersona.getCbProvincia().addActionListener(e -> actualizarCbLocalidades(e));
 	}
 	
 	
@@ -538,7 +538,9 @@ public class Controlador implements ActionListener
 		escribirComboBoxProvincias();
 		escribirComboBoxLocalidades();
 	}
-	
+	public void actualizarCbLocalidades(ActionEvent e) {
+		escribirComboBoxLocalidades();
+	}
 	
 	public void refrescarComboBoxes() {
 		refrescarCbTipoContacto();

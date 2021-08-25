@@ -14,18 +14,20 @@ CREATE TABLE IF NOT EXISTS provincias
     idProvincia int(11) NOT NULL AUTO_INCREMENT,
     nombreProvincia varchar(45) DEFAULT NULL,
     foreignPais int(11) NOT NULL,
-    PRIMARY KEY (idProvincia),
-    FOREIGN KEY (foreignPais) REFERENCES paises(idPais)
+    PRIMARY KEY (idProvincia)
 );
+
+ALTER TABLE provincias ADD FOREIGN KEY(foreignPais) REFERENCES paises(idPais) ON DELETE CASCADE;
 
 CREATE TABLE IF NOT EXISTS localidades
 (
     idLocalidad int(11) NOT NULL AUTO_INCREMENT,
     nombreLocalidad varchar(45) DEFAULT NULL,
     idForeignProvincia int(11) NOT NULL,
-    PRIMARY KEY (idLocalidad),
-    FOREIGN KEY (idForeignProvincia) REFERENCES provincias(idProvincia)
+    PRIMARY KEY (idLocalidad)
 );
+
+ALTER TABLE localidades ADD FOREIGN KEY(idForeignProvincia) REFERENCES provincias(idProvincia) ON DELETE CASCADE;
 
 CREATE TABLE IF NOT EXISTS tiposdecontactos(
     idTipoContacto int(11) NOT NULL AUTO_INCREMENT,
