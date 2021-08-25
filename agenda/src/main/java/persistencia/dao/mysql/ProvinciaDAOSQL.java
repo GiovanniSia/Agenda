@@ -85,7 +85,6 @@ public class ProvinciaDAOSQL implements ProvinciaDAO{
 
 	@Override
 	public ArrayList<ProvinciaDTO> readAll() {
-		System.out.println("Hola");
 		PreparedStatement statement;
 		ResultSet resultSet; // Guarda el resultado de la query
 		ArrayList<ProvinciaDTO> provincias = new ArrayList<ProvinciaDTO>();

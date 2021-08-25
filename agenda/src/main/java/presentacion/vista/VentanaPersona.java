@@ -70,14 +70,14 @@ public class VentanaPersona extends JFrame {
 		}
 
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 343, 521);
+		setBounds(100, 100, 328, 521);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
 		JPanel panel = new JPanel();
-		panel.setBounds(10, 11, 307, 463);
+		panel.setBounds(10, 11, 303, 463);
 		contentPane.add(panel);
 		panel.setLayout(null);
 
@@ -167,7 +167,7 @@ public class VentanaPersona extends JFrame {
 
 		btnCancelar = new JButton("Cancelar");
 		panel.add(btnCancelar);
-		btnCancelar.setBounds(10, 288, 85, 21);
+		btnCancelar.setBounds(10, 427, 85, 21);
 		btnCancelar.setVisible(false);
 
 		btnAceptar = new JButton("Aceptar");
@@ -189,34 +189,34 @@ public class VentanaPersona extends JFrame {
 		panel.add(lblNewLabel_7);
 
 		JLabel lblNewLabel_8 = new JLabel("Pais");
-		lblNewLabel_8.setBounds(77, 308, 46, 14);
+		lblNewLabel_8.setBounds(77, 313, 46, 14);
 		panel.add(lblNewLabel_8);
 
 		JLabel lblNewLabel_9 = new JLabel("Provincia");
-		lblNewLabel_9.setBounds(77, 333, 46, 14);
+		lblNewLabel_9.setBounds(77, 339, 46, 14);
 		panel.add(lblNewLabel_9);
 
 		JLabel lblNewLabel_10 = new JLabel("Localidad");
-		lblNewLabel_10.setBounds(77, 358, 46, 14);
+		lblNewLabel_10.setBounds(77, 363, 46, 14);
 		panel.add(lblNewLabel_10);
 
 		cbPais = new JComboBox();
 //		cbPais.setModel(new DefaultComboBoxModel(new String[] {"Argentina"}));
-		cbPais.setBounds(133, 304, 164, 22);
+		cbPais.setBounds(133, 311, 164, 22);
 		panel.add(cbPais);
 
 		cbProvincia = new JComboBox();
 //		cbProvincia.setModel(new DefaultComboBoxModel(new String[] {"Buenos Aires"}));
-		cbProvincia.setBounds(133, 329, 164, 22);
+		cbProvincia.setBounds(133, 335, 164, 22);
 		panel.add(cbProvincia);
 
 		cbLocalidad = new JComboBox();
 //		cbLocalidad.setModel(new DefaultComboBoxModel(new String[] {"San Miguel"}));
-		cbLocalidad.setBounds(133, 355, 164, 22);
+		cbLocalidad.setBounds(133, 359, 164, 22);
 		panel.add(cbLocalidad);
 
 		btnEditarLocalidad = new JButton("Editar Localidad");
-		btnEditarLocalidad.setBounds(10, 383, 113, 23);
+		btnEditarLocalidad.setBounds(10, 399, 113, 23);
 		panel.add(btnEditarLocalidad);
 		
 		fechaCumpleanios = new JDateChooser();
@@ -308,9 +308,6 @@ public class VentanaPersona extends JFrame {
 		return this.txtDepartamento;
 	}
 
-//	public JTextField getDomicilio() {
-//		return this.txtDomicilio;
-//	}
 
 	public JTextField getEmail() {
 		return this.txtEmail;
@@ -326,49 +323,13 @@ public class VentanaPersona extends JFrame {
 		this.txtPiso.setText("");
 		this.txtDepartamento.setText("");
 		this.cbTipoContacto.setSelectedItem(null);
-//		this.cbPais.setSelectedItem(null);
-//		this.cbProvincia.setSelectedItem(null);
-//		this.cbLocalidad.setSelectedItem(null);
+
 	}
-//=======
+
 	public JDateChooser getFechaCumpleanios() {
 		return this.fechaCumpleanios;
+}
 
-	}
-
-	// NOSE SI LA VISTA PUEDE TENER CONTACTO CON EL CÓDIGO
-//	public void mostrarVentanaConValores(PersonaDTO persona, List<TipoContactoDTO> tiposDeContactosEnTabla, List<PaisDTO> paisEnTabla, List<ProvinciaDTO> provinciaEnTabla, List<LocalidadDTO> localidadEnTabla) {
-//		this.txtNombre.setText(persona.getNombre());
-//		this.txtTelefono.setText(persona.getTelefono());
-//		this.txtEmail.setText(persona.getEmail());
-//		this.fechaCumpleanios.setDate(persona.getFechaDeCumpleanios());
-//		this.txtCalle.setText(persona.getDomicilio().getCalle());
-//		this.txtAltura.setText(persona.getDomicilio().getAltura());
-//		this.txtPiso.setText(persona.getDomicilio().getPiso());
-//		this.txtDepartamento.setText(persona.getDomicilio().getDepartamento());
-//		
-//		//defectuoso
-//		this.cbPais.setSelectedItem(persona.getPais());
-//		this.cbProvincia.setSelectedItem(persona.getProvincia());
-//		this.cbLocalidad.setSelectedItem(persona.getLocalidad());
-//		
-//		this.escribirComboBoxTipoDeContacto(tiposDeContactosEnTabla);
-//		this.escribirComboBoxPais(paisEnTabla);
-//		this.escribirComboBoxProvincia(provinciaEnTabla,persona.getPais());
-//		this.escribirComboBoxLocalidad(localidadEnTabla,persona.getProvincia());
-//	
-//		this.btnAgregarPersona.setVisible(false);
-//		this.btnCancelar.setVisible(true);
-//		this.btnAceptar.setVisible(true);
-//
-//		this.setVisible(true);
-//	}
-	
-	
-	
-	
-	
-	//Localidad
 	public String getTipoDeContactoSeleccionado() {
 		return (String) this.cbTipoContacto.getSelectedItem();
 	}
@@ -384,5 +345,4 @@ public class VentanaPersona extends JFrame {
 	public String getLocalidadSeleccionado() {
 		return (String)this.cbLocalidad.getSelectedItem();
 	}
-	
 }

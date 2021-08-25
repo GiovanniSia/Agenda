@@ -53,7 +53,7 @@ public class Controlador implements ActionListener
 			this.ventanaLocalidad =new VentanaEditarLocalidad();
 			this.ventanaLocalidad.getBtnAgregar().addActionListener(g->agregarLocalidad(g));
 			this.ventanaLocalidad.getBtnEditar().addActionListener(h->editarPais(h));
-			this.ventanaLocalidad.getBtnBorrar().addActionListener(j->borrarPais(j));
+			this.ventanaLocalidad.getBtnBorrar().addActionListener(j->borrarFilaTabla(j));
 			this.ventanaLocalidad.getBtnSalir().addActionListener(k->salirLocalidad(k));
 			
 			this.ventanaLocalidad.getComboBox().addActionListener(x->obtenerSeleccionCombo(x));
@@ -89,163 +89,26 @@ public class Controlador implements ActionListener
 			this.agenda = agenda;	
 		}
 
-		private Object ventanaEditarLocalidad(ActionEvent z) {
-			this.ventanaLocalidad.mostrarVentana();
-			return null;
+		
+		
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		
+//		VISTA
+
+		public void inicializar()
+		{
+			this.refrescarTabla();
+			this.vista.show();
+		}
+		
+		private void refrescarTabla()
+		{
+			this.personasEnTabla = agenda.obtenerPersonas();
+			this.vista.llenarTabla(this.personasEnTabla);
 		}
 
-		private Object obtenerSeleccionCombo(ActionEvent x) {
-			this.ventanaLocalidad.obtenerSeleccion();
-			return null;
-		}
-		
-		private Object guardarLocalidad(ActionEvent y) {
-			this.ventanaLocalidad.guardarSeleccion();
-			return null;
-		}
-
-		private void ventanaEditarTipoContacto(ActionEvent t) {
-			this.ventanaTipoContacto.mostrarVentana();
-		}
-		
-		private void agregarTipoContacto(ActionEvent a) {
-			String nombreTipoContacto = this.ventanaTipoContacto.getTxtTipoContacto().getText();
-			TipoContactoDTO nuevoTipoContacto = new TipoContactoDTO(0, nombreTipoContacto);
-			this.tipoContacto.agregarTipoContacto(nuevoTipoContacto);
-			this.refrescarTablaTipoContacto();
-			this.ventanaTipoContacto.limpiarTxtTipoContacto();
-//			refresecarCbPaises();
-//			refrescarCbProvincias();
-//			refrescarCbLocalidades();
-			refrescarCbTipoContacto();
-		}
-		
-		private void editarTipoContacto(ActionEvent e) {
-			int filaSeleccionado = this.ventanaTipoContacto.tablaTipoContactoSeleccionada();
-			int idModificar = this.tipoContactoEnTabla.get(filaSeleccionado).getIdTipoContacto();
-			//System.out.println(idModificar);
-			String nombreNuevo = ventanaTipoContacto.getTxtTipoContacto().getText();
-			
-			TipoContactoDTO datosNuevos = new TipoContactoDTO(0,nombreNuevo);
-			tipoContacto.editarTipoContacto(idModificar,datosNuevos);
-			this.refrescarTablaTipoContacto();	
-			refrescarCbTipoContacto();
-			
-			/*
-			int[] filasSeleccionadas = this.ventanaTipoContacto.getTablaTipoContacto().getSelectedRows();
-			for (int fila : filasSeleccionadas)
-			{
-				this.tipoContacto.editarTipoContacto(this.tipoContactoEnTabla.get(fila));
-			}
-			this.refrescarTablaTipoContacto();
-			 */
-		}
-		
-		private void borrarTipoContacto(ActionEvent b) {
-			int[] filasSeleccionadas = this.ventanaTipoContacto.getTablaTipoContacto().getSelectedRows();
-			for (int fila : filasSeleccionadas)
-			{
-				this.tipoContacto.borrarTipoContacto(this.tipoContactoEnTabla.get(fila));
-			}
-			this.refrescarTablaTipoContacto();
-			this.ventanaTipoContacto.limpiarTxtTipoContacto();
-			refrescarCbTipoContacto();
-		}
-		
-		private void salirTipoContacto(ActionEvent s) {
-			this.ventanaTipoContacto.cerrar();
-			this.ventanaTipoContacto.limpiarTxtTipoContacto();
-			refrescarCbTipoContacto();
-		}
-		
-		public void refrescarTablaTipoContacto() {
-			this.tipoContactoEnTabla = tipoContacto.obtenerTipoContacto();
-			this.ventanaTipoContacto.llenarTabla(tipoContactoEnTabla);
-		}
-		
-		//DIFERENTES TABLAS
-		
-		private void agregarLocalidad(ActionEvent a) {
-			String nombreLocalidad = this.ventanaLocalidad.getTxtFieldNombreLocalidad().getText();
-			String comboBox = (String) this.ventanaLocalidad.getComboBox().getSelectedItem();
-			
-			if(comboBox == "Pais") {
-				System.out.println("Agrego Pais");
-				PaisDTO nuevaLocalidad = new PaisDTO(0, nombreLocalidad);
-				this.pais.agregarPais(nuevaLocalidad);
-				this.refrescarTablaPais();
-				this.ventanaLocalidad.limpiarTodosTxt();
-			}
-			if(comboBox == "Provincia") {
-				System.out.println("Agrego Provincia");
-				int idPais = Integer.parseInt((String)this.ventanaLocalidad.getTxtFieldId().getText());
-				ProvinciaDTO nuevaLocalidad = new ProvinciaDTO(0, nombreLocalidad, idPais);
-				this.provincia.agregarProvincia(nuevaLocalidad);
-				this.refrescarTablaProvincia();
-				this.ventanaLocalidad.limpiarTodosTxt();
-			}
-			if(comboBox == "Localidad") {
-				System.out.println("Agrego localidad");
-				int idPais = Integer.parseInt((String)this.ventanaLocalidad.getTxtFieldId().getText());
-				LocalidadDTO nuevaLocalidad = new LocalidadDTO(0, nombreLocalidad,idPais);
-				this.localidad.agregarLocalidad(nuevaLocalidad);
-				this.refrescarTablaLocalidad();
-				this.ventanaLocalidad.limpiarTodosTxt();
-			}
-			refrescarComboBoxes();
-		}
-		
-		private void editarPais(ActionEvent e) {
-			int filaSeleccionado = this.ventanaLocalidad.tablaPaisSeleccionada();
-			int idModificar = this.paisEnTabla.get(filaSeleccionado).getIdPais();
-			String nombreNuevo = ventanaLocalidad.getTxtFieldNombreLocalidad().getText();
-			
-			PaisDTO datosNuevos = new PaisDTO(0,nombreNuevo);
-			pais.editarPais(idModificar,datosNuevos);
-			this.refrescarTablaPais();	
-			
-		}
-		
-		private void borrarPais(ActionEvent b) {
-			int[] filasSeleccionadas = this.ventanaLocalidad.getTablaPais().getSelectedRows();
-			for (int fila : filasSeleccionadas)
-			{
-				this.pais.borrarPais(this.paisEnTabla.get(fila));
-			}
-			this.refrescarTablaPais();
-			this.ventanaLocalidad.limpiarTodosTxt();
-		}
-		
-		private void salirLocalidad(ActionEvent s) {
-			this.ventanaLocalidad.limpiarTodosTxt();
-			this.ventanaLocalidad.cerrar();
-			refrescarComboBoxes();
-//			refresecarCbPaises();
-//			refrescarCbProvincias();
-//			refrescarCbLocalidades();
-//			refrescarCbTipoContacto();
-		}
-		
-		public void refrescarTablaPais() {
-			this.paisEnTabla = pais.obtenerPais();
-			this.ventanaLocalidad.llenarTablaPais(paisEnTabla);
-		}
-		public void refrescarTablaProvincia() {
-			this.provinciaEnTabla = provincia.obtenerProvincia();
-			this.ventanaLocalidad.llenarTablaProvincia(provinciaEnTabla);
-		}
-		public void refrescarTablaLocalidad() {
-			this.localidadEnTabla = localidad.obtenerLocalidad();
-			this.ventanaLocalidad.llenarTablaLocalidad(localidadEnTabla);
-		}
-		
-		//EL RESTO DEL CODIGO
 		
 		private void ventanaAgregarPersona(ActionEvent a) {
-//			refresecarCbPaises();
-//			refrescarCbProvincias();
-//			refrescarCbLocalidades();
-//			refrescarCbTipoContacto();
 			escribirComboBoxesAgregar();
 			this.ventanaPersona.mostrarVentana();
 		}
@@ -258,12 +121,7 @@ public class Controlador implements ActionListener
 				this.ventanaPersona.cerrar();				
 			}
 		}
-
-		private void mostrarReporte(ActionEvent r) {
-			ReporteAgenda reporte = new ReporteAgenda(agenda.obtenerPersonas());
-			reporte.mostrar();	
-		}
-
+		
 		public void borrarPersona(ActionEvent s)
 		{
 			int[] filasSeleccionadas = this.vista.getTablaPersonas().getSelectedRows();
@@ -281,13 +139,14 @@ public class Controlador implements ActionListener
 				JOptionPane.showMessageDialog(null, "No ha seleccionado ninguna persona para editar");
 				return;
 			}	
-//			this.ventanaPersona.mostrarVentanaConValores(this.personasEnTabla.get(filaSeleccionada), tipoContactoEnTabla,paisEnTabla,provinciaEnTabla,localidadEnTabla);
-//			mostrarVentanaConValores();
-//			refrescarCbTipoContacto();
-//			refresecarCbPaises();
-//			refrescarCbProvincias();
-//			refrescarCbLocalidades();
+
 		}
+		
+		
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		
+//		VISTA PERSONA
+		
 		
 		public void mostrarVentanaConValores() {
 			PersonaDTO persona = this.personasEnTabla.get(filaSeleccionada);
@@ -305,10 +164,6 @@ public class Controlador implements ActionListener
 			this.ventanaPersona.getCbProvincia().setSelectedItem(persona.getProvincia());
 			this.ventanaPersona.getCbLocalidad().setSelectedItem(persona.getLocalidad());
 			
-//			escribirComboBoxTipoDeContacto(tipoContactoEnTabla);
-//			escribirComboBoxPais(paisEnTabla);
-//			escribirComboBoxProvincia(provinciaEnTabla,persona.getPais());
-//			escribirComboBoxLocalidad(localidadEnTabla,persona.getProvincia());
 			escribirComboBoxEditar();
 		
 			this.ventanaPersona.getBtnAgregarPersona().setVisible(false);
@@ -333,26 +188,6 @@ public class Controlador implements ActionListener
 			}
 			
 		}
-		
-		public void cerrarVentanaEditar(ActionEvent e) {
-			this.ventanaPersona.cerrar();
-		}
-		
-		public void inicializar()
-		{
-			this.refrescarTabla();
-			this.vista.show();
-		}
-		
-		private void refrescarTabla()
-		{
-			this.personasEnTabla = agenda.obtenerPersonas();
-			this.vista.llenarTabla(this.personasEnTabla);
-		}
-
-		@Override
-		public void actionPerformed(ActionEvent e) { }
-		
 		
 		public PersonaDTO obtenerPersonaDeVista() {
 			String nombre = ventanaPersona.getTxtNombre().getText();
@@ -425,20 +260,6 @@ public class Controlador implements ActionListener
 				JOptionPane.showMessageDialog(null,"Por favor seleccione una fecha de cumpleaños");
 				return false;
 			}
-			
-
-//		String mail = datosNuevos.getEmail();
-//		boolean expresionMail = mail
-//				.matches("^[A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
-//		if (!expresionMail) {
-//			JOptionPane.showMessageDialog(null, "Por favor ingrese una dirección de mail válida");
-//			return false;
-//		}
-//		Date fechaCumpleanios = datosNuevos.getFechaDeCumpleanios();
-//		if (fechaCumpleanios == null) {
-//			JOptionPane.showMessageDialog(null, "Por favor seleccione una fecha de cumpleaños");
-//			return false;
-//		}
 		
 		if(datosNuevos.getTipoDeContacto()==null) {
 			JOptionPane.showMessageDialog(null, "Debe seleccionar un tipo de contacto");
@@ -448,105 +269,304 @@ public class Controlador implements ActionListener
 	}
 		
 		
-	private void refrescarCbTipoContacto() {
-//		this.ventanaPersona.escribirComboBoxTipoDeContacto(this.tipoContactoEnTabla);
-		this.ventanaPersona.getCbTipoContacto().removeAllItems();
-		for (TipoContactoDTO tipo : this.tipoContactoEnTabla) {
-			this.ventanaPersona.getCbTipoContacto().addItem(tipo.getNombreTipoContacto());
+		
+		private void refrescarCbTipoContacto() {
+//			this.ventanaPersona.escribirComboBoxTipoDeContacto(this.tipoContactoEnTabla);
+			this.ventanaPersona.getCbTipoContacto().removeAllItems();
+			for (TipoContactoDTO tipo : this.tipoContactoEnTabla) {
+				this.ventanaPersona.getCbTipoContacto().addItem(tipo.getNombreTipoContacto());
+			}
 		}
-	}
-	private void refresecarCbPaises() {
-//		this.ventanaPersona.escribirComboBoxPais(this.paisEnTabla);
-		this.ventanaPersona.getCbPais().removeAllItems();
-		for(PaisDTO pais: this.paisEnTabla) {
-			this.ventanaPersona.getCbPais().addItem(pais.getNombrePais());
+		private void refresecarCbPaises() {
+			this.ventanaPersona.getCbPais().removeAllItems();
+			for(PaisDTO pais: this.paisEnTabla) {
+				this.ventanaPersona.getCbPais().addItem(pais.getNombrePais());
+			}
 		}
-	}
 
-//	private void refrescarCbProvincias() {
-//		this.ventanaPersona.escribirComboBoxProvincia(this.provinciaEnTabla,this.ventanaPersona.getCbPais().getSelectedItem());
-//	}
-//	private void refrescarCbLocalidades() {
-//		this.ventanaPersona.escribirComboBoxLocalidad(this.localidadEnTabla,this.ventanaPersona.getCbProvincia().getSelectedItem());
-//	}
-	
-	
-	public void escribirComboBoxProvincias() {
-		this.ventanaPersona.getCbProvincia().removeAllItems();
-		String paisSeleccionado = (String) this.ventanaPersona.getCbPais().getSelectedItem();
-		if(paisSeleccionado==null) {
-			this.ventanaPersona.getCbProvincia().addItem("");
-			return;
-		}
-		for(ProvinciaDTO provincia: this.provinciaEnTabla) {
-			String paisReferenciado = obtenerPaisReferenciado(provincia).getNombrePais();
-			if(paisSeleccionado.equals(paisReferenciado)) {
-				this.ventanaPersona.getCbProvincia().addItem(provincia.getNombreProvincia());
+
+		
+		public void escribirComboBoxProvincias() {
+			this.ventanaPersona.getCbProvincia().removeAllItems();
+			String paisSeleccionado = (String) this.ventanaPersona.getCbPais().getSelectedItem();
+			if(paisSeleccionado==null) {
+				this.ventanaPersona.getCbProvincia().addItem("");
+				return;
+			}
+			for(ProvinciaDTO provincia: this.provinciaEnTabla) {
+				String paisReferenciado = obtenerPaisReferenciado(provincia).getNombrePais();
+				if(paisSeleccionado.equals(paisReferenciado)) {
+					this.ventanaPersona.getCbProvincia().addItem(provincia.getNombreProvincia());
+				}
 			}
 		}
-	}
-	
-	public void escribirComboBoxLocalidades() {
-		this.ventanaPersona.getCbLocalidad().removeAllItems();
-		String provinciaSeleccionada = (String) this.ventanaPersona.getCbProvincia().getSelectedItem();
-		if(provinciaSeleccionada==null) {
-			this.ventanaPersona.getCbLocalidad().addItem("");
-			return;
-		}
-		for(LocalidadDTO localidad: this.localidadEnTabla) {
-			String provReferenciada = obtenerProvinciaReferenciada(localidad).getNombreProvincia();
-			if(provinciaSeleccionada.equals(provReferenciada)) {
-				this.ventanaPersona.getCbLocalidad().addItem(localidad.getNombreLocalidad());
+		
+		public void escribirComboBoxLocalidades() {
+			this.ventanaPersona.getCbLocalidad().removeAllItems();
+			String provinciaSeleccionada = (String) this.ventanaPersona.getCbProvincia().getSelectedItem();
+			if(provinciaSeleccionada==null) {
+				this.ventanaPersona.getCbLocalidad().addItem("");
+				return;
 			}
+			for(LocalidadDTO localidad: this.localidadEnTabla) {
+				String provReferenciada = obtenerProvinciaReferenciada(localidad).getNombreProvincia();
+				if(provinciaSeleccionada.equals(provReferenciada)) {
+					this.ventanaPersona.getCbLocalidad().addItem(localidad.getNombreLocalidad());
+				}
+				
+			}
+		}
+		
+		public ProvinciaDTO obtenerProvinciaReferenciada(LocalidadDTO localidad) {
+			for(ProvinciaDTO provincia: this.provinciaEnTabla) {
+				if(provincia.getIdProvincia() == localidad.getIdForeignProvincia()) {
+					return provincia;
+				}
+			}
+			return null;
+		}
+		
+		public PaisDTO obtenerPaisReferenciado(ProvinciaDTO provincia) {
+			for(PaisDTO pais: this.paisEnTabla) {
+				if(pais.getIdPais() == provincia.getForeignPais()) {
+					return pais;
+				}
+			}
+			return null;
+		}
+		
+		public void escribirComboBoxesAgregar() {
+			refrescarCbTipoContacto();
+			refresecarCbPaises();
+			escribirComboBoxProvincias();
+			escribirComboBoxLocalidades();
+		}
+		
+		
+		public void escucharCbLocalidad() {
+			this.ventanaPersona.getCbPais().addActionListener(e -> refrescarCbProvLoca(e));
+			this.ventanaPersona.getCbProvincia().addActionListener(e -> actualizarCbLocalidades(e));
+		}
+		
+		
+		public void refrescarCbProvLoca(ActionEvent e) {
+			escribirComboBoxProvincias();
+			escribirComboBoxLocalidades();
+		}
+		public void actualizarCbLocalidades(ActionEvent e) {
+			escribirComboBoxLocalidades();
+		}
+		
+		public void refrescarComboBoxes() {
+			refrescarCbTipoContacto();
+			refresecarCbPaises();
+			escribirComboBoxProvincias();
+			escribirComboBoxLocalidades();
+		}
+		
+		public void cerrarVentanaEditar(ActionEvent e) {
+			this.ventanaPersona.cerrar();
+		}
+		
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		
+//		VISTA EDITAR TIPO CONTACTO
+		
+
+		private void ventanaEditarTipoContacto(ActionEvent t) {
+			this.ventanaTipoContacto.mostrarVentana();
+		}
+		
+		
+		private void agregarTipoContacto(ActionEvent a) {
+			String nombreTipoContacto = this.ventanaTipoContacto.getTxtTipoContacto().getText();
+			TipoContactoDTO nuevoTipoContacto = new TipoContactoDTO(0, nombreTipoContacto);
+			this.tipoContacto.agregarTipoContacto(nuevoTipoContacto);
+			this.refrescarTablaTipoContacto();
+			this.ventanaTipoContacto.limpiarTxtTipoContacto();
+
+			refrescarCbTipoContacto();
+		}
+		
+		private void editarTipoContacto(ActionEvent e) {
+			int filaSeleccionado = this.ventanaTipoContacto.tablaTipoContactoSeleccionada();
+			int idModificar = this.tipoContactoEnTabla.get(filaSeleccionado).getIdTipoContacto();
+
+			String nombreNuevo = ventanaTipoContacto.getTxtTipoContacto().getText();
+			
+			TipoContactoDTO datosNuevos = new TipoContactoDTO(0,nombreNuevo);
+			tipoContacto.editarTipoContacto(idModificar,datosNuevos);
+			this.refrescarTablaTipoContacto();	
+			refrescarCbTipoContacto();
 			
 		}
-	}
-	
-	public ProvinciaDTO obtenerProvinciaReferenciada(LocalidadDTO localidad) {
-		for(ProvinciaDTO provincia: this.provinciaEnTabla) {
-			if(provincia.getIdProvincia() == localidad.getIdForeignProvincia()) {
-				return provincia;
+		
+		private void borrarTipoContacto(ActionEvent b) {
+			int[] filasSeleccionadas = this.ventanaTipoContacto.getTablaTipoContacto().getSelectedRows();
+			for (int fila : filasSeleccionadas)
+			{
+				this.tipoContacto.borrarTipoContacto(this.tipoContactoEnTabla.get(fila));
+			}
+			this.refrescarTablaTipoContacto();
+			this.ventanaTipoContacto.limpiarTxtTipoContacto();
+			refrescarCbTipoContacto();
+		}
+		
+		private void salirTipoContacto(ActionEvent s) {
+			this.ventanaTipoContacto.cerrar();
+			this.ventanaTipoContacto.limpiarTxtTipoContacto();
+			refrescarCbTipoContacto();
+		}
+		
+		public void refrescarTablaTipoContacto() {
+			this.tipoContactoEnTabla = tipoContacto.obtenerTipoContacto();
+			this.ventanaTipoContacto.llenarTabla(tipoContactoEnTabla);
+		}
+		
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		
+//		VISTA EDITAR LOCALIDAD
+		
+		
+		private void agregarLocalidad(ActionEvent a) {
+			String nombreLocalidad = this.ventanaLocalidad.getTxtFieldNombreLocalidad().getText();
+			String comboBox = (String) this.ventanaLocalidad.getComboBox().getSelectedItem();
+			
+			if(comboBox == "Pais") {
+				System.out.println("Agrego Pais");
+				PaisDTO nuevaLocalidad = new PaisDTO(0, nombreLocalidad);
+				this.pais.agregarPais(nuevaLocalidad);
+				this.refrescarTablaPais();
+				this.ventanaLocalidad.limpiarTodosTxt();
+			}
+			if(comboBox == "Provincia") {
+				System.out.println("Agrego Provincia");
+				int idPais = Integer.parseInt((String)this.ventanaLocalidad.getTxtFieldId().getText());
+				ProvinciaDTO nuevaLocalidad = new ProvinciaDTO(0, nombreLocalidad, idPais);
+				this.provincia.agregarProvincia(nuevaLocalidad);
+				this.refrescarTablaProvincia();
+				this.ventanaLocalidad.limpiarTodosTxt();
+			}
+			if(comboBox == "Localidad") {
+				System.out.println("Agrego localidad");
+				int idPais = Integer.parseInt((String)this.ventanaLocalidad.getTxtFieldId().getText());
+				LocalidadDTO nuevaLocalidad = new LocalidadDTO(0, nombreLocalidad,idPais);
+				this.localidad.agregarLocalidad(nuevaLocalidad);
+				this.refrescarTablaLocalidad();
+				this.ventanaLocalidad.limpiarTodosTxt();
+			}
+			refrescarComboBoxes();
+		}
+		
+		private void editarPais(ActionEvent e) {
+			int filaSeleccionado = this.ventanaLocalidad.tablaPaisSeleccionada();
+			int idModificar = this.paisEnTabla.get(filaSeleccionado).getIdPais();
+			String nombreNuevo = ventanaLocalidad.getTxtFieldNombreLocalidad().getText();
+			
+			PaisDTO datosNuevos = new PaisDTO(0,nombreNuevo);
+			pais.editarPais(idModificar,datosNuevos);
+			this.refrescarTablaPais();	
+			
+		}
+		
+		private void borrarPais(ActionEvent b) {
+			int[] filasSeleccionadas = this.ventanaLocalidad.getTablaPais().getSelectedRows();
+			for (int fila : filasSeleccionadas)
+			{
+				this.pais.borrarPais(this.paisEnTabla.get(fila));
+			}
+			this.refrescarTablaPais();
+			this.ventanaLocalidad.limpiarTodosTxt();
+		}
+		
+		private void salirLocalidad(ActionEvent s) {
+			this.ventanaLocalidad.limpiarTodosTxt();
+			this.ventanaLocalidad.cerrar();
+			refrescarComboBoxes();
+
+		}
+		
+		public void refrescarTablaPais() {
+			this.paisEnTabla = pais.obtenerPais();
+			this.ventanaLocalidad.llenarTablaPais(paisEnTabla);
+		}
+		public void refrescarTablaProvincia() {
+			this.provinciaEnTabla = provincia.obtenerProvincia();
+			this.ventanaLocalidad.llenarTablaProvincia(provinciaEnTabla);
+		}
+		public void refrescarTablaLocalidad() {
+			this.localidadEnTabla = localidad.obtenerLocalidad();
+			this.ventanaLocalidad.llenarTablaLocalidad(localidadEnTabla);
+		}
+		
+		
+		
+		public void borrarFilaTabla(ActionEvent e) {
+			int filaPaisSeleccionada = this.ventanaLocalidad.getTablaPais().getSelectedRow();
+			if(filaPaisSeleccionada != -1) {
+				this.pais.borrarPais(this.paisEnTabla.get(filaPaisSeleccionada));
+				this.refrescarTablaPais();
+				this.ventanaLocalidad.limpiarTodosTxt();
+				return;
+			}
+			
+			int filaProvinciaSeleccionada = this.ventanaLocalidad.getTablaTipoProvincia().getSelectedRow();
+			if(filaProvinciaSeleccionada != -1) {
+				this.provincia.borrarProvincia(this.provinciaEnTabla.get(filaProvinciaSeleccionada));
+				System.out.println("se borro provincia de la tabla");
+				return;
+			}
+			
+			int filaLocalidadSeleccionada = this.ventanaLocalidad.getTablaTipoLocalidad().getSelectedRow();
+			if(filaLocalidadSeleccionada != -1) {
+				this.localidad.borrarLocalidad(this.localidadEnTabla.get(filaLocalidadSeleccionada));
+				return;
 			}
 		}
-		return null;
-	}
-	
-	public PaisDTO obtenerPaisReferenciado(ProvinciaDTO provincia) {
-		for(PaisDTO pais: this.paisEnTabla) {
-			if(pais.getIdPais() == provincia.getForeignPais()) {
-				return pais;
-			}
+		
+		
+		
+		
+		
+		
+		private Object ventanaEditarLocalidad(ActionEvent z) {
+			this.ventanaLocalidad.mostrarVentana();
+			return null;
 		}
-		return null;
-	}
+
+		private Object obtenerSeleccionCombo(ActionEvent x) {
+			this.ventanaLocalidad.obtenerSeleccion();
+			return null;
+		}
+		
+		private Object guardarLocalidad(ActionEvent y) {
+			this.ventanaLocalidad.guardarSeleccion();
+			return null;
+		}
+		
+		
+		
+		
+		
+		
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+				
 	
-	public void escribirComboBoxesAgregar() {
-		refrescarCbTipoContacto();
-		refresecarCbPaises();
-		escribirComboBoxProvincias();
-		escribirComboBoxLocalidades();
-	}
+
+		private void mostrarReporte(ActionEvent r) {
+			ReporteAgenda reporte = new ReporteAgenda(agenda.obtenerPersonas());
+			reporte.mostrar();	
+		}
+
+
+		
 	
+		@Override
+		public void actionPerformed(ActionEvent e) { }
+		
+		
 	
-	public void escucharCbLocalidad() {
-		this.ventanaPersona.getCbPais().addActionListener(e -> refrescarCbProvLoca(e));
-		this.ventanaPersona.getCbProvincia().addActionListener(e -> actualizarCbLocalidades(e));
-	}
+		
 	
-	
-	public void refrescarCbProvLoca(ActionEvent e) {
-		escribirComboBoxProvincias();
-		escribirComboBoxLocalidades();
-	}
-	public void actualizarCbLocalidades(ActionEvent e) {
-		escribirComboBoxLocalidades();
-	}
-	
-	public void refrescarComboBoxes() {
-		refrescarCbTipoContacto();
-		refresecarCbPaises();
-		escribirComboBoxProvincias();
-		escribirComboBoxLocalidades();
-	}
 	
 }
