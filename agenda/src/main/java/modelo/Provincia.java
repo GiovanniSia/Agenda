@@ -24,7 +24,6 @@ private ProvinciaDAO provincia;
 		this.provincia.edit(idProvincia,Provincia_a_editar,idForeignPais);
 	}
 	public List<ProvinciaDTO> obtenerProvincia(){
-		System.out.println("si");
 		return this.provincia.readAll();
 	}
 }

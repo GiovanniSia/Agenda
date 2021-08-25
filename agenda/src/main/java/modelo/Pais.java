@@ -26,4 +26,5 @@ private PaisDAO pais;
 	public List<PaisDTO> obtenerPais(){
 		return this.pais.readAll();
 	}
+	
 }

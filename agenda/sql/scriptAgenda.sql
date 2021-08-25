@@ -52,6 +52,11 @@ CREATE TABLE IF NOT EXISTS personas (
 insert into paises values(1,"Argentina");
 insert into provincias values(1,"Buenos Aires",1);
 insert into localidades values(1,"Malvinas Argentinas",1);
+
+insert into paises values(2,"Brasil");
+insert into provincias values(2,"Rio de Janeiro",2);
+insert into localidades values(2,"Playita",2);
+
 /*Ingreso valores predeterminados a la tabla tiposDeContactos*/
 
 insert into tiposdecontactos values(1,"Trabajo");

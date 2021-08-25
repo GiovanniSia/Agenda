@@ -337,32 +337,32 @@ public class VentanaPersona extends JFrame {
 	}
 
 	// NOSE SI LA VISTA PUEDE TENER CONTACTO CON EL CÓDIGO
-	public void mostrarVentanaConValores(PersonaDTO persona, List<TipoContactoDTO> tiposDeContactosEnTabla, List<PaisDTO> paisEnTabla, List<ProvinciaDTO> provinciaEnTabla, List<LocalidadDTO> localidadEnTabla) {
-		this.txtNombre.setText(persona.getNombre());
-		this.txtTelefono.setText(persona.getTelefono());
-		this.txtEmail.setText(persona.getEmail());
-		this.fechaCumpleanios.setDate(persona.getFechaDeCumpleanios());
-		this.txtCalle.setText(persona.getDomicilio().getCalle());
-		this.txtAltura.setText(persona.getDomicilio().getAltura());
-		this.txtPiso.setText(persona.getDomicilio().getPiso());
-		this.txtDepartamento.setText(persona.getDomicilio().getDepartamento());
-		
-		//defectuoso
-		this.cbPais.setSelectedItem(persona.getPais());
-		this.cbProvincia.setSelectedItem(persona.getProvincia());
-		this.cbLocalidad.setSelectedItem(persona.getLocalidad());
-		
-		this.escribirComboBoxTipoDeContacto(tiposDeContactosEnTabla);
-		this.escribirComboBoxPais(paisEnTabla);
-		this.escribirComboBoxProvincia(provinciaEnTabla,persona.getPais());
-		this.escribirComboBoxLocalidad(localidadEnTabla,persona.getProvincia());
-	
-		this.btnAgregarPersona.setVisible(false);
-		this.btnCancelar.setVisible(true);
-		this.btnAceptar.setVisible(true);
-
-		this.setVisible(true);
-	}
+//	public void mostrarVentanaConValores(PersonaDTO persona, List<TipoContactoDTO> tiposDeContactosEnTabla, List<PaisDTO> paisEnTabla, List<ProvinciaDTO> provinciaEnTabla, List<LocalidadDTO> localidadEnTabla) {
+//		this.txtNombre.setText(persona.getNombre());
+//		this.txtTelefono.setText(persona.getTelefono());
+//		this.txtEmail.setText(persona.getEmail());
+//		this.fechaCumpleanios.setDate(persona.getFechaDeCumpleanios());
+//		this.txtCalle.setText(persona.getDomicilio().getCalle());
+//		this.txtAltura.setText(persona.getDomicilio().getAltura());
+//		this.txtPiso.setText(persona.getDomicilio().getPiso());
+//		this.txtDepartamento.setText(persona.getDomicilio().getDepartamento());
+//		
+//		//defectuoso
+//		this.cbPais.setSelectedItem(persona.getPais());
+//		this.cbProvincia.setSelectedItem(persona.getProvincia());
+//		this.cbLocalidad.setSelectedItem(persona.getLocalidad());
+//		
+//		this.escribirComboBoxTipoDeContacto(tiposDeContactosEnTabla);
+//		this.escribirComboBoxPais(paisEnTabla);
+//		this.escribirComboBoxProvincia(provinciaEnTabla,persona.getPais());
+//		this.escribirComboBoxLocalidad(localidadEnTabla,persona.getProvincia());
+//	
+//		this.btnAgregarPersona.setVisible(false);
+//		this.btnCancelar.setVisible(true);
+//		this.btnAceptar.setVisible(true);
+//
+//		this.setVisible(true);
+//	}
 	
 	
 	
@@ -385,41 +385,4 @@ public class VentanaPersona extends JFrame {
 		return (String)this.cbLocalidad.getSelectedItem();
 	}
 	
-	
-	
-	public void escribirComboBoxTipoDeContacto(List<TipoContactoDTO> tiposDeContactosEnTabla) {
-		this.cbTipoContacto.removeAllItems();
-		for (TipoContactoDTO tipo : tiposDeContactosEnTabla) {
-			this.cbTipoContacto.addItem(tipo.getNombreTipoContacto());
-		}
-		contentPane.updateUI();
-	}
-	
-	public void escribirComboBoxPais(List<PaisDTO> paisEnTabla) {
-		this.cbPais.removeAllItems();
-		for (PaisDTO p : paisEnTabla) {
-			this.cbPais.addItem(p.getNombrePais());
-		}
-		contentPane.updateUI();
-	}
-	
-	public void escribirComboBoxProvincia(List<ProvinciaDTO> provinciaEnTabla,Object paisSeleccionado) {
-		this.cbProvincia.removeAllItems();
-		for (ProvinciaDTO p : provinciaEnTabla) {
-//			if(p.getForeignPais().equals(provinciaEnTabla)) {
-				this.cbProvincia.addItem(p.getNombreProvincia());
-//			}
-		}
-		contentPane.updateUI();
-	}
-	
-	public void escribirComboBoxLocalidad(List<LocalidadDTO> localidadEnTabla, Object provinciaSeleccionada) {
-		this.cbTipoContacto.removeAllItems();
-		for (LocalidadDTO l : localidadEnTabla) {
-//			if(l.getIdForeignProvincia().equals(provinciaSeleccionada)) {
-				this.cbLocalidad.addItem(l.getNombreLocalidad());
-//			}
-		}
-		contentPane.updateUI();
-	}
 }
