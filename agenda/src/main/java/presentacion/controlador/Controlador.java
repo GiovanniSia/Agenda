@@ -18,6 +18,7 @@ import persistencia.dao.mysql.DAOSQLFactory;
 import presentacion.reportes.ReporteAgenda;
 import presentacion.vista.VentanaEditarLocalidad;
 import presentacion.vista.VentanaEditarPais;
+import presentacion.vista.VentanaEditarProvincia;
 import presentacion.vista.VentanaPersona;
 import presentacion.vista.VentanaTipoContacto;
 import presentacion.vista.Vista;
@@ -44,6 +45,7 @@ public class Controlador implements ActionListener
 		private Localidad localidad;
 		private List<ProvinciaDTO> provinciaEnTabla;
 		private List<LocalidadDTO> localidadEnTabla;
+		private VentanaEditarProvincia ventanaProvincia;
 		
 		private VentanaEditarPais ventanaEditarPaises;
 		private VentanaEditarLocalidad ventanaEditarLocalidad;
@@ -55,6 +57,21 @@ public class Controlador implements ActionListener
 			this.ventanaTipoContacto.getBtnEditar().addActionListener(e->editarTipoContacto(e));
 			this.ventanaTipoContacto.getBtnBorrar().addActionListener(b->borrarTipoContacto(b));
 			this.ventanaTipoContacto.getBtnSalir().addActionListener(s->salirTipoContacto(s));
+			
+//			this.ventanaLocalidad =new VentanaEditarLocalidad();
+//			this.ventanaLocalidad.getBtnAgregar().addActionListener(g->agregarLocalidad(g));
+//			this.ventanaLocalidad.getBtnEditar().addActionListener(h->editarPais(h));
+//			this.ventanaLocalidad.getBtnBorrar().addActionListener(j->borrarFilaTabla(j));
+//			this.ventanaLocalidad.getBtnSalir().addActionListener(k->salirLocalidad(k));
+			
+			this.ventanaProvincia =new VentanaEditarProvincia();
+			this.ventanaProvincia.getBtnAgregar().addActionListener(q->agregarProvincia(q));
+			this.ventanaProvincia.getBtnEditar().addActionListener(w->editarProvincia(w));
+			this.ventanaProvincia.getBtnBorrar().addActionListener(r->borrarProvincia(r));
+			this.ventanaProvincia.getBtnSalir().addActionListener(t->salirProvincia(t));
+			
+//			this.ventanaLocalidad.getComboBox().addActionListener(x->obtenerSeleccionCombo(x));
+//			this.ventanaLocalidad.getBtnAgregar().addActionListener(y->guardarLocalidad(y));
 			
 			this.tipoContacto = new TipoContacto(new DAOSQLFactory());
 			this.refrescarTablaTipoContacto();
@@ -123,7 +140,11 @@ public class Controlador implements ActionListener
 				}
 			});
 			
-			this.agenda = agenda;	
+//			this.ventanaPersona.getBtnEditarLocalidad().addActionListener(z->ventanaEditarLocalidad(z));
+			
+			this.ventanaPersona.getBtnEditarProvincia().addActionListener(c->ventanaEditarProvincia(c));
+			escucharCbLocalidad();
+			this.agenda = agenda;
 		}
 
 		
@@ -322,6 +343,7 @@ public class Controlador implements ActionListener
 				this.ventanaPersona.getCbTipoContacto().addItem(tipo.getNombreTipoContacto());
 			}
 		}
+		
 		private void refresecarCbPaises() {
 			this.ventanaPersona.getCbPais().removeAllItems();
 			for(int i=0; i<this.paisEnTabla.size(); i++) {
@@ -477,7 +499,7 @@ public class Controlador implements ActionListener
 			
 			TipoContactoDTO datosNuevos = new TipoContactoDTO(0,nombreNuevo);
 			tipoContacto.editarTipoContacto(idModificar,datosNuevos);
-			this.refrescarTablaTipoContacto();	
+			this.refrescarTablaTipoContacto();
 			refrescarCbTipoContacto();
 			
 		}
@@ -919,6 +941,86 @@ public class Controlador implements ActionListener
 		public void salirLocalidad(ActionEvent a){
 			this.ventanaEditarLocalidad.cerrar();
 			refrescarComboBoxes();
+		}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		
+//VISTA EDITAR PROVINCIA
+
+		private void ventanaEditarProvincia(ActionEvent t) {
+//			refrescarTablaProvincia();
+//			this.ventanaProvincia.setListaDePaises(paisEnTabla);
+//			this.ventanaProvincia.llenarTablaProvincia(this.provinciaEnTabla);
+			this.ventanaProvincia.show();
+		}
+		
+		private void agregarProvincia(ActionEvent q) {
+			System.out.println("Agrego Provincia");
+			String nombreProvincia = (String)this.ventanaProvincia.getTxtFieldId().getText();
+			if(nombreProvincia.contentEquals("")) {
+				JOptionPane.showMessageDialog(null, "Campo nombre no debe estar vacio");
+				return;
+			}
+			int idPais = buscarIdPaisPorElComboBox();
+			ProvinciaDTO nuevaLocalidad = new ProvinciaDTO(0, nombreProvincia, idPais);
+			this.provincia.agregarProvincia(nuevaLocalidad);
+			this.refrescarTablaProvincia();
+			this.ventanaProvincia.limpiarTodosTxt();
+			this.escribirComboBoxLocalidades();
+			return;
+		}
+		
+		private void editarProvincia(ActionEvent w) {
+			int filaSeleccionado = this.ventanaProvincia.tablaProvinciaSeleccionada();
+			String nombreNuevo = (String)this.ventanaProvincia.getTxtFieldId().getText();
+			if(nombreNuevo.contentEquals("") || filaSeleccionado==-1) {
+				JOptionPane.showMessageDialog(null, "Campo nombre no debe estar vacio y se debe seleccionar una fila");
+				return;
+			}
+			int idModificar = this.provinciaEnTabla.get(filaSeleccionado).getIdProvincia();
+			int idPais = buscarIdPaisPorElComboBox();
+			
+			ProvinciaDTO datosNuevos = new ProvinciaDTO(0,nombreNuevo,idPais);
+			provincia.editarProvincia(idModificar,datosNuevos);
+			this.refrescarTablaProvincia();
+			return;
+		}
+
+		private void borrarProvincia(ActionEvent r) {
+			int[] filasSeleccionadas = this.ventanaProvincia.getTablaProvincia().getSelectedRows();
+			if(filasSeleccionadas.length==0) {
+				JOptionPane.showMessageDialog(null, "Debes seleccionar al menos una fila");
+				return;
+			}
+			for (int fila : filasSeleccionadas)
+			{
+				this.provincia.borrarProvincia(this.provinciaEnTabla.get(fila));
+			}
+			this.refrescarTablaProvincia();
+			this.ventanaProvincia.limpiarTodosTxt();
+			return;
+		}
+		
+		private void salirProvincia(ActionEvent t) {
+			this.ventanaProvincia.cerrarVentana();
+		}
+		
+		public void refrescarTablaProvincia() {
+			this.provinciaEnTabla = provincia.obtenerProvincia();
+			this.ventanaProvincia.setListaDePaises(paisEnTabla);
+			this.ventanaProvincia.llenarComboBoxPaises();
+			this.ventanaProvincia.llenarTablaProvincia(provinciaEnTabla);
+		}
+		
+		public int buscarIdPaisPorElComboBox() {
+			int idPais = 0;
+			String comboBox = (String) this.ventanaProvincia.getComboBox().getSelectedItem();
+			
+			for (int i = 0; i < paisEnTabla.size(); i++) {
+				if(paisEnTabla.get(i).getNombrePais()==comboBox) {
+					idPais =paisEnTabla.get(i).getIdPais();
+				}
+			}
+			return idPais;
 		}
 		
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
