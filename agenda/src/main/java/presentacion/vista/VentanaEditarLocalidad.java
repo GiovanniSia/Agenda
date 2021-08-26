@@ -13,6 +13,7 @@ import javax.swing.JTextField;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.JButton;
+import java.awt.Font;
 
 public class VentanaEditarLocalidad {
 
@@ -111,18 +112,22 @@ public class VentanaEditarLocalidad {
 		scrollPane.setViewportView(table);
 		
 		btnAgregarLocalidad = new JButton("Agregar");
+		btnAgregarLocalidad.setFont(new Font("Tahoma", Font.PLAIN, 9));
 		btnAgregarLocalidad.setBounds(0, 232, 76, 21);
 		frame.getContentPane().add(btnAgregarLocalidad);
 		
 		btnEditarLocalidad = new JButton("Editar");
+		btnEditarLocalidad.setFont(new Font("Tahoma", Font.PLAIN, 9));
 		btnEditarLocalidad.setBounds(78, 232, 61, 21);
 		frame.getContentPane().add(btnEditarLocalidad);
 		
 		btnBorrarLocalidad = new JButton("Borrar");
+		btnBorrarLocalidad.setFont(new Font("Tahoma", Font.PLAIN, 9));
 		btnBorrarLocalidad.setBounds(149, 232, 61, 21);
 		frame.getContentPane().add(btnBorrarLocalidad);
 		
 		btnSalirLocalidad = new JButton("Salir");
+		btnSalirLocalidad.setFont(new Font("Tahoma", Font.PLAIN, 9));
 		btnSalirLocalidad.setBounds(220, 232, 71, 21);
 		frame.getContentPane().add(btnSalirLocalidad);
 	}

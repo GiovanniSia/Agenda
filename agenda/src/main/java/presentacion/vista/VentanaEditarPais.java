@@ -11,6 +11,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
+import java.awt.Font;
 
 public class VentanaEditarPais {
 	private JFrame frame;
@@ -58,18 +59,22 @@ public class VentanaEditarPais {
 		frame.getContentPane().setLayout(null);
 		
 		btnAgregarPais = new JButton("Agregar");
+		btnAgregarPais.setFont(new Font("Tahoma", Font.PLAIN, 9));
 		btnAgregarPais.setBounds(10, 114, 69, 21);
 		frame.getContentPane().add(btnAgregarPais);
 		
 		btnEditarPais = new JButton("Editar");
+		btnEditarPais.setFont(new Font("Tahoma", Font.PLAIN, 9));
 		btnEditarPais.setBounds(85, 114, 69, 21);
 		frame.getContentPane().add(btnEditarPais);
 		
 		btnEliminarPais = new JButton("Eliminar");
+		btnEliminarPais.setFont(new Font("Tahoma", Font.PLAIN, 9));
 		btnEliminarPais.setBounds(85, 145, 69, 21);
 		frame.getContentPane().add(btnEliminarPais);
 		
 		btnSalirPais = new JButton("Salir");
+		btnSalirPais.setFont(new Font("Tahoma", Font.PLAIN, 9));
 		btnSalirPais.setBounds(10, 145, 69, 21);
 		frame.getContentPane().add(btnSalirPais);
 		
