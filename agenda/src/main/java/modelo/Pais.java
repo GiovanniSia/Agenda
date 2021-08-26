@@ -20,10 +20,10 @@ private PaisDAO pais;
 	public void borrarPais(PaisDTO Pais_a_eliminar) {
 		this.pais.delete(Pais_a_eliminar);
 	}
-	public void editarPais(int idPais,PaisDTO Pais_a_editar) {
-		this.pais.edit(idPais,Pais_a_editar);
+	public void editarPais(PaisDTO Pais_a_editar,String nombreNuevo) {
+		this.pais.update(Pais_a_editar, nombreNuevo);
 	}
-	public List<PaisDTO> obtenerPais(){
+	public List<PaisDTO> obtenerPaises(){
 		return this.pais.readAll();
 	}
 	

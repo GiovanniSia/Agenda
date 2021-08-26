@@ -17,6 +17,7 @@ import modelo.TipoContacto;
 import persistencia.dao.mysql.DAOSQLFactory;
 import presentacion.reportes.ReporteAgenda;
 import presentacion.vista.VentanaEditarLocalidad;
+import presentacion.vista.VentanaEditarPais;
 import presentacion.vista.VentanaPersona;
 import presentacion.vista.VentanaTipoContacto;
 import presentacion.vista.Vista;
@@ -44,6 +45,7 @@ public class Controlador implements ActionListener
 		private List<ProvinciaDTO> provinciaEnTabla;
 		private List<LocalidadDTO> localidadEnTabla;
 		
+		private VentanaEditarPais ventanaEditarPaises;
 		private VentanaEditarLocalidad ventanaEditarLocalidad;
 		
 		public Controlador(Vista vista, Agenda agenda)
@@ -58,7 +60,7 @@ public class Controlador implements ActionListener
 			this.refrescarTablaTipoContacto();
 //			
 			this.pais = new Pais(new DAOSQLFactory());
-			this.paisEnTabla= this.pais.obtenerPais();
+			this.paisEnTabla= this.pais.obtenerPaises();
 //			this.refrescarTablaPais();
 //			
 			this.provincia = new Provincia(new DAOSQLFactory());
@@ -69,6 +71,8 @@ public class Controlador implements ActionListener
 			this.localidadEnTabla = this.localidad.obtenerLocalidades();
 //			this.refrescarTablaLocalidad();
 			
+			
+			this.ventanaEditarPaises = new VentanaEditarPais();
 			this.ventanaEditarLocalidad = new VentanaEditarLocalidad();
 			
 			this.vista = vista;
@@ -84,9 +88,25 @@ public class Controlador implements ActionListener
 			this.ventanaPersona.getBtnAgregarPersona().addActionListener(p->guardarPersona(p));
 			this.ventanaPersona.getBtnEditarTipoContacto().addActionListener(t->ventanaEditarTipoContacto(t));
 			
+			
+			
+			this.ventanaPersona.getBtnEditarPais().addActionListener(a -> mostrarVentanaEditarPais(a));
 			this.ventanaPersona.getBtnEditarLocalidad().addActionListener(c -> mostrarVentanaEditarLocalidad(c));
 			escucharCbLocalidad();
 			
+			
+			//Paises
+			this.ventanaEditarPaises.getBtnEliminarPais().addActionListener(a -> borrarPaisEditarPais(a));
+			this.ventanaEditarPaises.getBtnAgregarPais().addActionListener(a-> agregarPaisEditarPais(a));
+			this.ventanaEditarPaises.getBtnEditarPais().addActionListener(a -> editarPais(a));
+			this.ventanaEditarPaises.getBtnSalirPais().addActionListener(a -> salirEditarPais(a));
+			this.ventanaEditarPaises.getTable().addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					int filaSeleccionada = ventanaEditarPaises.getTable().rowAtPoint(e.getPoint());
+					ventanaEditarPaises.getTextPaisNuevo().setText(ventanaEditarPaises.getTable().getValueAt(filaSeleccionada, 0).toString());
+				}
+			});
 			
 			//Localidad
 			this.ventanaEditarLocalidad.getBtnAgregarLocalidad().addActionListener(a -> agregarLocalidad(a));
@@ -383,6 +403,12 @@ public class Controlador implements ActionListener
 			this.ventanaPersona.cerrar();
 		}
 		
+		
+		
+		
+		
+	
+		
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		
 //		VISTA EDITAR TIPO CONTACTO
@@ -453,7 +479,112 @@ public class Controlador implements ActionListener
 			this.ventanaTipoContacto.llenarTabla(tipoContactoEnTabla);
 		}
 		
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		
+		
+		
+		
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		//VISTA EDITAR PAIS
+
+
+		public void mostrarVentanaEditarPais(ActionEvent e) {
+			llenarTablaEditarPais();
+			this.ventanaEditarPaises.show();
+		}
+
+
+		
+		public void llenarTablaEditarPais() {
+			this.ventanaEditarPaises.getModelTabla().setRowCount(0);
+			this.ventanaEditarPaises.getModelTabla().setColumnCount(0);
+			this.ventanaEditarPaises.getModelTabla().setColumnIdentifiers(this.ventanaEditarPaises.getNombreColumnas());
+			
+			for(PaisDTO p: this.paisEnTabla) {
+				Object[] fila = {p.getNombrePais()};
+				this.ventanaEditarPaises.getModelTabla().addRow(fila);
+			}
+		}
+		
+		public void borrarPaisEditarPais(ActionEvent a) {
+			int filaSeleccionada = this.ventanaEditarPaises.getTable().getSelectedRow();
+			System.out.println("FILA SELECCIONADA: "+filaSeleccionada);
+			if(filaSeleccionada == -1) {
+				JOptionPane.showMessageDialog(null, "Seleccione un pais para borrar");
+				return;
+			}
+			
+			DefaultTableModel modelo = (DefaultTableModel) this.ventanaEditarPaises.getTable().getModel();
+			String nombrePaisBorrar = (String) modelo.getValueAt(filaSeleccionada, 0);
+			
+			PaisDTO paisElegido = getPaisDeTabla(nombrePaisBorrar);
+			
+			for(int i=0; i<this.paisEnTabla.size(); i++) {
+				if(this.paisEnTabla.get(i).equals(paisElegido)) {
+					this.pais.borrarPais(this.paisEnTabla.get(i));
+				}
+			}
+			
+			this.paisEnTabla = this.pais.obtenerPaises();
+			llenarTablaEditarPais();
+		}
+		
+		public void agregarPaisEditarPais(ActionEvent a) {
+			String nombrePaisNuevo = this.ventanaEditarPaises.getTextPaisNuevo().getText();
+			if(nombrePaisNuevo.equals("")) {
+				JOptionPane.showMessageDialog(null, "Escriba el nombre del nuevo país");
+				return;
+			}
+			if(yaExisteElPais(nombrePaisNuevo)) {
+				JOptionPane.showMessageDialog(null, "Este país ya existe!");
+				return;
+			}
+			
+			PaisDTO nuevoPais = new PaisDTO(0, nombrePaisNuevo);
+			this.pais.agregarPais(nuevoPais);
+			this.paisEnTabla = this.pais.obtenerPaises();
+			this.ventanaEditarPaises.getTextPaisNuevo().setText("");
+			llenarTablaEditarPais();
+		}
+		
+		public boolean yaExisteElPais(String nuevoPais) {
+			for(PaisDTO p: this.paisEnTabla) {
+				if(p.getNombrePais().equals(nuevoPais)) {
+					return true;
+				}
+			}return false;
+		}
+		
+		public void editarPais(ActionEvent e) {
+			String nombreNuevo = this.ventanaEditarPaises.getTextPaisNuevo().getText();
+			if(yaExisteElPais(nombreNuevo)) {
+				JOptionPane.showMessageDialog(null, "Este país ya existe!");
+				return;
+			}
+			int filaSeleccionada = this.ventanaEditarPaises.getTable().getSelectedRow();
+			if(filaSeleccionada==-1) {
+				JOptionPane.showMessageDialog(null, "Seleccione un país para editar!");
+				return;
+			}
+			DefaultTableModel modelo = (DefaultTableModel) this.ventanaEditarPaises.getTable().getModel();
+			String nombrePais = (String) modelo.getValueAt(filaSeleccionada, 0);
+			
+			PaisDTO paisEditar = getPaisDeTabla(nombrePais); 
+			this.pais.editarPais(paisEditar, nombreNuevo);
+			this.paisEnTabla = this.pais.obtenerPaises();
+			this.ventanaEditarPaises.getTextPaisNuevo().setText("");
+			llenarTablaEditarPais();
+		}
+		
+		
+		public void salirEditarPais(ActionEvent a) {
+			this.ventanaEditarPaises.cerrar();
+			refrescarComboBoxes();
+		}
+		
+		
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
+		
+		
 		
 //		VISTA EDITAR LOCALIDAD
 		
@@ -695,9 +826,9 @@ public class Controlador implements ActionListener
 			DefaultTableModel modelo = (DefaultTableModel) this.ventanaEditarLocalidad.getTable().getModel();
 //			LocalidadDTO localidadBorrar = obtenerLocalidadDeTablaLocalidad(filaSeleccionada, provEnTabla.getIdProvincia());
 			String nombreLocalidadBorrar = (String) modelo.getValueAt(filaSeleccionada, 2);
-			String provinciaEnTabla = (String) modelo.getValueAt(filaSeleccionada, 1);
+//			String provinciaEnTabla = (String) modelo.getValueAt(filaSeleccionada, 1);
 
-			if(provinciaEnTabla.equals("")) {
+			if(provEnTabla==null) {
 				JOptionPane.showMessageDialog(null, "El país no tiene provincias ni localidad para borrar");
 				return;
 			}

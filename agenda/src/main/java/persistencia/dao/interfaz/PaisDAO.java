@@ -9,7 +9,7 @@ public interface PaisDAO {
 	
 	public boolean delete(PaisDTO Pais_a_eliminar);
 	
-	public boolean edit(int idPais,PaisDTO Pais_a_editar);
+	public boolean update(PaisDTO Pais_a_editar,String nombreNuevo);
 	
 	public List<PaisDTO> readAll();
 }

@@ -16,7 +16,7 @@ public class PaisDAOSQL implements PaisDAO {
 	
 	private static final String insert = "INSERT INTO paises(idPais, nombrePais) VALUES(?, ?)";
 	private static final String delete = "DELETE FROM paises WHERE idPais = ?";
-	private static final String edit = "UPDATE paises set nombrePais=? where idPais=?";
+	private static final String update = "UPDATE paises set nombrePais=? where idPais=?";
 	private static final String readall = "SELECT * FROM paises";
 
 	@Override
@@ -63,15 +63,15 @@ public class PaisDAOSQL implements PaisDAO {
 	}
 
 	@Override
-	public boolean edit(int idPais, PaisDTO Pais_a_editar) {
+	public boolean update(PaisDTO Pais_a_editar,String paisNuevo) {
 		PreparedStatement statement;
 		Connection conexion = Conexion.getConexion().getSQLConexion();
 		boolean isUpdateExitoso = false;
 		try {
-			statement = conexion.prepareStatement(edit);
+			statement = conexion.prepareStatement(update);
 
-			statement.setString(1, Pais_a_editar.getNombrePais());
-			statement.setInt(2, idPais);
+			statement.setString(1, paisNuevo);
+			statement.setInt(2, Pais_a_editar.getIdPais());
 
 			if (statement.executeUpdate() > 0) {
 				conexion.commit();
