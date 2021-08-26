@@ -466,11 +466,7 @@ public class Controlador implements ActionListener
 			
 			llenarTablaEditarLocalidad(paisElegido,provElegida);
 			llenarCbEditarLocalidad(paisElegido,provElegida);
-			if(provElegida==null) {
-				llenarTablaLocalidadSinLocalidades(paisElegido, provElegida);
-			}else {
-				llenarTablaEditarLocalidad(paisElegido, provElegida);
-			}
+			
 			
 			this.ventanaEditarLocalidad.show();
 		}
@@ -516,9 +512,17 @@ public class Controlador implements ActionListener
 			this.ventanaEditarLocalidad.getModelTabla().setRowCount(0);
 			this.ventanaEditarLocalidad.getModelTabla().setColumnCount(0);
 			this.ventanaEditarLocalidad.getModelTabla().setColumnIdentifiers(this.ventanaEditarLocalidad.getNombreColumnas());
+			
 			PaisDTO paisReferenciado = getPaisDeTabla(paisElegido);
+			
+			//Si el no hay paises
+			if(paisReferenciado==null) {
+				Object[] fila = {"","",""};
+				this.ventanaEditarLocalidad.getModelTabla().addRow(fila);
+				return;
+			}
+			
 			ProvinciaDTO provinciaReferenciada = getProvinciaDeTabla(provElegida,paisReferenciado.getIdPais());
-		
 			//Si el pais no tiene provincias
 			if(provinciaReferenciada==null) {
 				System.out.println("el pais: "+paisElegido+" no tiene provincias");
@@ -526,6 +530,7 @@ public class Controlador implements ActionListener
 				this.ventanaEditarLocalidad.getModelTabla().addRow(fila);
 				return;
 			}
+
 
 			int cantLoc=0;
 			for(LocalidadDTO localidad: this.localidadEnTabla) {	
@@ -545,15 +550,17 @@ public class Controlador implements ActionListener
 		
 		public void llenarCbEditarLocalidad(String paisElegido, String provinciaElegida) {
 			this.ventanaEditarLocalidad.getComboBoxPaises().removeAllItems();
+			this.ventanaEditarLocalidad.getComboProvincias().removeAllItems();
+			
+			if(paisElegido == null) {
+				return;
+			}
+			
 			for(PaisDTO pais: this.paisEnTabla) {
 				this.ventanaEditarLocalidad.getComboBoxPaises().addItem(pais.getNombrePais());
 			}
 			//seteamos el pais que se eligio
 			this.ventanaEditarLocalidad.getComboBoxPaises().setSelectedItem(paisElegido);
-			
-
-			
-			this.ventanaEditarLocalidad.getComboProvincias().removeAllItems();
 			
 //			Si el pais no tiene provincias
 			if(provinciaElegida == null) {
