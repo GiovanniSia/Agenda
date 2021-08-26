@@ -314,23 +314,29 @@ public class Controlador implements ActionListener
 		}
 		private void refresecarCbPaises() {
 			this.ventanaPersona.getCbPais().removeAllItems();
-			for(PaisDTO pais: this.paisEnTabla) {
-				this.ventanaPersona.getCbPais().addItem(pais.getNombrePais());
+			for(int i=0; i<this.paisEnTabla.size(); i++) {
+				this.ventanaPersona.getCbPais().addItem(this.paisEnTabla.get(i).getNombrePais());
 			}
+			
+//			for(PaisDTO pais: this.paisEnTabla) {
+//				this.ventanaPersona.getCbPais().addItem(pais.getNombrePais());
+//			}
 		}
 
 
 		
 		public void escribirComboBoxProvincias() {
 			this.ventanaPersona.getCbProvincia().removeAllItems();
-			String paisSeleccionado = (String) this.ventanaPersona.getCbPais().getSelectedItem();
+			String nombrePaisSeleccionado = (String) this.ventanaPersona.getCbPais().getSelectedItem();
+			
+			PaisDTO paisSeleccionado = getPaisDeTabla(nombrePaisSeleccionado);
+			
 			if(paisSeleccionado==null) {
 				this.ventanaPersona.getCbProvincia().addItem("");
 				return;
 			}
 			for(ProvinciaDTO provincia: this.provinciaEnTabla) {
-				String paisReferenciado = obtenerPaisReferenciado(provincia).getNombrePais();
-				if(paisSeleccionado.equals(paisReferenciado)) {
+				if(provincia.getForeignPais()==paisSeleccionado.getIdPais()) {
 					this.ventanaPersona.getCbProvincia().addItem(provincia.getNombreProvincia());
 				}
 			}
@@ -338,14 +344,23 @@ public class Controlador implements ActionListener
 		
 		public void escribirComboBoxLocalidades() {
 			this.ventanaPersona.getCbLocalidad().removeAllItems();
-			String provinciaSeleccionada = (String) this.ventanaPersona.getCbProvincia().getSelectedItem();
-			if(provinciaSeleccionada==null) {
+			String nombrePaisSeleccionado = (String) this.ventanaPersona.getCbPais().getSelectedItem();
+			String nombreProvinciaSeleccionada = (String) this.ventanaPersona.getCbProvincia().getSelectedItem();			
+			if(nombrePaisSeleccionado==null) {
 				this.ventanaPersona.getCbLocalidad().addItem("");
 				return;
 			}
+			if(nombreProvinciaSeleccionada==null) {
+				this.ventanaPersona.getCbLocalidad().addItem("");
+				return;
+			}
+			
+			PaisDTO paisSeleccionado = getPaisDeTabla(nombrePaisSeleccionado);
+			ProvinciaDTO provinciaSeleccionda = getProvinciaDeTabla(nombreProvinciaSeleccionada, paisSeleccionado.getIdPais());
+
+			
 			for(LocalidadDTO localidad: this.localidadEnTabla) {
-				String provReferenciada = obtenerProvinciaReferenciada(localidad).getNombreProvincia();
-				if(provinciaSeleccionada.equals(provReferenciada)) {
+				if(provinciaSeleccionda.getIdProvincia() == localidad.getIdForeignProvincia()) {
 					this.ventanaPersona.getCbLocalidad().addItem(localidad.getNombreLocalidad());
 				}
 				
@@ -526,6 +541,7 @@ public class Controlador implements ActionListener
 			
 			this.paisEnTabla = this.pais.obtenerPaises();
 			llenarTablaEditarPais();
+			escribirComboBoxesAgregar();
 		}
 		
 		public void agregarPaisEditarPais(ActionEvent a) {
@@ -544,6 +560,7 @@ public class Controlador implements ActionListener
 			this.paisEnTabla = this.pais.obtenerPaises();
 			this.ventanaEditarPaises.getTextPaisNuevo().setText("");
 			llenarTablaEditarPais();
+			escribirComboBoxesAgregar();
 		}
 		
 		public boolean yaExisteElPais(String nuevoPais) {
@@ -573,6 +590,7 @@ public class Controlador implements ActionListener
 			this.paisEnTabla = this.pais.obtenerPaises();
 			this.ventanaEditarPaises.getTextPaisNuevo().setText("");
 			llenarTablaEditarPais();
+			escribirComboBoxesAgregar();
 		}
 		
 		
@@ -633,10 +651,11 @@ public class Controlador implements ActionListener
 			this.localidadEnTabla = this.localidad.obtenerLocalidades();
 			this.ventanaEditarLocalidad.getTxtNuevaLocalidad().setText("");
 			
-			refresecarCbPaises();
-			escribirComboBoxProvincias();
-			escribirComboBoxLocalidades();
+//			refresecarCbPaises();
+//			escribirComboBoxProvincias();
+//			escribirComboBoxLocalidades();
 			llenarTablaEditarLocalidad(nombrePaisSeleccionado,nombreProvinciaSeleccionada);
+			escribirComboBoxesAgregar();
 		}
 		
 		public void llenarTablaEditarLocalidad(String paisElegido, String provElegida) {	
@@ -790,6 +809,7 @@ public class Controlador implements ActionListener
 			
 			this.localidadEnTabla = this.localidad.obtenerLocalidades();
 			llenarTablaEditarLocalidad(paisElegido,provElegida);
+			escribirComboBoxesAgregar();
 			
 		}
 		
@@ -864,7 +884,7 @@ public class Controlador implements ActionListener
 			}else {
 				llenarTablaEditarLocalidad(paisElegido,provElegida);
 			}
-			
+			escribirComboBoxesAgregar();
 		}
 			
 		public void llenarTablaLocalidadSinLocalidades(String paisElegido,String provElegida) {
