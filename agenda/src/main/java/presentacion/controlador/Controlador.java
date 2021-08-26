@@ -154,9 +154,9 @@ public class Controlador implements ActionListener
 
 		
 		private void ventanaAgregarPersona(ActionEvent a) {
-			this.ventanaPersona.limpiarValores();
 			escribirComboBoxesAgregar();
 			this.ventanaPersona.mostrarVentana();
+			this.ventanaPersona.limpiarValores();
 		}
 		
 		private void guardarPersona(ActionEvent p) {

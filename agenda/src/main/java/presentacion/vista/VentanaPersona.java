@@ -1,8 +1,6 @@
 package presentacion.vista;
 
 import java.util.Date;
-import java.util.List;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -12,11 +10,6 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import com.toedter.calendar.JDateChooser;
-import dto.LocalidadDTO;
-import dto.PaisDTO;
-import dto.PersonaDTO;
-import dto.ProvinciaDTO;
-import dto.TipoContactoDTO;
 
 public class VentanaPersona extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -312,24 +305,26 @@ public class VentanaPersona extends JFrame {
 		return this.txtEmail;
 	}
 
+	public JDateChooser getFechaCumpleanios() {
+		return this.fechaCumpleanios;
+	}
+
 	public void limpiarValores() {
 		this.txtNombre.setText("");
 		this.txtTelefono.setText("");
 		this.txtEmail.setText("");
+		this.fechaCumpleanios.setDate(null);
 		this.txtCalle.setText("");
 		this.txtAltura.setText("");
 		this.txtPiso.setText("");
 		this.txtDepartamento.setText("");
-		this.cbTipoContacto.setSelectedItem("");
-		this.cbSignoZodiaco.setSelectedItem("");
-		this.cbPais.setSelectedItem("");
-		this.cbProvincia.setSelectedItem("");
-		this.cbLocalidad.setSelectedItem("");
+		this.getCbTipoContacto().setSelectedIndex(-1);
+		this.getCbSignoZodiaco().setSelectedIndex(-1);
+		this.getCbPais().setSelectedIndex(-1);
+		this.getCbProvincia().setSelectedIndex(-1);
+		this.getCbLocalidad().setSelectedIndex(-1);
 	}
 
-	public JDateChooser getFechaCumpleanios() {
-		return this.fechaCumpleanios;
-	}
 
 	public String getTipoDeContactoSeleccionado() {
 		return (String) this.cbTipoContacto.getSelectedItem();
