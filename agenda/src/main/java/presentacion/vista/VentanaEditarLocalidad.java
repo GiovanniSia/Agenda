@@ -34,6 +34,7 @@ public class VentanaEditarLocalidad {
 	private JButton btnAgregarLocalidad;
 	private JButton btnEditarLocalidad;
 	private JButton btnBorrarLocalidad;
+	private JButton btnSalirLocalidad;
 	/**
 	 * Launch the application.
 	 */
@@ -49,6 +50,7 @@ public class VentanaEditarLocalidad {
 //			}
 //		});
 //	}
+
 
 	/**
 	 * Create the application.
@@ -113,12 +115,16 @@ public class VentanaEditarLocalidad {
 		frame.getContentPane().add(btnAgregarLocalidad);
 		
 		btnEditarLocalidad = new JButton("Editar");
-		btnEditarLocalidad.setBounds(86, 232, 76, 21);
+		btnEditarLocalidad.setBounds(78, 232, 61, 21);
 		frame.getContentPane().add(btnEditarLocalidad);
 		
 		btnBorrarLocalidad = new JButton("Borrar");
-		btnBorrarLocalidad.setBounds(170, 232, 76, 21);
+		btnBorrarLocalidad.setBounds(149, 232, 61, 21);
 		frame.getContentPane().add(btnBorrarLocalidad);
+		
+		btnSalirLocalidad = new JButton("Salir");
+		btnSalirLocalidad.setBounds(220, 232, 71, 21);
+		frame.getContentPane().add(btnSalirLocalidad);
 	}
 	
 	public void show() {
@@ -173,4 +179,7 @@ public class VentanaEditarLocalidad {
 		return modelTabla;
 	}
 
+	public JButton getBtnSalirLocalidad() {
+		return btnSalirLocalidad;
+	}
 }

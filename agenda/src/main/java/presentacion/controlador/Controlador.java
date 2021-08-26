@@ -94,6 +94,7 @@ public class Controlador implements ActionListener
 			this.ventanaEditarLocalidad.getComboProvincias().addActionListener(a -> actualizarTablaLocalidad_EditarLocalidad(a));
 			this.ventanaEditarLocalidad.getBtnEditarLocalidad().addActionListener(a -> editarLocalidad(a));
 			this.ventanaEditarLocalidad.getBtnBorrarLocalidad().addActionListener(a -> borrarLocalidad(a));
+			this.ventanaEditarLocalidad.getBtnSalirLocalidad().addActionListener(a -> salirLocalidad(a));
 			this.ventanaEditarLocalidad.getTable().addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
@@ -489,6 +490,10 @@ public class Controlador implements ActionListener
 			this.localidad.agregarLocalidad(nuevaLocalidad);
 			this.localidadEnTabla = this.localidad.obtenerLocalidades();
 			this.ventanaEditarLocalidad.getTxtNuevaLocalidad().setText("");
+			
+			refresecarCbPaises();
+			escribirComboBoxProvincias();
+			escribirComboBoxLocalidades();
 			llenarTablaEditarLocalidad(nombrePaisSeleccionado,nombreProvinciaSeleccionada);
 		}
 		
@@ -729,7 +734,10 @@ public class Controlador implements ActionListener
 			return false;
 		}
 		
-		
+		public void salirLocalidad(ActionEvent a){
+			this.ventanaEditarLocalidad.cerrar();
+			refrescarComboBoxes();
+		}
 		
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 				
