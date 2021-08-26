@@ -566,7 +566,7 @@ public class Controlador implements ActionListener
 			if(provinciaElegida == null) {
 				return;
 			}
-			
+			this.ventanaEditarLocalidad.getComboProvincias().removeAllItems();
 			int idPaisElegido = getPaisDeTabla(paisElegido).getIdPais();
 			for(ProvinciaDTO provincia: this.provinciaEnTabla) {
 				if(idPaisElegido == provincia.getForeignPais()) {
