@@ -395,12 +395,27 @@ public class Controlador implements ActionListener
 		
 		private void agregarTipoContacto(ActionEvent a) {
 			String nombreTipoContacto = this.ventanaTipoContacto.getTxtTipoContacto().getText();
+			
+			if(yaExisteTipoContacto(nombreTipoContacto)) {
+				JOptionPane.showMessageDialog(null, "El tipo de contacto ya existe");
+				return;
+			}
+			
 			TipoContactoDTO nuevoTipoContacto = new TipoContactoDTO(0, nombreTipoContacto);
 			this.tipoContacto.agregarTipoContacto(nuevoTipoContacto);
 			this.refrescarTablaTipoContacto();
 			this.ventanaTipoContacto.limpiarTxtTipoContacto();
 
 			refrescarCbTipoContacto();
+		}
+		
+		public boolean yaExisteTipoContacto(String nombreNuevo) {
+			for(TipoContactoDTO tipo: this.tipoContactoEnTabla) {
+				if(nombreNuevo.equals(tipo.getNombreTipoContacto())) {
+					return true;
+				}
+			}
+			return false;
 		}
 		
 		private void editarTipoContacto(ActionEvent e) {
