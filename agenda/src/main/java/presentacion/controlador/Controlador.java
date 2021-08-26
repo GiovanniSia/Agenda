@@ -522,7 +522,6 @@ public class Controlador implements ActionListener
 		
 		public void borrarPaisEditarPais(ActionEvent a) {
 			int filaSeleccionada = this.ventanaEditarPaises.getTable().getSelectedRow();
-			System.out.println("FILA SELECCIONADA: "+filaSeleccionada);
 			if(filaSeleccionada == -1) {
 				JOptionPane.showMessageDialog(null, "Seleccione un pais para borrar");
 				return;
