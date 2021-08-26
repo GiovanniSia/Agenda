@@ -136,12 +136,12 @@ public class VentanaEditarLocalidad extends JFrame {
 		spPais.setViewportView(tablaPais);
 		
 		btnSalir = new JButton("Salir");
-		btnSalir.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				frame.setVisible(false);
-			}
-		});
-		
+//		btnSalir.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				frame.setVisible(false);
+//			}
+//		});
+//		
 		btnSalir.setBounds(150, 198, 89, 23);
 		panel.add(btnSalir);
 
@@ -213,6 +213,7 @@ public class VentanaEditarLocalidad extends JFrame {
 	public void mostrarVentana() {
 		this.setVisible(true);
 	}
+
 	
 	public JComboBox getComboBox() {
 		return TipoLocalidad;

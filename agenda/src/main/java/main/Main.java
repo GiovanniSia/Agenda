@@ -14,4 +14,6 @@ public class Main
 		Controlador controlador = new Controlador(vista, modelo);
 		controlador.inicializar();
 	}
+	
+	
 }
