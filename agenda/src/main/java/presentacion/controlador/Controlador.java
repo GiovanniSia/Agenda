@@ -176,7 +176,7 @@ public class Controlador implements ActionListener
 				JOptionPane.showMessageDialog(null, "No ha seleccionado ninguna persona para editar");
 				return;
 			}	
-
+			mostrarVentanaConValores();
 		}
 		
 		
@@ -200,8 +200,9 @@ public class Controlador implements ActionListener
 			this.ventanaPersona.getCbProvincia().setSelectedItem(persona.getProvincia());
 			this.ventanaPersona.getCbLocalidad().setSelectedItem(persona.getLocalidad());
 			
-			escribirComboBoxEditar();
-		
+//			escribirComboBoxEditar();
+			refrescarComboBoxes();
+			
 			this.ventanaPersona.getBtnAgregarPersona().setVisible(false);
 			this.ventanaPersona.getBtnCancelar().setVisible(true);
 			this.ventanaPersona.getBtnAceptar().setVisible(true);
@@ -233,7 +234,16 @@ public class Controlador implements ActionListener
 			String piso = ventanaPersona.getPiso().getText();
 			String departamento = ventanaPersona.getDepartamento().getText();
 			String email = ventanaPersona.getEmail().getText();
-			java.sql.Date fechaDeCumpleanios = new java.sql.Date(ventanaPersona.getFechaCumpleanios().getDate().getTime());
+			
+			java.sql.Date fechaDeCumpleanios;
+			
+			if(ventanaPersona.getFechaCumpleanios().getDate() == null) {
+				fechaDeCumpleanios=null;
+			}else {
+				fechaDeCumpleanios=new java.sql.Date(ventanaPersona.getFechaCumpleanios().getDate().getTime());;
+				System.out.println(fechaDeCumpleanios);
+			}
+			 
 			Domicilio domicilio = new Domicilio(calle, altura, piso, departamento);
 			String tipoContacto = ventanaPersona.getTipoDeContactoSeleccionado();
 			String pais = ventanaPersona.getPaisSeleccionado();
@@ -291,11 +301,11 @@ public class Controlador implements ActionListener
 				JOptionPane.showMessageDialog(null,"Por favor ingrese una dirección de mail válida");
 				return false;
 			}
-			Date fechaCumpleanios= datosNuevos.getFechaDeCumpleanios();
-			if(fechaCumpleanios == null) {
-				JOptionPane.showMessageDialog(null,"Por favor seleccione una fecha de cumpleaños");
-				return false;
-			}
+//			Date fechaCumpleanios= datosNuevos.getFechaDeCumpleanios();
+//			if(fechaCumpleanios == null) {
+//				JOptionPane.showMessageDialog(null,"Por favor seleccione una fecha de cumpleaños");
+//				return false;
+//			}
 		
 		if(datosNuevos.getTipoDeContacto()==null) {
 			JOptionPane.showMessageDialog(null, "Debe seleccionar un tipo de contacto");
