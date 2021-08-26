@@ -450,6 +450,12 @@ public class Controlador implements ActionListener
 			
 			llenarTablaEditarLocalidad(paisElegido,provElegida);
 			llenarCbEditarLocalidad(paisElegido,provElegida);
+			if(provElegida==null) {
+				llenarTablaLocalidadSinLocalidades(paisElegido, provElegida);
+			}else {
+				llenarTablaEditarLocalidad(paisElegido, provElegida);
+			}
+			
 			this.ventanaEditarLocalidad.show();
 		}
 			
@@ -466,14 +472,19 @@ public class Controlador implements ActionListener
 				return;
 			}
 
-			
+//			una vez que verificamos que la localidad tenga provincias, vemos si esa localidad ya existe para esa prov
 			String nombrePaisSeleccionado=(String) this.ventanaEditarLocalidad.getComboBoxPaises().getSelectedItem();
 			String nombreProvinciaSeleccionada = (String) this.ventanaEditarLocalidad.getComboProvincias().getSelectedItem();
 			
-			int idPaisSeleccionado = getPaisDeTabla(nombrePaisSeleccionado).getIdPais();
-			int idProvinciaSeleccionada = getProvinciaDeTabla(nombreProvinciaSeleccionada, idPaisSeleccionado).getIdProvincia();
+			PaisDTO PaisSeleccionado = getPaisDeTabla(nombrePaisSeleccionado);
+			ProvinciaDTO ProvinciaSeleccionada = getProvinciaDeTabla(nombreProvinciaSeleccionada, PaisSeleccionado.getIdPais());
 			
-			LocalidadDTO nuevaLocalidad = new LocalidadDTO(0, nombreLocalidadNueva, idProvinciaSeleccionada);
+			if(yaExisteLocalidad(ProvinciaSeleccionada,nombreLocalidadNueva)) {
+				JOptionPane.showMessageDialog(null, "Esa localidad ya existe para esta provincia");
+				return;
+			}
+			
+			LocalidadDTO nuevaLocalidad = new LocalidadDTO(0, nombreLocalidadNueva,ProvinciaSeleccionada.getIdProvincia());
 
 			this.localidad.agregarLocalidad(nuevaLocalidad);
 			this.localidadEnTabla = this.localidad.obtenerLocalidades();
@@ -487,21 +498,23 @@ public class Controlador implements ActionListener
 			this.ventanaEditarLocalidad.getModelTabla().setColumnIdentifiers(this.ventanaEditarLocalidad.getNombreColumnas());
 			PaisDTO paisReferenciado = getPaisDeTabla(paisElegido);
 			ProvinciaDTO provinciaReferenciada = getProvinciaDeTabla(provElegida,paisReferenciado.getIdPais());
-			
+		
 			//Si el pais no tiene provincias
 			if(provinciaReferenciada==null) {
+				System.out.println("el pais: "+paisElegido+" no tiene provincias");
 				Object[] fila = {paisElegido,"",""};
 				this.ventanaEditarLocalidad.getModelTabla().addRow(fila);
 				return;
 			}
+
 			int cantLoc=0;
-			for(LocalidadDTO localidad: this.localidadEnTabla) {				
-				if(localidad.getIdForeignProvincia() == provinciaReferenciada.getIdProvincia() && provinciaReferenciada.getIdProvincia()==paisReferenciado.getIdPais()) {
-					
+			for(LocalidadDTO localidad: this.localidadEnTabla) {	
+				if(localidad.getIdForeignProvincia() == provinciaReferenciada.getIdProvincia()) {
 					Object[] fila = {paisElegido,provElegida,localidad.getNombreLocalidad()};
 					this.ventanaEditarLocalidad.getModelTabla().addRow(fila);
+					cantLoc++;
 				}
-				cantLoc++;
+				
 			}
 //			Si una prov no tiene localidades le agregamos una vacia
 			if(cantLoc==0) {
@@ -518,13 +531,22 @@ public class Controlador implements ActionListener
 			//seteamos el pais que se eligio
 			this.ventanaEditarLocalidad.getComboBoxPaises().setSelectedItem(paisElegido);
 			
+
+			
 			this.ventanaEditarLocalidad.getComboProvincias().removeAllItems();
+			
+//			Si el pais no tiene provincias
+			if(provinciaElegida == null) {
+				return;
+			}
+			
 			int idPaisElegido = getPaisDeTabla(paisElegido).getIdPais();
 			for(ProvinciaDTO provincia: this.provinciaEnTabla) {
-				if(provinciaElegida.equals(provincia.getNombreProvincia()) && idPaisElegido == provincia.getForeignPais()) {
+				if(idPaisElegido == provincia.getForeignPais()) {
 					this.ventanaEditarLocalidad.getComboProvincias().addItem(provincia.getNombreProvincia());
 				}
 			}
+			
 		}
 		
 		
@@ -571,8 +593,7 @@ public class Controlador implements ActionListener
 		public void actualizarTablaLocalidad_EditarLocalidad(ActionEvent a){
 			String paisElegido = (String) this.ventanaEditarLocalidad.getComboBoxPaises().getSelectedItem();
 			String provElegida = (String) this.ventanaEditarLocalidad.getComboProvincias().getSelectedItem();
-			if(paisElegido==null) return;
-			if(provElegida==null) return;
+			if(paisElegido==null||provElegida==null) return;
 			llenarTablaEditarLocalidad(paisElegido,provElegida);
 		}
 		
@@ -681,26 +702,34 @@ public class Controlador implements ActionListener
 			
 //			Si solo queda una fila en la tabla solo borramos la localidad
 			if(this.ventanaEditarLocalidad.getTable().getRowCount()==1) {
-				llenarTablaConSinLocalidad(paisElegido,provElegida);
+				llenarTablaLocalidadSinLocalidades(paisElegido,provElegida);
 			}else {
 				llenarTablaEditarLocalidad(paisElegido,provElegida);
 			}
 			
 		}
 			
-		public void llenarTablaConSinLocalidad(String paisElegido,String provElegida) {
+		public void llenarTablaLocalidadSinLocalidades(String paisElegido,String provElegida) {
 			this.ventanaEditarLocalidad.getModelTabla().setRowCount(0);
 			this.ventanaEditarLocalidad.getModelTabla().setColumnCount(0);
 			this.ventanaEditarLocalidad.getModelTabla().setColumnIdentifiers(this.ventanaEditarLocalidad.getNombreColumnas());
-			PaisDTO paisReferenciado = getPaisDeTabla(paisElegido);
-			ProvinciaDTO provinciaReferenciada = getProvinciaDeTabla(provElegida,paisReferenciado.getIdPais());
-			
 						
 			Object[] fila = {paisElegido,provElegida,""};
 			this.ventanaEditarLocalidad.getModelTabla().addRow(fila);
 				
 			
 		}
+		
+		public boolean yaExisteLocalidad(ProvinciaDTO provincia, String nombre) {
+			for(LocalidadDTO localidad: this.localidadEnTabla) {
+				if(localidad.getIdForeignProvincia()==provincia.getIdProvincia() && localidad.getNombreLocalidad().equals(nombre)) {
+					return true;
+				}
+			}
+			return false;
+		}
+		
+		
 		
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 				
