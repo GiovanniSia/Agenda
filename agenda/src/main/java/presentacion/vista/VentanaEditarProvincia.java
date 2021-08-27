@@ -168,43 +168,16 @@ public class VentanaEditarProvincia extends JFrame{
 		frame.setVisible(false);
 	}
 
-	public void llenarTablaProvincia(List<ProvinciaDTO> provinciaEnTabla) {
-		listaDeProvincias = provinciaEnTabla;
-		this.getModelTipoProvincia().setRowCount(0); // Para vaciar la tabla
-		this.getModelTipoProvincia().setColumnCount(0);
-		this.getModelTipoProvincia().setColumnIdentifiers(this.getNombreColumnasProvincia());
-		
-		for (ProvinciaDTO t : provinciaEnTabla) {
-			String nombre = t.getNombreProvincia();
-			String nombrePais = null;
-			for (int i = 0; i < listaDePaises.size(); i++) {
-				if(listaDePaises.get(i).getIdPais()==t.getForeignPais()) {
-					nombrePais=listaDePaises.get(i).getNombrePais();
-				}
-			}
-			Object[] fila = { nombre , nombrePais};
-			this.getModelTipoProvincia().addRow(fila);
-		}
-		return;
-	}
-
-	private String[] getNombreColumnasProvincia() {
+	public String[] getNombreColumnasProvincia() {
 		return nombreColumnasProvincia;
 	}
 
-	private DefaultTableModel getModelTipoProvincia() {
+	public DefaultTableModel getModelProvincia() {
 		return modelProvincia;
 	}
 
 	public void setListaDePaises(List<PaisDTO> paisEnTabla) {
 		listaDePaises = paisEnTabla;
-	}
-	
-	public void llenarComboBoxPaises() {
-		for (int i = 0; i < listaDePaises.size(); i++) {
-			opciones[i] = listaDePaises.get(i).getNombrePais();
-		}
-		getComboBox().setModel(new DefaultComboBoxModel(opciones));
 	}
 	
 	public String obtenerSeleccion() {

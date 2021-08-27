@@ -9,7 +9,7 @@ public boolean insert(ProvinciaDTO Provincia);
 	
 	public boolean delete(ProvinciaDTO Provincia_a_eliminar);
 	
-	public boolean edit(int idProvincia,ProvinciaDTO Provincia_a_editar);
+	public boolean edit(String nombreProvincia,ProvinciaDTO Provincia_a_editar);
 	
 	public List<ProvinciaDTO> readAll();
 }

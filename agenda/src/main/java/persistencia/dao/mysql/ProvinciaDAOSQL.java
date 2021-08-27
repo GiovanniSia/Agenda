@@ -62,15 +62,15 @@ public class ProvinciaDAOSQL implements ProvinciaDAO{
 	}
 
 	@Override
-	public boolean edit(int idProvincia, ProvinciaDTO Provincia_a_editar) {
+	public boolean edit(String nombreProvincia, ProvinciaDTO Provincia_a_editar) {
 		PreparedStatement statement;
 		Connection conexion = Conexion.getConexion().getSQLConexion();
 		boolean isUpdateExitoso = false;
 		try {
 			statement = conexion.prepareStatement(edit);
 
-			statement.setString(1, Provincia_a_editar.getNombreProvincia());
-			statement.setInt(2, idProvincia);
+			statement.setString(1, nombreProvincia);
+			statement.setInt(2, Provincia_a_editar.getIdProvincia());
 
 			if (statement.executeUpdate() > 0) {
 				conexion.commit();
