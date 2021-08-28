@@ -13,6 +13,7 @@ import modelo.Agenda;
 import modelo.Localidad;
 import modelo.Pais;
 import modelo.Provincia;
+import modelo.SignoZodiaco;
 import modelo.TipoContacto;
 import persistencia.dao.mysql.DAOSQLFactory;
 import presentacion.reportes.ReporteAgenda;
@@ -27,6 +28,7 @@ import dto.LocalidadDTO;
 import dto.PaisDTO;
 import dto.PersonaDTO;
 import dto.ProvinciaDTO;
+import dto.SignoZodiacoDTO;
 import dto.TipoContactoDTO;
 
 public class Controlador implements ActionListener
@@ -34,10 +36,13 @@ public class Controlador implements ActionListener
 		private Vista vista;
 		private List<PersonaDTO> personasEnTabla;
 		private List<TipoContactoDTO> tipoContactoEnTabla;
+		private List<SignoZodiacoDTO> signoZodiacoEnTabla;
 		private VentanaPersona ventanaPersona; 
 		private VentanaTipoContacto ventanaTipoContacto;
 		private Agenda agenda;
 		private TipoContacto tipoContacto;
+		private SignoZodiaco signoZodiaco;
+		private VentanaEditarLocalidad ventanaLocalidad;
 		int filaSeleccionada;
 		private Pais pais;
 		private List<PaisDTO> paisEnTabla;
@@ -76,7 +81,10 @@ public class Controlador implements ActionListener
 			
 			this.tipoContacto = new TipoContacto(new DAOSQLFactory());
 			this.refrescarTablaTipoContacto();
-//			
+			
+			this.signoZodiaco = new SignoZodiaco(new DAOSQLFactory());
+			this.refrescarTablaSignoZodiaco();
+			
 			this.pais = new Pais(new DAOSQLFactory());
 			this.paisEnTabla= this.pais.obtenerPaises();
 //			this.refrescarTablaPais();
@@ -145,7 +153,45 @@ public class Controlador implements ActionListener
 			
 			this.ventanaPersona.getBtnEditarProvincia().addActionListener(c->ventanaEditarProvincia(c));
 			escucharCbLocalidad();
-			this.agenda = agenda;
+			
+			this.agenda = agenda;	
+		}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		
+//Signo Zodiaco
+		private void refrescarCbSignoZodiaco() {
+			this.ventanaPersona.getCbSignoZodiaco().removeAllItems();
+			for(SignoZodiacoDTO s : this.signoZodiacoEnTabla) {
+				this.ventanaPersona.getCbSignoZodiaco().addItem(s.getNombreSignoZodiaco());
+			}
+		} 
+		
+		public void refrescarTablaSignoZodiaco() {
+			this.signoZodiacoEnTabla = signoZodiaco.obtenerSignosZodiaco();
+		}
+		
+		public void escribirComboBoxSignoZodiaco() {
+			String signoZodiacoSeleccionado = (String) this.ventanaPersona.getCbSignoZodiaco().getSelectedItem();
+			if(signoZodiacoSeleccionado == null) {
+				this.ventanaPersona.getCbSignoZodiaco().addItem("");
+				return;
+			}
+			for(SignoZodiacoDTO signo : this.signoZodiacoEnTabla) {
+				String signoZodiacoReferenciado = obtenerSignoZodiacoReferenciado(signo).getNombreSignoZodiaco();
+				if(signoZodiacoSeleccionado.equals(signoZodiacoReferenciado)) {
+					this.ventanaPersona.getCbSignoZodiaco().addItem(signo.getNombreSignoZodiaco());
+				}
+			}
+		}
+		
+		public SignoZodiacoDTO obtenerSignoZodiacoReferenciado(SignoZodiacoDTO signoZodiaco) {
+			for(SignoZodiacoDTO signo: this.signoZodiacoEnTabla) {
+				if(signo.getIdSignoZodiaco() == signoZodiaco.getIdSignoZodiaco()) {
+					return signo;
+				}
+			}
+			return null;
 		}
 
 		
@@ -170,6 +216,7 @@ public class Controlador implements ActionListener
 		private void ventanaAgregarPersona(ActionEvent a) {
 			escribirComboBoxesAgregar();
 			this.ventanaPersona.mostrarVentana();
+			this.ventanaPersona.limpiarValores();
 		}
 		
 		private void guardarPersona(ActionEvent p) {
@@ -198,7 +245,7 @@ public class Controlador implements ActionListener
 				JOptionPane.showMessageDialog(null, "No ha seleccionado ninguna persona para editar");
 				return;
 			}	
-			mostrarVentanaConValores();
+			this.mostrarVentanaConValores();
 		}
 		
 		
@@ -217,7 +264,9 @@ public class Controlador implements ActionListener
 			this.ventanaPersona.getAltura().setText(persona.getDomicilio().getAltura());
 			this.ventanaPersona.getPiso().setText(persona.getDomicilio().getPiso());
 			this.ventanaPersona.getDepartamento().setText(persona.getDomicilio().getDepartamento());
-			
+			this.ventanaPersona.getCbTipoContacto().setSelectedItem(persona.getTipoDeContacto());
+			this.ventanaPersona.getCbSignoZodiaco().setSelectedItem(persona.getSignoZodiaco());
+			//defectuoso
 			this.ventanaPersona.getCbPais().setSelectedItem(persona.getPais());
 			this.ventanaPersona.getCbProvincia().setSelectedItem(persona.getProvincia());
 			this.ventanaPersona.getCbLocalidad().setSelectedItem(persona.getLocalidad());
@@ -268,11 +317,12 @@ public class Controlador implements ActionListener
 			 
 			Domicilio domicilio = new Domicilio(calle, altura, piso, departamento);
 			String tipoContacto = ventanaPersona.getTipoDeContactoSeleccionado();
+			String signoZodiaco = ventanaPersona.getSignoZodiacoSeleccionado();
 			String pais = ventanaPersona.getPaisSeleccionado();
 			String provincia = ventanaPersona.getProvinciaSeleccionado();
 			String localidad = ventanaPersona.getLocalidadSeleccionado();
 			
-			return new PersonaDTO(0, nombre, telefono, domicilio, email, fechaDeCumpleanios, tipoContacto,pais,provincia,localidad);	
+			return new PersonaDTO(0, nombre, telefono, domicilio, email, fechaDeCumpleanios, tipoContacto, signoZodiaco, pais, provincia, localidad);	
 		}
 		
 
@@ -336,8 +386,6 @@ public class Controlador implements ActionListener
 		return true;
 	}
 		
-		
-		
 		private void refrescarCbTipoContacto() {
 			this.ventanaPersona.getCbTipoContacto().removeAllItems();
 			for (TipoContactoDTO tipo : this.tipoContactoEnTabla) {
@@ -355,8 +403,7 @@ public class Controlador implements ActionListener
 //				this.ventanaPersona.getCbPais().addItem(pais.getNombrePais());
 //			}
 		}
-
-
+		
 		
 		public void escribirComboBoxProvincias() {
 			this.ventanaPersona.getCbProvincia().removeAllItems();
@@ -420,6 +467,7 @@ public class Controlador implements ActionListener
 		
 		public void escribirComboBoxesAgregar() {
 			refrescarCbTipoContacto();
+			refrescarCbSignoZodiaco();
 			refresecarCbPaises();
 			escribirComboBoxProvincias();
 			escribirComboBoxLocalidades();
