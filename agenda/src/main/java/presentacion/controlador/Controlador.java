@@ -200,6 +200,10 @@ public class Controlador implements ActionListener {
 	}
 
 	private void guardarPersona(ActionEvent p) {
+		if ( validarComboBoxVacios()) {
+			return;
+		}
+
 		PersonaDTO nuevaPersona = obtenerPersonaDeVista();
 		if (todosLosCamposSonValidos(nuevaPersona)) {
 			this.agenda.agregarPersona(nuevaPersona);
@@ -225,6 +229,37 @@ public class Controlador implements ActionListener {
 		}
 		this.mostrarVentanaConValores();
 		this.ventanaPersona.show();
+	}
+
+	public boolean validarComboBoxVacios() {
+		int indexTipoContacto = this.ventanaPersona.getCbTipoContacto().getSelectedIndex();
+		int indexSignoZodiaco = this.ventanaPersona.getCbSignoZodiaco().getSelectedIndex();
+		int indexPais = this.ventanaPersona.getCbPais().getSelectedIndex();
+		int indexProvincia = this.ventanaPersona.getCbProvincia().getSelectedIndex();
+		int indexLocalidad = this.ventanaPersona.getCbLocalidad().getSelectedIndex();
+		boolean esVacio = false;
+		if (indexTipoContacto == -1) {
+			JOptionPane.showMessageDialog(null, "Tienes que agregar un tipo de contacto");
+			esVacio = true;
+		}
+		if (indexSignoZodiaco == -1) {
+			JOptionPane.showMessageDialog(null, "Tienes que agregar un signo del zodiaco");
+			esVacio = true;
+		}
+		if (indexPais == -1) {
+			JOptionPane.showMessageDialog(null, "Tienes que agregar un pais");
+			esVacio = true;
+		}
+		if (indexProvincia == -1) {
+			JOptionPane.showMessageDialog(null, "Tienes que agregar una provincia");
+			esVacio = true;
+		}
+
+		if (indexLocalidad == -1) {
+			JOptionPane.showMessageDialog(null, "Tienes que agregar una localidad");
+			esVacio = true;
+		}
+		return esVacio;
 	}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -255,6 +290,9 @@ public class Controlador implements ActionListener {
 	}
 
 	public void editarPersona(ActionEvent e) {
+		if ( validarComboBoxVacios()) {
+			return;
+		}
 		int idModificar = this.personasEnTabla.get(filaSeleccionada).getIdPersona();
 		PersonaDTO datosNuevos = obtenerPersonaDeVista();
 		if (todosLosCamposSonValidos(datosNuevos)) {
@@ -468,7 +506,7 @@ public class Controlador implements ActionListener {
 			JOptionPane.showMessageDialog(null, "El tipo de contacto ya existe");
 			return;
 		}
-		if(nombreTipoContacto.isEmpty()) {
+		if (nombreTipoContacto.isEmpty()) {
 			JOptionPane.showMessageDialog(null, "No puede ser vacio");
 			return;
 		}
@@ -494,16 +532,16 @@ public class Controlador implements ActionListener {
 		if (yaExisteTipoContacto(nombreNuevo)) {
 			JOptionPane.showMessageDialog(null, "Este país ya existe!");
 			return;
-		}	
-		
-		int filaSeleccionada = this.ventanaTipoContacto.getTable().getSelectedRow();		
+		}
+
+		int filaSeleccionada = this.ventanaTipoContacto.getTable().getSelectedRow();
 		if (filaSeleccionada == -1) {
 			JOptionPane.showMessageDialog(null, "Seleccione un tipo de contacto para editar!");
 			return;
 		}
 		int idModificar = this.tipoContactoEnTabla.get(filaSeleccionada).getIdTipoContacto();
-	
-		if(nombreNuevo.isEmpty()) {
+
+		if (nombreNuevo.isEmpty()) {
 			JOptionPane.showMessageDialog(null, "No puede ser vacio");
 			return;
 		}
@@ -732,7 +770,7 @@ public class Controlador implements ActionListener {
 		// seteamos el pais que se eligio
 		this.ventanaEditarLocalidad.getComboBoxPaises().setSelectedItem(paisElegido);
 
-		//Si el pais no tiene provincias
+		// Si el pais no tiene provincias
 		if (provinciaElegida == null) {
 			return;
 		}
@@ -892,7 +930,7 @@ public class Controlador implements ActionListener {
 
 		this.localidadEnTabla = this.localidad.obtenerLocalidades();
 
-		//Si solo queda una fila en la tabla solo borramos la localidad
+		// Si solo queda una fila en la tabla solo borramos la localidad
 		if (this.ventanaEditarLocalidad.getTable().getRowCount() == 1) {
 			this.llenarTablaLocalidadSinLocalidades(paisElegido, provElegida);
 		} else {
@@ -1108,7 +1146,7 @@ public class Controlador implements ActionListener {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // REPORTES 
-	
+
 	private void mostrarReporte(ActionEvent r) {
 		ReporteAgenda reporte = new ReporteAgenda(agenda.obtenerPersonas());
 		reporte.mostrar();
