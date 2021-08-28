@@ -318,11 +318,6 @@ public class VentanaPersona extends JFrame {
 		this.txtAltura.setText("");
 		this.txtPiso.setText("");
 		this.txtDepartamento.setText("");
-		this.getCbTipoContacto().setSelectedIndex(-1);
-		this.getCbSignoZodiaco().setSelectedIndex(-1);
-		this.getCbPais().setSelectedIndex(-1);
-		this.getCbProvincia().setSelectedIndex(-1);
-		this.getCbLocalidad().setSelectedIndex(-1);
 	}
 
 

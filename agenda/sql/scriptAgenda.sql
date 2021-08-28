@@ -13,11 +13,11 @@ CREATE TABLE IF NOT EXISTS provincias
 (
     idProvincia int(11) NOT NULL AUTO_INCREMENT,
     nombreProvincia varchar(45) DEFAULT NULL,
-    foreignPais int(11) NOT NULL,
+    idForeignPais int(11) NOT NULL,
     PRIMARY KEY (idProvincia)
 );
 
-ALTER TABLE provincias ADD FOREIGN KEY(foreignPais) REFERENCES paises(idPais) ON DELETE CASCADE;
+ALTER TABLE provincias ADD FOREIGN KEY(idForeignPais) REFERENCES paises(idPais) ON DELETE CASCADE;
 
 CREATE TABLE IF NOT EXISTS localidades
 (
