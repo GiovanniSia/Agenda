@@ -468,12 +468,16 @@ public class Controlador implements ActionListener {
 			JOptionPane.showMessageDialog(null, "El tipo de contacto ya existe");
 			return;
 		}
+		if(nombreTipoContacto.isEmpty()) {
+			JOptionPane.showMessageDialog(null, "No puede ser vacio");
+			return;
+		}
 
 		TipoContactoDTO nuevoTipoContacto = new TipoContactoDTO(0, nombreTipoContacto);
 		this.tipoContacto.agregarTipoContacto(nuevoTipoContacto);
 		this.refrescarTablaTipoContacto();
 		this.ventanaTipoContacto.limpiarTxtTipoContacto();
-		refrescarCbTipoContacto();
+		this.refrescarCbTipoContacto();
 	}
 
 	public boolean yaExisteTipoContacto(String nombreNuevo) {
@@ -486,10 +490,23 @@ public class Controlador implements ActionListener {
 	}
 
 	private void editarTipoContacto(ActionEvent e) {
-		int filaSeleccionado = this.ventanaTipoContacto.tablaTipoContactoSeleccionada();
-		int idModificar = this.tipoContactoEnTabla.get(filaSeleccionado).getIdTipoContacto();
-
-		String nombreNuevo = ventanaTipoContacto.getTxtTipoContacto().getText();
+		String nombreNuevo = this.ventanaTipoContacto.getTxtTipoContacto().getText();
+		if (yaExisteTipoContacto(nombreNuevo)) {
+			JOptionPane.showMessageDialog(null, "Este país ya existe!");
+			return;
+		}	
+		
+		int filaSeleccionada = this.ventanaTipoContacto.getTable().getSelectedRow();		
+		if (filaSeleccionada == -1) {
+			JOptionPane.showMessageDialog(null, "Seleccione un tipo de contacto para editar!");
+			return;
+		}
+		int idModificar = this.tipoContactoEnTabla.get(filaSeleccionada).getIdTipoContacto();
+	
+		if(nombreNuevo.isEmpty()) {
+			JOptionPane.showMessageDialog(null, "No puede ser vacio");
+			return;
+		}
 
 		TipoContactoDTO datosNuevos = new TipoContactoDTO(0, nombreNuevo);
 		tipoContacto.editarTipoContacto(idModificar, datosNuevos);

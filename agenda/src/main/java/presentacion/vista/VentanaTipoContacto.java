@@ -154,10 +154,11 @@ public class VentanaTipoContacto extends JFrame {
 	public void limpiarTxtTipoContacto() {
 		getTxtTipoContacto().setText("");
 	}
-
-	public int tablaTipoContactoSeleccionada() {
-		return tablaTipoContacto.getSelectedRow();
+	
+	public JTable getTable() {
+		return tablaTipoContacto;
 	}
+
 
 	public void llenarTabla(List<TipoContactoDTO> tipoContactoEnTabla) {
 		this.getModelTipoContacto().setRowCount(0);
