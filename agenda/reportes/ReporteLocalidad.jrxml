@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.15.0.final using JasperReports Library version 6.15.0-dd49bfb94918336b8321d5507193f0169ead4e95  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ReporteLocalidad" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="774d0a57-9759-4f41-981e-2ef6dfd980eb">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="BD TP"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT agenda.personas.`Nombre`,
+	agenda.personas.`Telefono`,
+	agenda.personas.calle,
+	agenda.personas.altura,
+	agenda.personas.piso,
+	agenda.personas.departamento,
+	agenda.personas.email,
+	agenda.personas.`fechaCumpleanios`,
+	agenda.personas.`tipoContacto`,
+	agenda.personas.pais,
+	agenda.personas.provincia,
+	agenda.personas.localidad
+FROM agenda.personas
+ORDER BY agenda.personas.localidad]]>
+	</queryString>
+	<field name="Nombre" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="Nombre"/>
+		<property name="com.jaspersoft.studio.field.label" value="Nombre"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="personas"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Telefono" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="Telefono"/>
+		<property name="com.jaspersoft.studio.field.label" value="Telefono"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="personas"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="calle" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="calle"/>
+		<property name="com.jaspersoft.studio.field.label" value="calle"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="personas"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="altura" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="altura"/>
+		<property name="com.jaspersoft.studio.field.label" value="altura"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="personas"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="piso" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="piso"/>
+		<property name="com.jaspersoft.studio.field.label" value="piso"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="personas"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="departamento" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="departamento"/>
+		<property name="com.jaspersoft.studio.field.label" value="departamento"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="personas"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="email" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="email"/>
+		<property name="com.jaspersoft.studio.field.label" value="email"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="personas"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fechaCumpleanios" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.name" value="fechaCumpleanios"/>
+		<property name="com.jaspersoft.studio.field.label" value="fechaCumpleanios"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="personas"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="tipoContacto" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="tipoContacto"/>
+		<property name="com.jaspersoft.studio.field.label" value="tipoContacto"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="personas"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="pais" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="pais"/>
+		<property name="com.jaspersoft.studio.field.label" value="pais"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="personas"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="provincia" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="provincia"/>
+		<property name="com.jaspersoft.studio.field.label" value="provincia"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="personas"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="localidad" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="localidad"/>
+		<property name="com.jaspersoft.studio.field.label" value="localidad"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="personas"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<variable name="suma" class="java.lang.Double" calculation="Sum"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="52" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="10" width="810" height="41" uuid="0d4ec147-de92-4d28-9470-fa9b2912e50f"/>
+				<textElement textAlignment="Center">
+					<font size="24"/>
+				</textElement>
+				<text><![CDATA[REPORTE POR LOCALIDAD]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="14" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="48" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="70" height="21" forecolor="#FFFFFF" backcolor="#648FCC" uuid="c74a26d9-f6ca-47f0-9e1a-8030803fe2a5"/>
+				<text><![CDATA[Localidad]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="70" y="0" width="70" height="16" forecolor="#FFFFFF" backcolor="#648FCC" uuid="6135c2ad-ed2e-4fd4-a02e-1d10c17b3ead"/>
+				<text><![CDATA[Nombre]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="140" y="0" width="70" height="16" forecolor="#FFFFFF" backcolor="#648FCC" uuid="8fc7d42d-0c64-46d9-a205-e1897f697f13"/>
+				<text><![CDATA[Telefono]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="210" y="0" width="70" height="16" forecolor="#FFFFFF" backcolor="#648FCC" uuid="7e4e2696-d4ef-4e57-bf38-9f972e131556"/>
+				<text><![CDATA[Calle]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="280" y="0" width="70" height="16" forecolor="#FFFFFF" backcolor="#648FCC" uuid="06392852-ce41-40df-8768-0b645a538aef"/>
+				<text><![CDATA[Altura]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="350" y="0" width="70" height="16" forecolor="#FFFFFF" backcolor="#648FCC" uuid="31bd9bd2-e8cb-4958-87bd-db6d6b5a7c99"/>
+				<text><![CDATA[Piso]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="420" y="0" width="70" height="16" forecolor="#FFFFFF" backcolor="#648FCC" uuid="8b6592c4-8c99-4d6f-bc2c-d8f1dfed468b"/>
+				<text><![CDATA[Departamento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="490" y="0" width="70" height="16" forecolor="#FFFFFF" backcolor="#648FCC" uuid="70807942-3879-4e9a-91e1-ca36473c4563"/>
+				<text><![CDATA[Mail]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="545" y="0" width="85" height="16" forecolor="#FFFFFF" backcolor="#648FCC" uuid="cb8ba91f-e2b9-4911-b638-7162495156ab"/>
+				<text><![CDATA[Tipo de Contacto]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="630" y="0" width="60" height="28" forecolor="#FFFFFF" backcolor="#648FCC" uuid="102862c3-b754-4e7c-b212-cbf725547887"/>
+				<text><![CDATA[Fecha de Cumpleaños]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="690" y="0" width="60" height="28" forecolor="#FFFFFF" backcolor="#648FCC" uuid="c5e3bb9d-e081-402a-a262-f4f2ff17082e"/>
+				<text><![CDATA[País]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="750" y="0" width="40" height="28" forecolor="#FFFFFF" backcolor="#648FCC" uuid="996ddf32-36db-4012-8e90-81a953dba7a4"/>
+				<text><![CDATA[Provincia]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="36" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="8" width="70" height="20" uuid="2cc5ab58-905f-4e93-8bdc-e8b79b54dffa"/>
+				<textFieldExpression><![CDATA[$F{localidad}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="80" y="0" width="100" height="10" uuid="668c85fe-c5f9-472f-aca4-02afb5381cb4"/>
+				<textFieldExpression><![CDATA["Text Field"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="80" y="10" width="70" height="20" uuid="33a6ded2-afa6-4a4a-a608-3e330d51435c"/>
+				<textFieldExpression><![CDATA[$F{Nombre}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="188" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="12" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="18" splitType="Stretch"/>
+	</summary>
+</jasperReport>
