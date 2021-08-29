@@ -3,14 +3,12 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ReporteLocalidad" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="774d0a57-9759-4f41-981e-2ef6dfd980eb">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="BD TP"/>
-	<subDataset name="CantidadPersonasPorLocalidad" uuid="0d8df5ff-c208-47fa-a14b-fbbe8149a896">
+	<subDataset name="cantidadTotalLocalidades" uuid="f34ed947-b40f-4551-bec7-201ed6de3d2a">
 		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="BD TP"/>
 		<queryString language="SQL">
-			<![CDATA[SELECT agenda.personas.localidad,
-	count(*)
-FROM agenda.personas
-GROUP BY agenda.personas.localidad]]>
+			<![CDATA[SELECT agenda.personas.localidad, count(*) 
+FROM agenda.personas]]>
 		</queryString>
 		<field name="localidad" class="java.lang.String">
 			<property name="com.jaspersoft.studio.field.name" value="localidad"/>
@@ -22,32 +20,18 @@ GROUP BY agenda.personas.localidad]]>
 			<property name="com.jaspersoft.studio.field.name" value="count(*)"/>
 			<property name="com.jaspersoft.studio.field.label" value="count(*)"/>
 		</field>
+		<variable name="cantLocalidades" class="java.lang.Double" calculation="Sum">
+			<variableExpression><![CDATA[$F{count(*)}]]></variableExpression>
+		</variable>
 	</subDataset>
-	<subDataset name="Porcentaje" uuid="b51d17b7-e241-451a-b8ae-1a6457100f25">
-		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="BD TP"/>
-		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
-		<queryString>
-			<![CDATA[select  agenda.personas.localidad, count(*) * 100 / (select count(*) from  agenda.personas)
-from  agenda.personas
-group by agenda.personas.localidad]]>
-		</queryString>
-		<field name="localidad" class="java.lang.String">
-			<property name="com.jaspersoft.studio.field.name" value="localidad"/>
-			<property name="com.jaspersoft.studio.field.label" value="localidad"/>
-			<property name="com.jaspersoft.studio.field.tree.path" value="personas"/>
-			<fieldDescription><![CDATA[]]></fieldDescription>
-		</field>
-		<field name="count(*) * 100 / (select count(*) from  agenda.personas)" class="java.math.BigDecimal">
-			<property name="com.jaspersoft.studio.field.name" value="count(*) * 100 / (select count(*) from  agenda.personas)"/>
-			<property name="com.jaspersoft.studio.field.label" value="count(*) * 100 / (select count(*) from  agenda.personas)"/>
-		</field>
-	</subDataset>
-	<subDataset name="cantidadTotalLocalidades" uuid="f34ed947-b40f-4551-bec7-201ed6de3d2a">
+	<subDataset name="CantPersonaPorLocalidad" uuid="49ee45de-31df-41af-8c40-00c7a42bb81b">
 		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="BD TP"/>
 		<queryString language="SQL">
-			<![CDATA[SELECT agenda.personas.localidad, count(*) 
-FROM agenda.personas]]>
+			<![CDATA[SELECT agenda.personas.localidad,
+	count(*)
+FROM agenda.personas
+GROUP BY agenda.personas.localidad]]>
 		</queryString>
 		<field name="localidad" class="java.lang.String">
 			<property name="com.jaspersoft.studio.field.name" value="localidad"/>
@@ -155,7 +139,7 @@ ORDER BY agenda.personas.localidad]]>
 		<property name="com.jaspersoft.studio.field.tree.path" value="personas"/>
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<variable name="suma" class="java.lang.Double" calculation="Sum"/>
+	<variable name="Variable_1" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -230,7 +214,7 @@ ORDER BY agenda.personas.localidad]]>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="41" splitType="Stretch">
+		<band height="45" splitType="Stretch">
 			<textField>
 				<reportElement x="0" y="0" width="70" height="20" uuid="2cc5ab58-905f-4e93-8bdc-e8b79b54dffa"/>
 				<textFieldExpression><![CDATA[$F{localidad}]]></textFieldExpression>
@@ -290,24 +274,23 @@ ORDER BY agenda.personas.localidad]]>
 		</band>
 	</detail>
 	<columnFooter>
-		<band height="349" splitType="Stretch">
+		<band height="199" splitType="Stretch">
 			<pieChart>
 				<chart evaluationTime="Report">
-					<reportElement x="160" y="-1" width="480" height="190" uuid="ee6e5e48-aed5-44e5-8940-f1c2e684bbfd"/>
+					<reportElement x="160" y="-1" width="480" height="190" uuid="b40f4687-811b-4982-8006-0e515b144238"/>
 					<chartTitle/>
 					<chartSubtitle/>
 					<chartLegend/>
 				</chart>
-				<pieDataset>
+				<pieDataset minPercentage="2.0">
 					<dataset resetType="Report">
-						<datasetRun subDataset="cantidadTotalLocalidades" uuid="0a27cb58-5f88-4d2b-9d8e-9178d36cfd1d"/>
+						<datasetRun subDataset="CantPersonaPorLocalidad" uuid="b2cf6b37-cc59-4b9a-abfb-bc6df96a6976"/>
 					</dataset>
 					<keyExpression><![CDATA[$F{localidad}]]></keyExpression>
 					<valueExpression><![CDATA[$F{count(*)}]]></valueExpression>
-					<labelExpression><![CDATA[($F{count(*)}*100)/ $F{count(*)}.toString()]]></labelExpression>
 					<otherKeyExpression><![CDATA[]]></otherKeyExpression>
 				</pieDataset>
-				<piePlot>
+				<piePlot labelFormat="{2}" legendLabelFormat="{0}">
 					<plot/>
 					<itemLabel/>
 				</piePlot>
