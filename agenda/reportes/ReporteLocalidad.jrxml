@@ -2,7 +2,7 @@
 <!-- Created with Jaspersoft Studio version 6.15.0.final using JasperReports Library version 6.15.0-dd49bfb94918336b8321d5507193f0169ead4e95  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ReporteLocalidad" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="774d0a57-9759-4f41-981e-2ef6dfd980eb">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="BD TP"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="agenda"/>
 	<subDataset name="cantidadTotalLocalidades" uuid="f34ed947-b40f-4551-bec7-201ed6de3d2a">
 		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="BD TP"/>
@@ -140,7 +140,7 @@ ORDER BY agenda.personas.localidad]]>
 		<property name="com.jaspersoft.studio.field.tree.path" value="personas"/>
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<variable name="sumaTotal" class="java.lang.Integer" resetType="Group" resetGroup="Group1" incrementGroup="Group1" calculation="Count">
+	<variable name="sumaTotal" class="java.lang.Integer" resetType="Group" resetGroup="Group1" calculation="Count">
 		<variableExpression><![CDATA[$F{Nombre}]]></variableExpression>
 	</variable>
 	<variable name="Variable_1" class="java.lang.String" calculation="Count">
@@ -149,7 +149,7 @@ ORDER BY agenda.personas.localidad]]>
 	<group name="Group1">
 		<groupExpression><![CDATA[$F{localidad}]]></groupExpression>
 		<groupHeader>
-			<band height="36">
+			<band height="30">
 				<textField>
 					<reportElement mode="Opaque" x="90" y="0" width="260" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="2cc5ab58-905f-4e93-8bdc-e8b79b54dffa"/>
 					<textElement textAlignment="Left">
@@ -167,18 +167,15 @@ ORDER BY agenda.personas.localidad]]>
 				<frame>
 					<reportElement x="680" y="-1" width="106" height="31" uuid="b5db03f9-1b4f-46d9-9deb-df6c7bfa701d"/>
 				</frame>
-				<textField>
-					<reportElement x="550" y="6" width="150" height="24" uuid="422c6ebe-2ce8-4be4-87aa-182b6c814fd5"/>
-					<textFieldExpression><![CDATA[$V{sumaTotal}]]></textFieldExpression>
-				</textField>
-				<staticText>
-					<reportElement x="400" y="6" width="140" height="21" uuid="1f307b00-5f8d-435c-8f46-7732c44da884"/>
-					<text><![CDATA[Cantidad total de personas:]]></text>
-				</staticText>
 			</band>
 		</groupHeader>
 		<groupFooter>
-			<band/>
+			<band height="40">
+				<textField>
+					<reportElement x="0" y="0" width="230" height="20" uuid="05129d56-3838-4427-ac65-fb57ea17ebd9"/>
+					<textFieldExpression><![CDATA["Cantidad total de personas: "+$V{sumaTotal}]]></textFieldExpression>
+				</textField>
+			</band>
 		</groupFooter>
 	</group>
 	<background>
@@ -361,17 +358,17 @@ ORDER BY agenda.personas.localidad]]>
 		</band>
 	</detail>
 	<columnFooter>
-		<band height="199" splitType="Stretch">
+		<band height="189" splitType="Stretch">
 			<pieChart>
 				<chart evaluationTime="Report">
-					<reportElement x="160" y="-1" width="480" height="190" uuid="b40f4687-811b-4982-8006-0e515b144238"/>
+					<reportElement x="160" y="-1" width="480" height="190" uuid="866bd6b1-0592-4317-a505-b37620b37077"/>
 					<chartTitle/>
 					<chartSubtitle/>
 					<chartLegend/>
 				</chart>
 				<pieDataset minPercentage="2.0">
 					<dataset resetType="Report">
-						<datasetRun subDataset="CantPersonaPorLocalidad" uuid="b2cf6b37-cc59-4b9a-abfb-bc6df96a6976"/>
+						<datasetRun subDataset="CantPersonaPorLocalidad" uuid="cb4eff1c-2fe8-47db-ab03-caefbe07e4b9"/>
 					</dataset>
 					<keyExpression><![CDATA[$F{localidad}]]></keyExpression>
 					<valueExpression><![CDATA[$F{count(*)}]]></valueExpression>
@@ -382,14 +379,15 @@ ORDER BY agenda.personas.localidad]]>
 					<itemLabel/>
 				</piePlot>
 			</pieChart>
-			<textField>
-				<reportElement x="0" y="20" width="230" height="20" uuid="05129d56-3838-4427-ac65-fb57ea17ebd9"/>
-				<textFieldExpression><![CDATA["Cantidad total de personas: "+$V{sumaTotal}]]></textFieldExpression>
-			</textField>
 		</band>
 	</columnFooter>
 	<pageFooter>
-		<band height="49" splitType="Stretch"/>
+		<band height="64" splitType="Stretch">
+			<textField>
+				<reportElement x="710" y="34" width="100" height="30" uuid="c7a9e9d7-f1a9-41e0-9bdf-aa0ee77c59d1"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
 	</pageFooter>
 	<summary>
 		<band height="18" splitType="Stretch"/>
