@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.15.0.final using JasperReports Library version 6.15.0-dd49bfb94918336b8321d5507193f0169ead4e95  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ReporteLocalidad" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="774d0a57-9759-4f41-981e-2ef6dfd980eb">
-	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.sql.tables">
+		<![CDATA[YWdlbmRhLnBlcnNvbmFzIEFTICwxNSwxNSw5MjgxMmU4MC0yY2FkLTRlMzItYjAwZi01YjdhMjhl
+MWM4Y2E7]]>
+	</property>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="BD TP"/>
 	<subDataset name="cantidadTotalLocalidades" uuid="f34ed947-b40f-4551-bec7-201ed6de3d2a">
 		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
@@ -45,31 +48,30 @@ GROUP BY agenda.personas.localidad]]>
 		</field>
 	</subDataset>
 	<queryString language="SQL">
-		<![CDATA[SELECT agenda.personas.`Nombre`,
-	agenda.personas.`Telefono`,
+		<![CDATA[SELECT agenda.personas.`Telefono`,
+	agenda.personas.`Nombre`,
 	agenda.personas.calle,
-	agenda.personas.altura,
 	agenda.personas.piso,
+	agenda.personas.altura,
 	agenda.personas.departamento,
 	agenda.personas.email,
 	agenda.personas.`fechaCumpleanios`,
 	agenda.personas.`tipoContacto`,
+	agenda.personas.`signoZodiaco`,
 	agenda.personas.pais,
 	agenda.personas.provincia,
-	agenda.personas.localidad,
-	agenda.personas.`signoZodiaco`
-FROM agenda.personas
-ORDER BY agenda.personas.localidad]]>
+	agenda.personas.localidad
+FROM agenda.personas]]>
 	</queryString>
-	<field name="Nombre" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.name" value="Nombre"/>
-		<property name="com.jaspersoft.studio.field.label" value="Nombre"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="personas"/>
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
 	<field name="Telefono" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="Telefono"/>
 		<property name="com.jaspersoft.studio.field.label" value="Telefono"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="personas"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Nombre" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="Nombre"/>
+		<property name="com.jaspersoft.studio.field.label" value="Nombre"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="personas"/>
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
@@ -79,15 +81,15 @@ ORDER BY agenda.personas.localidad]]>
 		<property name="com.jaspersoft.studio.field.tree.path" value="personas"/>
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="altura" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.name" value="altura"/>
-		<property name="com.jaspersoft.studio.field.label" value="altura"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="personas"/>
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
 	<field name="piso" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="piso"/>
 		<property name="com.jaspersoft.studio.field.label" value="piso"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="personas"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="altura" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="altura"/>
+		<property name="com.jaspersoft.studio.field.label" value="altura"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="personas"/>
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
@@ -115,6 +117,12 @@ ORDER BY agenda.personas.localidad]]>
 		<property name="com.jaspersoft.studio.field.tree.path" value="personas"/>
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
+	<field name="signoZodiaco" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="signoZodiaco"/>
+		<property name="com.jaspersoft.studio.field.label" value="signoZodiaco"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="personas"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
 	<field name="pais" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="pais"/>
 		<property name="com.jaspersoft.studio.field.label" value="pais"/>
@@ -133,13 +141,9 @@ ORDER BY agenda.personas.localidad]]>
 		<property name="com.jaspersoft.studio.field.tree.path" value="personas"/>
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="signoZodiaco" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.name" value="signoZodiaco"/>
-		<property name="com.jaspersoft.studio.field.label" value="signoZodiaco"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="personas"/>
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<variable name="Variable_1" class="java.lang.String"/>
+	<variable name="sumaTotal" class="java.lang.Integer" calculation="Count">
+		<variableExpression><![CDATA[$F{Nombre}]]></variableExpression>
+	</variable>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -297,7 +301,7 @@ ORDER BY agenda.personas.localidad]]>
 			</pieChart>
 			<textField>
 				<reportElement x="0" y="21" width="160" height="30" uuid="8cd20116-89ee-46d9-b272-b953cdcf4ffb"/>
-				<textFieldExpression><![CDATA["Text Field"]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Cantidad total de personas: "+$V{sumaTotal}]]></textFieldExpression>
 			</textField>
 		</band>
 	</columnFooter>
