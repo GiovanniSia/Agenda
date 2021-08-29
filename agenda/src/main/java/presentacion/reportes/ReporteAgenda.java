@@ -38,7 +38,7 @@ public class ReporteAgenda
 //			this.reporteLleno = JasperFillManager.fillReport(this.reporte, parametersMap,new JRBeanCollectionDataSource(personas));
 			
 			this.reporte = (JasperReport) JRLoader.loadObjectFromFile( "reportes" + File.separator + "ReporteLocalidad.jasper" );
-    		this.reporteLleno = JasperFillManager.fillReport(this.reporte,null,Conexion.getConexion().getSQLConexion());
+    		this.reporteLleno = JasperFillManager.fillReport(this.reporte,parametersMap,Conexion.getConexion().getSQLConexion());
     		
 
 			

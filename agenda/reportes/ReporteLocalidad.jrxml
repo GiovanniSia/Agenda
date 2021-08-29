@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.15.0.final using JasperReports Library version 6.15.0-dd49bfb94918336b8321d5507193f0169ead4e95  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ReporteLocalidad" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="774d0a57-9759-4f41-981e-2ef6dfd980eb">
-	<property name="com.jaspersoft.studio.data.sql.tables">
-		<![CDATA[YWdlbmRhLnBlcnNvbmFzIEFTICwxNSwxNSw5MjgxMmU4MC0yY2FkLTRlMzItYjAwZi01YjdhMjhl
-MWM4Y2E7]]>
-	</property>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="BD TP"/>
 	<subDataset name="cantidadTotalLocalidades" uuid="f34ed947-b40f-4551-bec7-201ed6de3d2a">
 		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
@@ -47,6 +44,7 @@ GROUP BY agenda.personas.localidad]]>
 			<property name="com.jaspersoft.studio.field.label" value="count(*)"/>
 		</field>
 	</subDataset>
+	<parameter name="Fecha" class="java.lang.String"/>
 	<queryString language="SQL">
 		<![CDATA[SELECT agenda.personas.`Telefono`,
 	agenda.personas.`Nombre`,
@@ -61,7 +59,8 @@ GROUP BY agenda.personas.localidad]]>
 	agenda.personas.pais,
 	agenda.personas.provincia,
 	agenda.personas.localidad
-FROM agenda.personas]]>
+FROM agenda.personas
+ORDER BY agenda.personas.localidad]]>
 	</queryString>
 	<field name="Telefono" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="Telefono"/>
@@ -150,77 +149,134 @@ FROM agenda.personas]]>
 	<title>
 		<band height="52" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="10" width="810" height="41" uuid="0d4ec147-de92-4d28-9470-fa9b2912e50f"/>
+				<reportElement x="80" y="0" width="670" height="41" uuid="0d4ec147-de92-4d28-9470-fa9b2912e50f"/>
 				<textElement textAlignment="Center">
-					<font size="24"/>
+					<font fontName="Bodoni MT" size="24"/>
 				</textElement>
 				<text><![CDATA[REPORTE POR LOCALIDAD]]></text>
 			</staticText>
+			<staticText>
+				<reportElement x="700" y="0" width="100" height="20" uuid="79a3996e-a24b-451e-abd8-797b3f324cb7"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Reporte realizado el:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="700" y="20" width="100" height="20" uuid="ea9ab090-0d49-4981-8b0f-ec2553ddc82e"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$P{Fecha}]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<pageHeader>
-		<band height="14" splitType="Stretch"/>
+		<band height="18" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="280" height="18" uuid="d8bea88c-a67e-4467-8100-82af2cad36a7"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Lista de Personas registradas:]]></text>
+			</staticText>
+		</band>
 	</pageHeader>
 	<columnHeader>
-		<band height="48" splitType="Stretch">
+		<band height="31" splitType="Stretch">
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="0" width="70" height="21" forecolor="#FFFFFF" backcolor="#648FCC" uuid="c74a26d9-f6ca-47f0-9e1a-8030803fe2a5"/>
+				<reportElement mode="Opaque" x="0" y="0" width="70" height="28" forecolor="#FFFFFF" backcolor="#648FCC" uuid="c74a26d9-f6ca-47f0-9e1a-8030803fe2a5"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
 				<text><![CDATA[Localidad]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="70" y="0" width="70" height="16" forecolor="#FFFFFF" backcolor="#648FCC" uuid="6135c2ad-ed2e-4fd4-a02e-1d10c17b3ead"/>
+				<reportElement mode="Opaque" x="70" y="0" width="70" height="28" forecolor="#FFFFFF" backcolor="#648FCC" uuid="6135c2ad-ed2e-4fd4-a02e-1d10c17b3ead"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
 				<text><![CDATA[Nombre]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="140" y="0" width="70" height="16" forecolor="#FFFFFF" backcolor="#648FCC" uuid="8fc7d42d-0c64-46d9-a205-e1897f697f13"/>
+				<reportElement mode="Opaque" x="140" y="0" width="70" height="28" forecolor="#FFFFFF" backcolor="#648FCC" uuid="8fc7d42d-0c64-46d9-a205-e1897f697f13"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
 				<text><![CDATA[Telefono]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="210" y="0" width="70" height="16" forecolor="#FFFFFF" backcolor="#648FCC" uuid="7e4e2696-d4ef-4e57-bf38-9f972e131556"/>
+				<reportElement mode="Opaque" x="210" y="0" width="70" height="28" forecolor="#FFFFFF" backcolor="#648FCC" uuid="7e4e2696-d4ef-4e57-bf38-9f972e131556"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
 				<text><![CDATA[Calle]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="280" y="0" width="70" height="16" forecolor="#FFFFFF" backcolor="#648FCC" uuid="06392852-ce41-40df-8768-0b645a538aef"/>
+				<reportElement mode="Opaque" x="280" y="0" width="70" height="28" forecolor="#FFFFFF" backcolor="#648FCC" uuid="06392852-ce41-40df-8768-0b645a538aef"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
 				<text><![CDATA[Altura]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="350" y="0" width="70" height="16" forecolor="#FFFFFF" backcolor="#648FCC" uuid="31bd9bd2-e8cb-4958-87bd-db6d6b5a7c99"/>
+				<reportElement mode="Opaque" x="350" y="0" width="70" height="28" forecolor="#FFFFFF" backcolor="#648FCC" uuid="31bd9bd2-e8cb-4958-87bd-db6d6b5a7c99"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
 				<text><![CDATA[Piso]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="420" y="0" width="70" height="16" forecolor="#FFFFFF" backcolor="#648FCC" uuid="8b6592c4-8c99-4d6f-bc2c-d8f1dfed468b"/>
+				<reportElement mode="Opaque" x="420" y="0" width="70" height="28" forecolor="#FFFFFF" backcolor="#648FCC" uuid="8b6592c4-8c99-4d6f-bc2c-d8f1dfed468b"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
 				<text><![CDATA[Departamento]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="490" y="0" width="70" height="16" forecolor="#FFFFFF" backcolor="#648FCC" uuid="70807942-3879-4e9a-91e1-ca36473c4563"/>
+				<reportElement mode="Opaque" x="490" y="0" width="70" height="28" forecolor="#FFFFFF" backcolor="#648FCC" uuid="70807942-3879-4e9a-91e1-ca36473c4563"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
 				<text><![CDATA[Mail]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="545" y="0" width="85" height="16" forecolor="#FFFFFF" backcolor="#648FCC" uuid="cb8ba91f-e2b9-4911-b638-7162495156ab"/>
+				<reportElement mode="Opaque" x="545" y="0" width="85" height="28" forecolor="#FFFFFF" backcolor="#648FCC" uuid="cb8ba91f-e2b9-4911-b638-7162495156ab"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
 				<text><![CDATA[Tipo de Contacto]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="630" y="0" width="60" height="28" forecolor="#FFFFFF" backcolor="#648FCC" uuid="102862c3-b754-4e7c-b212-cbf725547887"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
 				<text><![CDATA[Fecha de Cumpleaños]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="690" y="0" width="40" height="28" forecolor="#FFFFFF" backcolor="#648FCC" uuid="c5e3bb9d-e081-402a-a262-f4f2ff17082e"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
 				<text><![CDATA[País]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="730" y="0" width="50" height="28" forecolor="#FFFFFF" backcolor="#648FCC" uuid="996ddf32-36db-4012-8e90-81a953dba7a4"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
 				<text><![CDATA[Provincia]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="780" y="0" width="42" height="28" forecolor="#FFFFFF" backcolor="#648FCC" uuid="b912c5b7-f012-4086-840b-4dd51f8deb2c"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
 				<text><![CDATA[Signo]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="45" splitType="Stretch">
+		<band height="31" splitType="Stretch">
 			<textField>
-				<reportElement x="0" y="0" width="70" height="20" uuid="2cc5ab58-905f-4e93-8bdc-e8b79b54dffa"/>
+				<reportElement x="0" y="0" width="70" height="30" uuid="2cc5ab58-905f-4e93-8bdc-e8b79b54dffa"/>
 				<textFieldExpression><![CDATA[$F{localidad}]]></textFieldExpression>
 			</textField>
 			<textField>
@@ -228,51 +284,51 @@ FROM agenda.personas]]>
 				<textFieldExpression><![CDATA["Text Field"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="70" y="0" width="70" height="20" uuid="33a6ded2-afa6-4a4a-a608-3e330d51435c"/>
+				<reportElement x="75" y="0" width="70" height="30" uuid="33a6ded2-afa6-4a4a-a608-3e330d51435c"/>
 				<textFieldExpression><![CDATA[$F{Nombre}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="140" y="0" width="70" height="30" uuid="37f7ba30-eb67-405d-9a86-20ece19dfe72"/>
+				<reportElement x="150" y="0" width="70" height="30" uuid="37f7ba30-eb67-405d-9a86-20ece19dfe72"/>
 				<textFieldExpression><![CDATA[$F{Telefono}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="210" y="0" width="59" height="20" uuid="0088185d-e68b-4821-803c-8ade1213c118"/>
+				<reportElement x="225" y="0" width="59" height="30" uuid="0088185d-e68b-4821-803c-8ade1213c118"/>
 				<textFieldExpression><![CDATA[$F{calle}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="280" y="0" width="70" height="20" uuid="60f760fb-b749-45d5-9aff-1ecb335ab4a3"/>
+				<reportElement x="289" y="0" width="70" height="30" uuid="60f760fb-b749-45d5-9aff-1ecb335ab4a3"/>
 				<textFieldExpression><![CDATA[$F{altura}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="350" y="0" width="59" height="20" uuid="7b17e282-c470-4575-92cf-321ac488999a"/>
+				<reportElement x="364" y="0" width="59" height="30" uuid="7b17e282-c470-4575-92cf-321ac488999a"/>
 				<textFieldExpression><![CDATA[$F{piso}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="420" y="0" width="70" height="36" uuid="0b092175-446d-4d97-bf94-9419044b01e9"/>
+				<reportElement x="428" y="0" width="70" height="30" uuid="0b092175-446d-4d97-bf94-9419044b01e9"/>
 				<textFieldExpression><![CDATA[$F{departamento}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="490" y="2" width="54" height="36" uuid="528d68a2-c05a-4d8b-a6fb-c4a51a66516b"/>
+				<reportElement x="503" y="0" width="54" height="30" uuid="528d68a2-c05a-4d8b-a6fb-c4a51a66516b"/>
 				<textFieldExpression><![CDATA[$F{email}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="545" y="0" width="70" height="36" uuid="a5fca449-5e89-4d04-8167-7a89731498d2"/>
+				<reportElement x="562" y="0" width="70" height="30" uuid="a5fca449-5e89-4d04-8167-7a89731498d2"/>
 				<textFieldExpression><![CDATA[$F{tipoContacto}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="630" y="0" width="59" height="36" uuid="3c853bd8-9d6c-497b-9ec6-3d07eaa8624c"/>
+				<reportElement x="631" y="0" width="59" height="30" uuid="3c853bd8-9d6c-497b-9ec6-3d07eaa8624c"/>
 				<textFieldExpression><![CDATA[$F{fechaCumpleanios}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="689" y="0" width="40" height="36" uuid="bf5aaa44-f113-4684-998e-dd65d7b98b51"/>
+				<reportElement x="690" y="0" width="40" height="30" uuid="bf5aaa44-f113-4684-998e-dd65d7b98b51"/>
 				<textFieldExpression><![CDATA[$F{pais}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="729" y="2" width="50" height="36" uuid="ac9602a0-f036-48e4-a1fa-2f0e53e45f00"/>
+				<reportElement x="730" y="-3" width="50" height="33" uuid="ac9602a0-f036-48e4-a1fa-2f0e53e45f00"/>
 				<textFieldExpression><![CDATA[$F{provincia}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="779" y="2" width="42" height="36" uuid="95909de8-26e4-4c1a-a4f1-0f855bd7b29d"/>
+				<reportElement x="780" y="-3" width="42" height="33" uuid="95909de8-26e4-4c1a-a4f1-0f855bd7b29d"/>
 				<textFieldExpression><![CDATA[$F{signoZodiaco}]]></textFieldExpression>
 			</textField>
 		</band>
@@ -306,7 +362,12 @@ FROM agenda.personas]]>
 		</band>
 	</columnFooter>
 	<pageFooter>
-		<band height="12" splitType="Stretch"/>
+		<band height="49" splitType="Stretch">
+			<textField>
+				<reportElement x="670" y="6" width="80" height="30" uuid="422c6ebe-2ce8-4be4-87aa-182b6c814fd5"/>
+				<textFieldExpression><![CDATA["Número de página: "+$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
 	</pageFooter>
 	<summary>
 		<band height="18" splitType="Stretch"/>
