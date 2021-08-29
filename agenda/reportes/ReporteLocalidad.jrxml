@@ -295,6 +295,10 @@ ORDER BY agenda.personas.localidad]]>
 					<itemLabel/>
 				</piePlot>
 			</pieChart>
+			<textField>
+				<reportElement x="0" y="21" width="160" height="30" uuid="8cd20116-89ee-46d9-b272-b953cdcf4ffb"/>
+				<textFieldExpression><![CDATA["Text Field"]]></textFieldExpression>
+			</textField>
 		</band>
 	</columnFooter>
 	<pageFooter>
