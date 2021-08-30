@@ -2,7 +2,8 @@ package dto;
 
 import java.sql.Date;
 
-public class PersonaDTO {
+public class PersonaDTO 
+{
 	private int idPersona;
 	private String nombre;
 	private String telefono;
@@ -10,9 +11,13 @@ public class PersonaDTO {
 	private String email;
 	private Date fechaDeCumpleanios;
 	private String tipoContacto;
+	private String signoZodiaco;
+	private String Pais;
+	private String Provincia;
+	private String Localidad;
 
 	public PersonaDTO(int idPersona, String nombre, String telefono, Domicilio dom, String email, Date fechaCumpleanios,
-			String tipoContacto) {
+			String tipoContacto,String signoZodiaco, String Pais, String Provincia, String Localidad) {
 		this.idPersona = idPersona;
 		this.nombre = nombre;
 		this.telefono = telefono;
@@ -20,6 +25,10 @@ public class PersonaDTO {
 		this.email = email;
 		this.fechaDeCumpleanios = fechaCumpleanios;
 		this.tipoContacto = tipoContacto;
+		this.signoZodiaco = signoZodiaco;
+		this.Pais = Pais;
+		this.Provincia = Provincia;
+		this.Localidad = Localidad;
 	}
 
 	public int getIdPersona() {
@@ -61,4 +70,21 @@ public class PersonaDTO {
 	public String getTipoDeContacto() {
 		return tipoContacto;
 	}
+	
+	public String getSignoZodiaco() {
+		return signoZodiaco;
+	}
+	
+	public String getPais() {
+		return Pais;
+	}
+	
+	public String getProvincia() {
+		return Provincia;
+	}
+	
+	public String getLocalidad() {
+		return Localidad;
+	}
+	
 }

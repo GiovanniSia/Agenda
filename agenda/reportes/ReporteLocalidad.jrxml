@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.15.0.final using JasperReports Library version 6.15.0-dd49bfb94918336b8321d5507193f0169ead4e95  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ReporteLocalidad" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="774d0a57-9759-4f41-981e-2ef6dfd980eb">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="agenda"/>
+	<subDataset name="cantidadTotalLocalidades" uuid="f34ed947-b40f-4551-bec7-201ed6de3d2a">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="BD TP"/>
+		<queryString language="SQL">
+			<![CDATA[SELECT agenda.personas.localidad, count(*) 
+FROM agenda.personas]]>
+		</queryString>
+		<field name="localidad" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="localidad"/>
+			<property name="com.jaspersoft.studio.field.label" value="localidad"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="personas"/>
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="count(*)" class="java.lang.Long">
+			<property name="com.jaspersoft.studio.field.name" value="count(*)"/>
+			<property name="com.jaspersoft.studio.field.label" value="count(*)"/>
+		</field>
+		<variable name="cantLocalidades" class="java.lang.Double" calculation="Sum">
+			<variableExpression><![CDATA[$F{count(*)}]]></variableExpression>
+		</variable>
+	</subDataset>
+	<subDataset name="CantPersonaPorLocalidad" uuid="49ee45de-31df-41af-8c40-00c7a42bb81b">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="BD TP"/>
+		<queryString language="SQL">
+			<![CDATA[SELECT agenda.personas.localidad,
+	count(*)
+FROM agenda.personas
+GROUP BY agenda.personas.localidad]]>
+		</queryString>
+		<field name="localidad" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="localidad"/>
+			<property name="com.jaspersoft.studio.field.label" value="localidad"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="personas"/>
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="count(*)" class="java.lang.Long">
+			<property name="com.jaspersoft.studio.field.name" value="count(*)"/>
+			<property name="com.jaspersoft.studio.field.label" value="count(*)"/>
+		</field>
+	</subDataset>
+	<parameter name="Fecha" class="java.lang.String"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT agenda.personas.`Telefono`,
+	agenda.personas.`Nombre`,
+	agenda.personas.calle,
+	agenda.personas.piso,
+	agenda.personas.altura,
+	agenda.personas.departamento,
+	agenda.personas.email,
+	agenda.personas.`fechaCumpleanios`,
+	agenda.personas.`tipoContacto`,
+	agenda.personas.`signoZodiaco`,
+	agenda.personas.pais,
+	agenda.personas.provincia,
+	agenda.personas.localidad
+FROM agenda.personas
+ORDER BY agenda.personas.localidad]]>
+	</queryString>
+	<field name="Telefono" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="Telefono"/>
+		<property name="com.jaspersoft.studio.field.label" value="Telefono"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="personas"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Nombre" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="Nombre"/>
+		<property name="com.jaspersoft.studio.field.label" value="Nombre"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="personas"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="calle" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="calle"/>
+		<property name="com.jaspersoft.studio.field.label" value="calle"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="personas"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="piso" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="piso"/>
+		<property name="com.jaspersoft.studio.field.label" value="piso"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="personas"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="altura" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="altura"/>
+		<property name="com.jaspersoft.studio.field.label" value="altura"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="personas"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="departamento" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="departamento"/>
+		<property name="com.jaspersoft.studio.field.label" value="departamento"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="personas"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="email" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="email"/>
+		<property name="com.jaspersoft.studio.field.label" value="email"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="personas"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fechaCumpleanios" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.name" value="fechaCumpleanios"/>
+		<property name="com.jaspersoft.studio.field.label" value="fechaCumpleanios"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="personas"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="tipoContacto" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="tipoContacto"/>
+		<property name="com.jaspersoft.studio.field.label" value="tipoContacto"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="personas"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="signoZodiaco" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="signoZodiaco"/>
+		<property name="com.jaspersoft.studio.field.label" value="signoZodiaco"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="personas"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="pais" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="pais"/>
+		<property name="com.jaspersoft.studio.field.label" value="pais"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="personas"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="provincia" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="provincia"/>
+		<property name="com.jaspersoft.studio.field.label" value="provincia"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="personas"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="localidad" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="localidad"/>
+		<property name="com.jaspersoft.studio.field.label" value="localidad"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="personas"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<variable name="sumaTotal" class="java.lang.Integer" resetType="Group" resetGroup="Group1" calculation="Count">
+		<variableExpression><![CDATA[$F{Nombre}]]></variableExpression>
+	</variable>
+	<variable name="Variable_1" class="java.lang.String" calculation="Count">
+		<variableExpression><![CDATA[$F{Nombre}]]></variableExpression>
+	</variable>
+	<group name="Group1">
+		<groupExpression><![CDATA[$F{localidad}]]></groupExpression>
+		<groupHeader>
+			<band height="30">
+				<frame>
+					<reportElement mode="Opaque" x="0" y="5" width="220" height="20" backcolor="#8747CC" uuid="eed095a2-de61-470d-8b4e-a049c4ffc4b8"/>
+					<textField>
+						<reportElement mode="Transparent" x="0" y="3" width="210" height="15" forecolor="#FFFFFF" backcolor="#FFFFFF" uuid="2cc5ab58-905f-4e93-8bdc-e8b79b54dffa">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+						</reportElement>
+						<textElement textAlignment="Left">
+							<font size="10" isBold="false"/>
+						</textElement>
+						<textFieldExpression><![CDATA["Localidad "+$F{localidad}]]></textFieldExpression>
+					</textField>
+				</frame>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="23">
+				<textField>
+					<reportElement mode="Opaque" x="602" y="0" width="208" height="20" forecolor="#FFFFFF" backcolor="#9442D4" uuid="05129d56-3838-4427-ac65-fb57ea17ebd9"/>
+					<textFieldExpression><![CDATA["Cantidad total de personas: "+$V{sumaTotal}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="52" splitType="Stretch">
+			<staticText>
+				<reportElement x="80" y="0" width="670" height="41" uuid="0d4ec147-de92-4d28-9470-fa9b2912e50f"/>
+				<textElement textAlignment="Center">
+					<font fontName="Bodoni MT" size="24"/>
+				</textElement>
+				<text><![CDATA[REPORTE POR LOCALIDAD]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="700" y="0" width="100" height="20" uuid="79a3996e-a24b-451e-abd8-797b3f324cb7"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Reporte realizado el:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="700" y="20" width="100" height="20" uuid="ea9ab090-0d49-4981-8b0f-ec2553ddc82e"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$P{Fecha}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="160" height="18" uuid="d8bea88c-a67e-4467-8100-82af2cad36a7"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Lista de Personas registradas:]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="31" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="70" height="28" forecolor="#FFFFFF" backcolor="#648FCC" uuid="6135c2ad-ed2e-4fd4-a02e-1d10c17b3ead"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nombre]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="75" y="0" width="70" height="28" forecolor="#FFFFFF" backcolor="#648FCC" uuid="8fc7d42d-0c64-46d9-a205-e1897f697f13"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Telefono]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="150" y="0" width="70" height="28" forecolor="#FFFFFF" backcolor="#648FCC" uuid="7e4e2696-d4ef-4e57-bf38-9f972e131556"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Calle]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="225" y="0" width="70" height="28" forecolor="#FFFFFF" backcolor="#648FCC" uuid="06392852-ce41-40df-8768-0b645a538aef"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Altura]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="300" y="0" width="70" height="28" forecolor="#FFFFFF" backcolor="#648FCC" uuid="31bd9bd2-e8cb-4958-87bd-db6d6b5a7c99"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Piso]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="375" y="0" width="70" height="28" forecolor="#FFFFFF" backcolor="#648FCC" uuid="8b6592c4-8c99-4d6f-bc2c-d8f1dfed468b"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Departamento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="450" y="0" width="70" height="28" forecolor="#FFFFFF" backcolor="#648FCC" uuid="70807942-3879-4e9a-91e1-ca36473c4563"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Mail]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="525" y="0" width="85" height="28" forecolor="#FFFFFF" backcolor="#648FCC" uuid="cb8ba91f-e2b9-4911-b638-7162495156ab"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tipo de Contacto]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="615" y="0" width="60" height="28" forecolor="#FFFFFF" backcolor="#648FCC" uuid="102862c3-b754-4e7c-b212-cbf725547887"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha de Cumpleaños]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="680" y="0" width="40" height="28" forecolor="#FFFFFF" backcolor="#648FCC" uuid="c5e3bb9d-e081-402a-a262-f4f2ff17082e"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[País]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="725" y="0" width="50" height="28" forecolor="#FFFFFF" backcolor="#648FCC" uuid="996ddf32-36db-4012-8e90-81a953dba7a4"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Provincia]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="780" y="0" width="42" height="28" forecolor="#FFFFFF" backcolor="#648FCC" uuid="b912c5b7-f012-4086-840b-4dd51f8deb2c"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Signo]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="24" splitType="Stretch">
+			<textField>
+				<reportElement x="80" y="0" width="100" height="10" uuid="668c85fe-c5f9-472f-aca4-02afb5381cb4"/>
+				<textFieldExpression><![CDATA["Text Field"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="0" width="70" height="24" uuid="33a6ded2-afa6-4a4a-a608-3e330d51435c"/>
+				<textFieldExpression><![CDATA[$F{Nombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="75" y="0" width="70" height="24" uuid="37f7ba30-eb67-405d-9a86-20ece19dfe72"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{Telefono}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="156" y="0" width="59" height="24" uuid="0088185d-e68b-4821-803c-8ade1213c118"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{calle}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="225" y="0" width="70" height="24" uuid="60f760fb-b749-45d5-9aff-1ecb335ab4a3"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{altura}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="300" y="0" width="65" height="24" uuid="7b17e282-c470-4575-92cf-321ac488999a"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{piso}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="375" y="0" width="70" height="24" uuid="0b092175-446d-4d97-bf94-9419044b01e9"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{departamento}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="450" y="0" width="70" height="24" uuid="528d68a2-c05a-4d8b-a6fb-c4a51a66516b"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{email}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="525" y="0" width="84" height="24" uuid="a5fca449-5e89-4d04-8167-7a89731498d2"/>
+				<textFieldExpression><![CDATA[$F{tipoContacto}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="616" y="0" width="59" height="24" uuid="3c853bd8-9d6c-497b-9ec6-3d07eaa8624c"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{fechaCumpleanios}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="680" y="0" width="40" height="24" uuid="bf5aaa44-f113-4684-998e-dd65d7b98b51"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{pais}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="725" y="0" width="50" height="24" uuid="ac9602a0-f036-48e4-a1fa-2f0e53e45f00"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{provincia}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="780" y="0" width="42" height="24" uuid="95909de8-26e4-4c1a-a4f1-0f855bd7b29d"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{signoZodiaco}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="189" splitType="Stretch">
+			<pieChart>
+				<chart evaluationTime="Report">
+					<reportElement x="160" y="-1" width="480" height="190" uuid="866bd6b1-0592-4317-a505-b37620b37077"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<pieDataset minPercentage="2.0">
+					<dataset resetType="Report">
+						<datasetRun subDataset="CantPersonaPorLocalidad" uuid="cb4eff1c-2fe8-47db-ab03-caefbe07e4b9"/>
+					</dataset>
+					<keyExpression><![CDATA[$F{localidad}]]></keyExpression>
+					<valueExpression><![CDATA[$F{count(*)}]]></valueExpression>
+					<otherKeyExpression><![CDATA[]]></otherKeyExpression>
+				</pieDataset>
+				<piePlot labelFormat="{2}" legendLabelFormat="{0}">
+					<plot/>
+					<itemLabel/>
+				</piePlot>
+			</pieChart>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="64" splitType="Stretch">
+			<textField>
+				<reportElement x="710" y="34" width="100" height="30" uuid="c7a9e9d7-f1a9-41e0-9bdf-aa0ee77c59d1"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="18" splitType="Stretch"/>
+	</summary>
+</jasperReport>
