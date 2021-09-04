@@ -167,8 +167,13 @@ public class Controlador implements ActionListener {
 //		Si estan bien los campos creamos el config y nos conectamos, si no se conecta vuelve atras
 		crearConfiguracion();
 		if(this.conexion.conectar()) {			
+//			this.ventanaLogin.cerrar();
+//			this.inicializar();	
+
 			this.ventanaLogin.cerrar();
-			this.inicializar();		
+			this.refrescarTabla();
+			this.vista.show();
+			this.iniciarAgenda();
 		}else {
 			this.vista.cerrar();
 			ventanaLogin.show();
@@ -258,15 +263,15 @@ public class Controlador implements ActionListener {
 
 	public void inicializar() {
 		System.out.println("esta inicializando ");
-		if(conexion.conectar()) {	//si la conexion funca se muestra la agenda	
-			this.refrescarTabla();
-			this.vista.show();
-			this.iniciarAgenda();	
-		}else {						//si no, se muestra el login
+//		if(conexion.conectar()) {	//si la conexion funca se muestra la agenda	
+//			this.refrescarTabla();
+//			this.vista.show();
+//			this.iniciarAgenda();	
+//		}else {						//si no, se muestra el login
 			this.ventanaLogin = new VentanaLogin();
 			this.ventanaLogin.show();
 			this.ventanaLogin.getBtnEntrar().addActionListener(a -> conectarBD(a));
-		}
+//		}
 		
 	}
 
