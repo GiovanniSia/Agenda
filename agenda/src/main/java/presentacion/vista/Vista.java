@@ -17,6 +17,7 @@ import dto.PersonaDTO;
 import javax.swing.JButton;
 
 import persistencia.conexion.Conexion;
+import java.awt.Color;
 
 public class Vista
 {
@@ -40,11 +41,14 @@ public class Vista
 	private void initialize() 
 	{
 		frame = new JFrame();
+		frame.getContentPane().setBackground(Color.WHITE);
+		frame.setBackground(Color.WHITE);
 		frame.setBounds(100, 100, 786, 303);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		JPanel panel = new JPanel();
+		panel.setBackground(Color.WHITE);
 		panel.setBounds(0, 0, 760, 262);
 		frame.getContentPane().add(panel);
 		panel.setLayout(null);
@@ -56,6 +60,7 @@ public class Vista
 		
 		modelPersonas = new DefaultTableModel(null,nombreColumnas);
 		tablaPersonas = new JTable(modelPersonas);
+		tablaPersonas.setBackground(Color.WHITE);
 		
 		tablaPersonas.getColumnModel().getColumn(0).setPreferredWidth(103);
 		tablaPersonas.getColumnModel().getColumn(0).setResizable(false);
@@ -65,18 +70,26 @@ public class Vista
 		spPersonas.setViewportView(tablaPersonas);
 		
 		btnAgregar = new JButton("Agregar");
+		btnAgregar.setForeground(Color.BLACK);
+		btnAgregar.setBackground(Color.WHITE);
 		btnAgregar.setBounds(10, 228, 89, 23);
 		panel.add(btnAgregar);
 		
 		btnEditar = new JButton("Editar");
+		btnEditar.setForeground(Color.BLACK);
+		btnEditar.setBackground(Color.WHITE);
 		btnEditar.setBounds(109, 228, 89, 23);
 		panel.add(btnEditar);
 		
 		btnBorrar = new JButton("Borrar");
+		btnBorrar.setForeground(Color.BLACK);
+		btnBorrar.setBackground(Color.WHITE);
 		btnBorrar.setBounds(208, 228, 89, 23);
 		panel.add(btnBorrar);
 		
 		btnReporte = new JButton("Reporte");
+		btnReporte.setForeground(Color.BLACK);
+		btnReporte.setBackground(Color.WHITE);
 		btnReporte.setBounds(307, 228, 89, 23);
 		panel.add(btnReporte);
 	}
@@ -100,6 +113,12 @@ public class Vista
 		});
 		this.frame.setVisible(true);
 	}
+	
+	public void cerrar() {
+		frame.setVisible(false);
+	}
+	
+	
 	
 	public JButton getBtnAgregar() 
 	{

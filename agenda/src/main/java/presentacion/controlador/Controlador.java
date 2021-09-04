@@ -4,22 +4,26 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.sql.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 import modelo.Agenda;
+import modelo.ConfiguracionBD;
 import modelo.Localidad;
 import modelo.Pais;
 import modelo.Provincia;
 import modelo.SignoZodiaco;
 import modelo.TipoContacto;
+import persistencia.conexion.Conexion;
 import persistencia.dao.mysql.DAOSQLFactory;
 import presentacion.reportes.ReporteAgenda;
 import presentacion.vista.VentanaEditarLocalidad;
 import presentacion.vista.VentanaEditarPais;
 import presentacion.vista.VentanaEditarProvincia;
+import presentacion.vista.VentanaLogin;
 import presentacion.vista.VentanaPersona;
 import presentacion.vista.VentanaTipoContacto;
 import presentacion.vista.Vista;
@@ -42,7 +46,6 @@ public class Controlador implements ActionListener {
 	private TipoContacto tipoContacto;
 	private SignoZodiaco signoZodiaco;
 	private VentanaEditarLocalidad ventanaLocalidad;
-	int filaSeleccionada;
 	private Pais pais;
 	private List<PaisDTO> paisEnTabla;
 	private Provincia provincia;
@@ -53,8 +56,20 @@ public class Controlador implements ActionListener {
 
 	private VentanaEditarPais ventanaEditarPaises;
 	private VentanaEditarLocalidad ventanaEditarLocalidad;
-
+	private VentanaLogin ventanaLogin;
+	Conexion conexion = new Conexion();
+	
+	private ConfiguracionBD config = ConfiguracionBD.getInstance();
+	
 	public Controlador(Vista vista, Agenda agenda) {
+		this.vista = vista;
+		this.agenda = agenda;
+		
+	}
+	
+	
+	
+	public void iniciarAgenda() {
 		this.ventanaTipoContacto = new VentanaTipoContacto();
 		this.ventanaTipoContacto.getBtnAgregar().addActionListener(a -> agregarTipoContacto(a));
 		this.ventanaTipoContacto.getBtnEditar().addActionListener(e -> editarTipoContacto(e));
@@ -86,7 +101,7 @@ public class Controlador implements ActionListener {
 		this.ventanaEditarPaises = new VentanaEditarPais();
 		this.ventanaEditarLocalidad = new VentanaEditarLocalidad();
 
-		this.vista = vista;
+		
 		this.vista.getBtnAgregar().addActionListener(a -> ventanaAgregarPersona(a));
 		this.vista.getBtnBorrar().addActionListener(s -> borrarPersona(s));
 		this.vista.getBtnReporte().addActionListener(r -> mostrarReporte(r));
@@ -137,10 +152,68 @@ public class Controlador implements ActionListener {
 
 		this.ventanaPersona.getBtnEditarProvincia().addActionListener(c -> ventanaEditarProvincia(c));
 		escucharCbLocalidad();
-
-		this.agenda = agenda;
 	}
-
+	
+	
+	
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//	VENTANA LOGIN
+	
+	public void conectarBD(ActionEvent a) {
+//		if(!validarCamposLogin()) {
+//			return;
+//		}
+		
+//		Si estan bien los campos creamos el config y nos conectamos, si no se conecta vuelve atras
+		crearConfiguracion();
+		if(this.conexion.conectar()) {			
+			this.ventanaLogin.cerrar();
+			this.inicializar();		
+		}else {
+			this.vista.cerrar();
+			ventanaLogin.show();
+			JOptionPane.showMessageDialog(null, "Conexion fallida");
+		}
+	}
+	
+	
+//	public boolean validarCamposLogin() {
+////		aun no implementado
+//		return true;
+//	}
+	
+	public void crearConfiguracion() {
+//		String ip = this.ventanaLogin.getTextDireccionIP().getText();
+//		String puerto = this.ventanaLogin.getTextPuerto().getText();
+		String usuario =  this.ventanaLogin.getTextUsuario().getText();		
+		String contrasenia = new String(this.ventanaLogin.getTextContrasenia().getPassword());
+		guardarConfiguracion(usuario,contrasenia);
+//		guardarConfiguracion(usuario,contrasenia,ip,puerto);
+	}
+	
+	
+	public void guardarConfiguracion(String usuario, String contrasenia) {
+		try {
+			config.writeValue("usuario", usuario);
+			config.writeValue("contrasenia", contrasenia);
+		}catch(IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+//	public void guardarConfiguracion(String usuario, String contrasenia, String ip, String puerto) {
+//		try {
+//			config.writeValue("ip", ip);
+//			config.writeValue("puerto",puerto);
+//			config.writeValue("usuario",usuario);
+//			config.writeValue("contrasenia",contrasenia);
+//		}catch(IOException e ) {
+//			e.printStackTrace();
+//		}
+//	}
+	
+	
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //		SIGNO ZODIACO
@@ -184,8 +257,17 @@ public class Controlador implements ActionListener {
 //		VISTA
 
 	public void inicializar() {
-		this.refrescarTabla();
-		this.vista.show();
+		System.out.println("esta inicializando ");
+		if(conexion.conectar()) {	//si la conexion funca se muestra la agenda	
+			this.refrescarTabla();
+			this.vista.show();
+			this.iniciarAgenda();	
+		}else {						//si no, se muestra el login
+			this.ventanaLogin = new VentanaLogin();
+			this.ventanaLogin.show();
+			this.ventanaLogin.getBtnEntrar().addActionListener(a -> conectarBD(a));
+		}
+		
 	}
 
 	private void refrescarTabla() {
@@ -214,6 +296,10 @@ public class Controlador implements ActionListener {
 
 	public void borrarPersona(ActionEvent s) {
 		int[] filasSeleccionadas = this.vista.getTablaPersonas().getSelectedRows();
+		if(this.vista.getTablaPersonas().getSelectedRow()==-1) {
+			JOptionPane.showMessageDialog(null, "No ha seleccionado ninguna persona para borrar");
+			return;
+		}
 		for (int fila : filasSeleccionadas) {
 			this.agenda.borrarPersona(this.personasEnTabla.get(fila));
 		}
@@ -222,7 +308,7 @@ public class Controlador implements ActionListener {
 	}
 
 	public void mostrarVentanaEditar(ActionEvent e) {
-		filaSeleccionada = this.vista.getTablaPersonas().getSelectedRow();
+		int filaSeleccionada = this.vista.getTablaPersonas().getSelectedRow();
 		if (filaSeleccionada == -1) {
 			JOptionPane.showMessageDialog(null, "No ha seleccionado ninguna persona para editar");
 			return;
@@ -267,7 +353,7 @@ public class Controlador implements ActionListener {
 //		VISTA PERSONA
 
 	public void mostrarVentanaConValores() {
-		this.refrescarComboBoxes();
+		int filaSeleccionada = this.vista.getTablaPersonas().getSelectedRow();
 		PersonaDTO persona = this.personasEnTabla.get(filaSeleccionada);
 		this.ventanaPersona.getTxtNombre().setText(persona.getNombre());
 		this.ventanaPersona.getTxtTelefono().setText(persona.getTelefono());
@@ -293,6 +379,7 @@ public class Controlador implements ActionListener {
 		if ( validarComboBoxVacios()) {
 			return;
 		}
+		int filaSeleccionada = this.vista.getTablaPersonas().getSelectedRow();
 		int idModificar = this.personasEnTabla.get(filaSeleccionada).getIdPersona();
 		PersonaDTO datosNuevos = obtenerPersonaDeVista();
 		if (todosLosCamposSonValidos(datosNuevos)) {
@@ -853,6 +940,15 @@ public class Controlador implements ActionListener {
 		}
 
 		String nuevoNombre = this.ventanaEditarLocalidad.getTxtNuevaLocalidad().getText();
+		
+		//Verificamos si ya existe esa provincia con ese nuevo nombre
+		ProvinciaDTO provincia = getProvinciaDeTabla(provinciaEnTabla, paisSeleccionado.getIdPais());		
+		if(yaExisteLocalidad(provincia, nuevoNombre)) {
+			JOptionPane.showMessageDialog(null, "Ya existe una localidad con ese nombre!");
+			return;
+		}
+		
+			
 		for (LocalidadDTO loc : this.localidadEnTabla) {
 			if (loc.getNombreLocalidad().equals(nombreLocalidadBorrar)
 					&& loc.getIdForeignProvincia() == provinciaSeleccionada.getIdProvincia()
