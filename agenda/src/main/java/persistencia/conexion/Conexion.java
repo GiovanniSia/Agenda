@@ -45,15 +45,15 @@ public class Conexion
 			
 			
 			// quitar si no es necesario
-			Class.forName("com.mysql.cj.jdbc.Driver");
+			Class.forName("com.mysql.jdbc.Driver");
 			
 //			url = "jdbc:mysql://"+configBD.obtenerProperty("ip") + ":"+ configBD.obtenerProperty("puerto") + "/" +"agenda";
 			
 //			this.connection = DriverManager.getConnection(this.url, configBD.obtenerProperty("usuario"), configBD.obtenerProperty("contrasenia"));
 			
-//			this.connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/agenda","root","root");
+			this.connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/agenda","root","root");
 
-			this.connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/agenda", configBD.obtenerProperty("usuario"), configBD.obtenerProperty("contrasenia"));
+			//this.connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/agenda", configBD.obtenerProperty("usuario"), configBD.obtenerProperty("contrasenia"));
 			
 			this.connection.setAutoCommit(false);
 	
