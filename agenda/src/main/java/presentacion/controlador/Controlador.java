@@ -160,9 +160,13 @@ public class Controlador implements ActionListener {
 //	VENTANA LOGIN
 	
 	public void conectarBD(ActionEvent a) {
-//		if(!validarCamposLogin()) {
-//			return;
-//		}
+		String usuario =  this.ventanaLogin.getTextUsuario().getText();		
+		String contrasenia = new String(this.ventanaLogin.getTextContrasenia().getPassword());
+		
+    	if(!validarCamposLogin(usuario,contrasenia)) {
+    		JOptionPane.showMessageDialog(null, "Conexion invalidaa");
+    		return;
+		}
 		
 //		Si estan bien los campos creamos el config y nos conectamos, si no se conecta vuelve atras
 		crearConfiguracion();
@@ -182,10 +186,14 @@ public class Controlador implements ActionListener {
 	}
 	
 	
-//	public boolean validarCamposLogin() {
-////		aun no implementado
-//		return true;
-//	}
+	public boolean validarCamposLogin(String u,String c) {
+	    System.out.println(u.equals("usuario") + "  " + c.equals("usuario"));
+		if(u.equals("usuario") && c.equals("usuario")) {
+			return true;
+		}
+		
+		return false;
+	}
 	
 	public void crearConfiguracion() {
 //		String ip = this.ventanaLogin.getTextDireccionIP().getText();
