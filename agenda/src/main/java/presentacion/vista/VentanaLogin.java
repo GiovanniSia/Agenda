@@ -22,8 +22,6 @@ public class VentanaLogin {
 
 	private JTextField textUsuario;
 	private JPasswordField textContrasenia;
-	private JTextField textDireccionIP;
-	private JTextField textPuerto;
 	private JButton btnEntrar;
 	
 	/**
@@ -72,16 +70,6 @@ public class VentanaLogin {
 		lblContraseña.setBounds(10, 73, 114, 24);
 		frame.getContentPane().add(lblContraseña);
 		
-		JLabel lblDireccionIp = new JLabel("Dirección IP:");
-		lblDireccionIp.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblDireccionIp.setBounds(57, 138, 114, 24);
-		frame.getContentPane().add(lblDireccionIp);
-		
-		JLabel lblPuerto = new JLabel("Puerto: ");
-		lblPuerto.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblPuerto.setBounds(290, 138, 70, 24);
-		frame.getContentPane().add(lblPuerto);
-		
 		textUsuario = new JTextField();
 		textUsuario.setBounds(140, 24, 218, 24);
 		frame.getContentPane().add(textUsuario);
@@ -92,19 +80,9 @@ public class VentanaLogin {
 		textContrasenia.setBounds(142, 73, 218, 24);
 		frame.getContentPane().add(textContrasenia);
 		
-		textDireccionIP = new JTextField();
-		textDireccionIP.setColumns(10);
-		textDireccionIP.setBounds(10, 172, 218, 24);
-		frame.getContentPane().add(textDireccionIP);
-		
-		textPuerto = new JTextField();
-		textPuerto.setColumns(10);
-		textPuerto.setBounds(290, 172, 96, 24);
-		frame.getContentPane().add(textPuerto);
-		
 		btnEntrar = new JButton("Entrar");
 		btnEntrar.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnEntrar.setBounds(301, 223, 96, 30);
+		btnEntrar.setBounds(213, 160, 96, 30);
 		frame.getContentPane().add(btnEntrar);
 		
 		
@@ -145,14 +123,6 @@ public class VentanaLogin {
 
 	public JPasswordField getTextContrasenia() {
 		return textContrasenia;
-	}
-
-	public JTextField getTextDireccionIP() {
-		return textDireccionIP;
-	}
-
-	public JTextField getTextPuerto() {
-		return textPuerto;
 	}
 
 	public JButton getBtnEntrar() {
