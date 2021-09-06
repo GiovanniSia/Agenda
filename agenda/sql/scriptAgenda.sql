@@ -1,5 +1,8 @@
-DROP DATABASE IF EXISTS agenda;
-CREATE DATABASE `agenda`;
+CREATE USER 'usuario'@'localhost' IDENTIFIED BY 'usuario';
+GRANT ALL PRIVILEGES ON *.* TO 'usuario'@'localhost';
+FLUSH PRIVILEGES;
+
+CREATE DATABASE agenda;
 USE agenda;
 
 CREATE TABLE IF NOT EXISTS paises
